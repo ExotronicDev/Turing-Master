@@ -1,3 +1,3 @@
-# Turing-Master
+# Proyecto Ingenieria Software
 
-Se tuvo que crear un repositorio nuevo para configurar Jira
+Simulador de Máquinas de Turing
