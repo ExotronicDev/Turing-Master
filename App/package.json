@@ -1,0 +1,38 @@
+{
+  "name": "turing-master",
+  "version": "1.0.0",
+  "description": "Simulador de Máquinas de Turing",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "proyecto": "cd view && npm start",
+    "run": "concurrently -n 'Back-end,Front-end' -c 'red,white' \"nodemon server.js\" \"npm run proyecto\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ExotronicDev/Turing-Master.git"
+  },
+  "keywords": [],
+  "authors": [
+    "Agustín Brenes Umaña",
+    "Mario Camacho Guzmán",
+    "Jesús Chavarría Delgado",
+    "Eduardo Saborío Pérez"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ExotronicDev/Turing-Master/issues"
+  },
+  "homepage": "https://github.com/ExotronicDev/Turing-Master#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^7.0.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.6",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  }
+}
