@@ -1,3 +1,4 @@
+//TM-28
 const Symbol = require('./symbol');
 
 module.exports = class Tape {
@@ -19,10 +20,15 @@ module.exports = class Tape {
         var newSymbol = new Symbol(symbolValue);
 
         this.current.getNext().setPrevious(newSymbol);
-
-        newSymbol.setPrevious(this.current);
         newSymbol.setNext(this.current.next);
+        newSymbol.setPrevious(this.current);
+        this.current.setNext(newSymbol);
+
         this.current = newSymbol;
+    }
+
+    writeValue(newSymbolValue) {
+        this.current.setValue(newSymbolValue);
     }
 
     moveR() {
