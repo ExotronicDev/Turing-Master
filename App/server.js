@@ -2,6 +2,8 @@ const { express, morgan, mongoose, path } = require('./config/dependencies');
 
 const { PORT, MONGO_URI } = require("./config/properties");
 const routes = require("./routes/router"); // por ahora solo 1, luego separar en varios
+const logger = require("./middleware/logger");
+const errorHandler = require("./middleware/error");
 
 const app = express(); 
 
@@ -20,8 +22,10 @@ mongoose.connection.on("connected", () => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(morgan("tiny"));
 
-// app.use(morgan("tiny"));
 // app.use("/api", routes); // por ahora solo 1, luego agregar por cada router
+
+app.use(errorHandler);
 
 app.listen(PORT, console.log(`Server initialized on port ${PORT}.`));
