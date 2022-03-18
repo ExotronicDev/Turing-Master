@@ -1,4 +1,7 @@
+const TMachine = require("../../model/tmachine");
+
 const StudentDao = require("../daos/StudentDao");
+const TMachineDao = require("../daos/TMachineDao");
 
 module.exports = class StudentController {
     constructor() {
@@ -42,5 +45,20 @@ module.exports = class StudentController {
 
         await this.dao.modify({ id: student.id }, student);
         return await daoTMachine.save(tMachine);
+    }
+
+    async deleteTMachine(student, idTMachine) {
+        let index = -1;
+
+        for (var i = 0; i < student.tMachines.length; i++) {
+            if (student.tMachines[i].id === idTMachine) {
+                index = i;
+            }
+        }
+
+        if (index > -1) {
+            student.tMachines.splice(index, 1); 
+        }
+        return await this.dao.modify({ id: student.id }, student);
     }
 }
