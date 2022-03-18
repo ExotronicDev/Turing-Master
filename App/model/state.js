@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const { mongoose } = require("../config/dependencies");
 const { Schema } = mongoose;
 
 const State = mongoose.model("State", new Schema({
@@ -12,12 +12,22 @@ const State = mongoose.model("State", new Schema({
         id: {type: Number},
         readValue: {type: String, maxlength: 1},
         writeValue: {type: String, maxlength: 1},
-        moveValue: {type: Number}
+        moveValue: {type: Number},
+        originState: {
+            id: {type: Number},
+            name: {type: String}
+        }
     }],
     exitTransitions: [{
         id: {type: Number},
         readValue: {type: String, maxlength: 1},
         writeValue: {type: String, maxlength: 1},
-        moveValue: {type: Number}
+        moveValue: {type: Number},
+        targetState: {
+            id: {type: Number},
+            name: {type: String}
+        }
     }]
 }));
+
+module.exports = State;

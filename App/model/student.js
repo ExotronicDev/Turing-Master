@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const { mongoose } = require("../config/dependencies");
 const { Schema } = mongoose;
 
 const Student = mongoose.model("Student", new Schema({
@@ -12,3 +12,5 @@ const Student = mongoose.model("Student", new Schema({
         description: {type: String}
     }]
 }));
+
+module.exports = Student;

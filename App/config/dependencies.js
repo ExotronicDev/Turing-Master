@@ -6,5 +6,6 @@ const path = require("path");
 const dotenv = require('dotenv');
 
 module.exports = {
-    express, morgan, mongoose, path, dotenv
+    express, morgan, path, 
+    dotenv, mongoose
 }

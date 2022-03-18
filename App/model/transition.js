@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const { mongoose } = require("../config/dependencies");
 const { Schema } = mongoose;
 
 const Transition = mongoose.model("Transition", new Schema({
@@ -15,3 +15,5 @@ const Transition = mongoose.model("Transition", new Schema({
         name: {type: String, required: true}
     }
 }));
+
+module.exports = Transition;

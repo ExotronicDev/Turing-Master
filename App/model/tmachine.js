@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const { mongoose } = require("../config/dependencies");
 const { Schema } = mongoose;
 
 const TMachine = mongoose.model("TMachine", new Schema({
@@ -19,3 +19,5 @@ const TMachine = mongoose.model("TMachine", new Schema({
         name: {type: String}
     }]
 }));
+
+module.exports = TMachine;
