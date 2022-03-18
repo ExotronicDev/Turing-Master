@@ -26,4 +26,21 @@ module.exports = class TMachineController {
     async getAll() {
         return await this.dao.getAll();
     }
+
+    // Funcionalidades propias
+
+    async createTMachine(student, description) {
+        const daoTMachine = new TMachineDao();
+
+        const tMachine = new TMachine({ description: description });
+        tMachine.owner.id = student.id;
+
+        student.tMachines.push({
+            id: tMachine.id,
+            description: tMachine.description
+        });
+
+        await this.dao.modify({ id: student.id }, student);
+        return await daoTMachine.save(tMachine);
+    }
 }
