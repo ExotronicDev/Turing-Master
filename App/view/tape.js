@@ -22,7 +22,7 @@ module.exports = class Tape {
         this.current.getNext().setPrevious(newSymbol);
         newSymbol.setNext(this.current.next);
         newSymbol.setPrevious(this.current);
-        this.current.setNext(newSymbol);
+        this.current.setNext(newSymbol); 
 
         this.current = newSymbol;
     }
