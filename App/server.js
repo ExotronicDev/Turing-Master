@@ -1,13 +1,14 @@
 const { express, morgan, mongoose, path } = require('./config/dependencies');
-
 const { PORT, MONGO_URI } = require("./config/properties");
-const routes = require("./routes/router"); // por ahora solo 1, luego separar en varios
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/error");
 
+// Route files
+const studentsRouter = require("./routes/studentsRouter"); // por ahora solo 1, luego separar en varios
+
 const app = express(); 
 
-// Conectar a la base MongoDB
+// Connect to MongoDB
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -24,7 +25,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("tiny"));
 
-// app.use("/api", routes); // por ahora solo 1, luego agregar por cada router
+// Mount routers
+app.use("/api/v1/students", studentsRouter); // por ahora solo 1, luego agregar por cada router
 
 app.use(errorHandler);
 
