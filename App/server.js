@@ -1,24 +1,18 @@
-const { express, morgan, mongoose, path } = require('./config/dependencies');
-const { PORT, MONGO_URI } = require("./config/properties");
+const { express, morgan, path, dotenv } = require('./config/dependencies');
 const errorHandler = require("./middleware/error");
+const connectDB = require("./config/db");
 
 // Route files
 const studentsRouter = require("./routes/studentsRouter"); // por ahora solo 1, luego separar en varios
 
+// Config for environment variables
+dotenv.config({ path: "./config/config.env" });
+
+// Start Express App
 const app = express(); 
 
-// Connect to MongoDB
-mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
-
-mongoose.connection.on("connected", () => {
-    console.log("MongoDB Database connected successfully!");
-});
-
-// mongoose.set('useFindAndModify', false);
-// mongoose.set('useCreateIndex', true);
+// Connect to Database
+connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -29,4 +23,14 @@ app.use("/api/v1/students", studentsRouter); // por ahora solo 1, luego agregar 
 
 app.use(errorHandler);
 
-app.listen(PORT, console.log(`Server initialized on port ${PORT}.`));
+const server = app.listen(
+    process.env.PORT, 
+    console.log(`Server initialized on port: ${process.env.PORT}.`)
+);
+
+// Handle unhandled promise rejections
+process.on("unhandledRejection", (err, promise) => {
+    console.log(`Error: ${err.message}`);
+    // Close server & exit process
+    server.close(() => process.exit(1));
+});
