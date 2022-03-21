@@ -1,28 +1,10 @@
-// Express
-const { express, jwt, bcrypt } = require('../config/dependencies');
-const asyncHandler = require("../middleware/async");
-const ErrorResponse = require("../utils/errorResponse");
+const asyncHandler = require("../../middleware/async");
+const StudentController = require("./StudentController");
 
-const StudentController = require("../control/controllers/StudentController");
-const { getStudents, registerStudent, getStudent, updateStudent, deleteStudent } = require('../control/controllers/Controller');
-
-const studentsRouter = express.Router();
-
-studentsRouter
-    .route("/")
-    .get(getStudents)
-    .post(registerStudent);
-
-studentsRouter
-    .route("/:id")
-    .get(getStudent)
-    .put(updateStudent)
-    .delete(deleteStudent);
-
-//---------------Student----------------------//
-/*
-// Get all Students
-studentsRouter.get("/", async (req, res, next) => {    
+//  @desc       Get all Students
+//  @route      GET / api/v1/students
+//  @access     Public
+exports.getStudents = asyncHandler((req, res, next) => {
     const control = new StudentController();
     control.getAll()
     .then((data) => {
@@ -30,14 +12,15 @@ studentsRouter.get("/", async (req, res, next) => {
     })
     .catch((error) => {
         next(error);
-    });    
+    }); 
 });
 
-// Get single Student
-studentsRouter.get("/:id", async (req, res, next) => {    
-    const object = req.body; 
+//  @desc       Get single Student
+//  @route      GET / api/v1/students/:id
+//  @access     Public
+exports.getStudent = asyncHandler(async (req, res, next) => {
     const control = new StudentController();
-    const filter = {id: object.id};
+    const filter = {id: req.params.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser) {
@@ -53,8 +36,10 @@ studentsRouter.get("/:id", async (req, res, next) => {
     }
 });
 
-// Register Student
-studentsRouter.post("/", async (req, res, next) => {
+//  @desc       Register new Student
+//  @route      POST / api/v1/students
+//  @access     Private
+exports.registerStudent = asyncHandler(async (req, res, next) => {
     const object = req.body; 
     const control = new StudentController();
     const filter = {id: object.id};
@@ -78,14 +63,16 @@ studentsRouter.post("/", async (req, res, next) => {
     }
 });
 
-// Update Student
-studentsRouter.put("/:id", async (req, res, next) => {
+//  @desc       Update Student
+//  @route      PUT / api/v1/students/:id
+//  @access     Private
+exports.updateStudent = asyncHandler(async (req, res, next) => {
     const object = req.body; 
     const control = new StudentController();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
-        if (!foundUser) {
+        if (!foundUser) { 
             return next(
                 new ErrorResponse(`Student not found with id: ${req.params.id}.`, 404)
             );
@@ -102,8 +89,10 @@ studentsRouter.put("/:id", async (req, res, next) => {
     }
 });
 
-// Delete Student
-studentsRouter.delete("/:id", async (req, res, next) => {
+//  @desc       Delete Student
+//  @route      DELETE / api/v1/students/:id
+//  @access     Private
+exports.deleteStudent = asyncHandler(async (req, res, next) => {
     const object = req.body; 
     const control = new StudentController();
     const filter = {id: object.id};
@@ -121,6 +110,3 @@ studentsRouter.delete("/:id", async (req, res, next) => {
         next(new ErrorResponse(`Student could not be deleted. ${err.message}`, 500));
     }
 });
-*/
-
-module.exports = studentsRouter;

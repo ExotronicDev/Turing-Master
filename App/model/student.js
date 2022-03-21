@@ -2,7 +2,7 @@ const { mongoose } = require("../config/dependencies");
 const { Schema } = mongoose;
 
 const Student = mongoose.model("Student", new Schema({
-    id: {type: Number, index: true, required: true},
+    id: {type: Number, index: true, unique: true, required: true},
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     email: {type: String, required: true},

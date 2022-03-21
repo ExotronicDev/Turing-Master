@@ -2,7 +2,7 @@ const { mongoose } = require("../config/dependencies");
 const { Schema } = mongoose;
 
 const TMachine = mongoose.model("TMachine", new Schema({
-    id: {type: Number, index: true, required: true},
+    id: {type: Number, index: true, unique: true, required: true},
     description: {type: String, required: true},
     owner: {
         id: {type: Number, required: true}
