@@ -1,4 +1,5 @@
 const asyncHandler = require("../../middleware/async");
+const ErrorResponse = require("./../../utils/errorResponse");
 const StudentController = require("./StudentController");
 
 //  @desc       Get all Students
