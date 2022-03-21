@@ -1,6 +1,5 @@
 const { express, morgan, mongoose, path } = require('./config/dependencies');
 const { PORT, MONGO_URI } = require("./config/properties");
-const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/error");
 
 // Route files

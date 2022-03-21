@@ -10,21 +10,21 @@ const studentsRouter = express.Router();
 //---------------Student----------------------//
 
 // Get all Students
-studentsRouter.get("/", (req, res) => {    
+studentsRouter.get("/", async (req, res, next) => {    
     const control = new StudentController();
     control.getAll()
     .then((data) => {
         res.json({ success: true, data: data });
     })
     .catch((error) => {
-        console.log(error);
+        next(error);
     });    
 });
 
 // Get single Student
-studentsRouter.get("/:id", (req, res, next) => {    
+studentsRouter.get("/:id", async (req, res, next) => {    
     const object = req.body; 
-    const control = new ControlClient();
+    const control = new StudentController();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
@@ -42,7 +42,7 @@ studentsRouter.get("/:id", (req, res, next) => {
 });
 
 // Register Student
-studentsRouter.post("/", async (req, res) => {
+studentsRouter.post("/", async (req, res, next) => {
     const object = req.body; 
     const control = new StudentController();
     const filter = {id: object.id};
@@ -50,7 +50,9 @@ studentsRouter.post("/", async (req, res) => {
         const foundUser = await control.find(filter);
 
         if (foundUser.length != 0) {
-            return res.json({msg:true});
+            return next(
+                new ErrorResponse(`Student alreday registered with id: ${req.params.id}.`, 500)
+            );
         }
 
         const savedUser = await control.save(
@@ -59,19 +61,22 @@ studentsRouter.post("/", async (req, res) => {
         res.json(savedUser);
     }
     catch (err) {
-        res.status(500).json({error: err.message});
+        next(new ErrorResponse(`Student could not be registered. ${err.message}`, 500));
+        // res.status(500).json({error: err.message});
     }
 });
 
 // Modify Student
-studentsRouter.put("/:id", async (req, res) => {
+studentsRouter.put("/:id", async (req, res, next) => {
     const object = req.body; 
-    const control = new ControlClient();
+    const control = new StudentController();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser) {
-            return res.json({msg:true});
+            return next(
+                new ErrorResponse(`Student not found with id: ${req.params.id}.`, 404)
+            );
         }
         
         const modifiedUser = await control.modify(
@@ -81,25 +86,27 @@ studentsRouter.put("/:id", async (req, res) => {
         res.json(modifiedUser);
     }
     catch (err) {
-        res.status(500).json({error: err.message});
+        next(new ErrorResponse(`Student could not be modified. ${err.message}`, 500));
     }
 });
 
 // Delete Student
-studentsRouter.delete("/:id", async (req, res) => {
+studentsRouter.delete("/:id", async (req, res, next) => {
     const object = req.body; 
-    const control = new ControlClient();
+    const control = new StudentController();
     const filter = {id: object.id};
     try {        
         const foundUser = await control.find(filter);
         if (!foundUser) {
-            return res.json({msg:true});
+            return next(
+                new ErrorResponse(`Student not found with id: ${req.params.id}.`, 404)
+            );
         }
         const deletedUser = await control.delete(filter);
         res.json(deletedUser);
     }
     catch (err) {
-        res.status(500).json({error: err.message});
+        next(new ErrorResponse(`Student could not be deleted. ${err.message}`, 500));
     }
 });
 
