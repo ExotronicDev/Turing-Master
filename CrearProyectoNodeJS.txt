@@ -1,5 +1,5 @@
 Dentro de la carpeta a trabajar poner : npm init -y
-Despúes instalar todo lo demas: npm i mongoose express nodemon morgan concurrently axios dotenv jsonwebtoken bcryptjs (Instalaciones básicas)
+Despúes instalar todo lo demas: npm i mongoose express nodemon morgan concurrently axios dotenv colors jsonwebtoken bcryptjs (Instalaciones básicas)
 
 Para instalar React
 Dentro de la misma carpeta se pone el comando : npx create-react-app my-app (donde my-app es el nombre de la carpeta a crear)
