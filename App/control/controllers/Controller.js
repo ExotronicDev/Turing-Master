@@ -1,6 +1,7 @@
 const asyncHandler = require("../../middleware/async");
 const ErrorResponse = require("./../../utils/errorResponse");
 const StudentController = require("./StudentController");
+const ErrorResponse = require("./../../utils/errorResponse");
 
 //  @desc       Get all Students
 //  @route      GET / api/v1/students
