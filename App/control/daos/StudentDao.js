@@ -13,7 +13,7 @@ module.exports = class StudentDao {
         return await student.remove(filter);
     }
 
-    async modify(filter, object) {
+    async update(filter, object) {
         // falta, ya que arrays pueden fallar
     }
 

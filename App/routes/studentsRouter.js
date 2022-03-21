@@ -66,7 +66,7 @@ studentsRouter.post("/", async (req, res, next) => {
     }
 });
 
-// Modify Student
+// Update Student
 studentsRouter.put("/:id", async (req, res, next) => {
     const object = req.body; 
     const control = new StudentController();
@@ -79,7 +79,7 @@ studentsRouter.put("/:id", async (req, res, next) => {
             );
         }
         
-        const modifiedUser = await control.modify(
+        const modifiedUser = await control.update(
             filter, 
             object
         );

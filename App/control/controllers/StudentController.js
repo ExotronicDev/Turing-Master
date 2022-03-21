@@ -18,8 +18,8 @@ module.exports = class StudentController {
         return await this.dao.save(object);
     }
 
-    async modify(filter, object) {
-        return await this.dao.modify(filter, object);
+    async update(filter, object) {
+        return await this.dao.update(filter, object);
     }
 
     async delete(filter) {
@@ -43,7 +43,7 @@ module.exports = class StudentController {
             description: tMachine.description
         });
 
-        await this.dao.modify({ id: student.id }, student);
+        await this.dao.update({ id: student.id }, student);
         return await daoTMachine.save(tMachine);
     }
 
@@ -59,6 +59,6 @@ module.exports = class StudentController {
         if (index > -1) {
             student.tMachines.splice(index, 1); 
         }
-        return await this.dao.modify({ id: student.id }, student);
+        return await this.dao.update({ id: student.id }, student);
     }
 }

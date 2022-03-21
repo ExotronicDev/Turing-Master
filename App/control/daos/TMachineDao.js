@@ -13,7 +13,7 @@ module.exports = class TMachineDao {
         return await TMachine.remove(filter);
     }
 
-    async modify(filter, object) {
+    async update(filter, object) {
         // falta, ya que arrays pueden fallar
     }
 
