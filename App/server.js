@@ -1,4 +1,4 @@
-const { express, morgan, path, dotenv } = require('./config/dependencies');
+const { express, morgan, path, dotenv, colors } = require('./config/dependencies');
 const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
 
@@ -25,12 +25,12 @@ app.use(errorHandler);
 
 const server = app.listen(
     process.env.PORT, 
-    console.log(`Server initialized on port: ${process.env.PORT}.`)
+    console.log(`Server initialized on port: ${process.env.PORT}.`.yellow.bold)
 );
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
-    console.log(`Error: ${err.message}`);
+    console.log(`Error: ${err.message}`.red.bold);
     // Close server & exit process
     server.close(() => process.exit(1));
 });
