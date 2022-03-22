@@ -48,7 +48,8 @@ module.exports = class StudentController {
 
         return await this.dao.save(newStudent);
     }
-    
+
+    //
     // Funcionalidades de Máquinas
     async createTMachine(student, description) {
         const daoTMachine = new TMachineDao();
