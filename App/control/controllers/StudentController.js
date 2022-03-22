@@ -1,13 +1,18 @@
+const asyncHandler = require("../../middleware/async");
 const TMachine = require("../../model/tmachine");
+const Student = require("../../model/student");
 
 const StudentDao = require("../daos/StudentDao");
 const TMachineDao = require("../daos/TMachineDao");
+const CounterDao = require("../daos/CounterDao");
 
 module.exports = class StudentController {
     constructor() {
         this.dao = new StudentDao();
+        this.tMachineCounter = new CounterDao();
     }
 
+    /*
     // Operaciones CRUD
 
     async find(filter) {
@@ -29,13 +34,29 @@ module.exports = class StudentController {
     async getAll() {
         return await this.dao.getAll();
     }
+    */
 
     // Funcionalidades propias
+    async register(student) {
+        const newStudent = new Student({
+            id: student.id,
+            firstName: student.firstName,
+            lastName: student.lastName,
+            email: student.email,
+            password: student.password
+        });
+
+        return await this.dao.save(newStudent);
+    }
+
     // Funcionalidades de Máquinas
     async createTMachine(student, description) {
         const daoTMachine = new TMachineDao();
 
-        const tMachine = new TMachine({ description: description });
+        const counter = this.tMachineCounter.find({ name: "tmachine" });
+        const nextId = counter.count;
+        
+        const tMachine = new TMachine({ id: nextId, description: description });
         tMachine.owner.id = student.id;
 
         student.tMachines.push({
@@ -44,6 +65,11 @@ module.exports = class StudentController {
         });
 
         await this.dao.update({ id: student.id }, student);
+
+        nextId++;
+        counter.count = nextId;
+        await this.tMachineCounter.update({ name: "tmachine" }, counter);
+
         return await daoTMachine.save(tMachine);
     }
 
@@ -89,8 +115,8 @@ module.exports = class StudentController {
         return await this.dao.update({ id: student.id }, storedStudent);
     }
 
-    async getStudent(idStudent) {
-        return await this.dao.find({ id: idStudent });
+    async getStudent(filter) {
+        return await this.dao.find(filter);
     }
 
     async getStudents() {

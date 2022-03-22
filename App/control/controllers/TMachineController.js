@@ -1,3 +1,4 @@
+const StudentDao = require("../daos/StudentDao");
 const TMachineDao = require("../daos/TMachineDao");
 
 module.exports = class TMachineController {
@@ -5,6 +6,7 @@ module.exports = class TMachineController {
         this.dao = new TMachineDao();
     }
 
+    /*
     // Operaciones CRUD
 
     async find(filter) {
@@ -26,21 +28,33 @@ module.exports = class TMachineController {
     async getAll() {
         return await this.dao.getAll();
     }
+    */
 
     // Funcionalidades propias
 
-    async createTMachine(student, description) {
-        const daoTMachine = new TMachineDao();
+    //Create TMachine esta implementado en StudentController
+    //Delete TMachine esta implementado en StudentController
 
-        const tMachine = new TMachine({ description: description });
-        tMachine.owner.id = student.id;
+    async updateTMachine(tMachine) {
+        //Esto no actualiza los arrays porque eso se hace en otro lado.
+        const storedTM = this.dao.find({ id: tMachine.id });
+        storedTM.description = tMachine.description;
+        storedTM.initialState = tMachine.initialState;
 
-        student.tMachines.push({
-            id: tMachine.id,
-            description: tMachine.description
-        });
+        return await this.dao.update({ id: storedTM.id }, storedTM);
+    }
 
-        await this.dao.update({ id: student.id }, student);
-        return await daoTMachine.save(tMachine);
+    async getTMachines() {
+        return await this.dao.getAll();
+    }
+
+    async getTMachine(idTMachine) {
+        return await this.dao.find({ id: idTMachine });
+    }
+
+    //Funcionalidades de estados
+
+    async createState(tMachine, stateName) {
+
     }
 }

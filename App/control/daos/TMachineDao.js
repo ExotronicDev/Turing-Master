@@ -14,7 +14,7 @@ module.exports = class TMachineDao {
     }
 
     async update(filter, object) {
-        // falta, ya que arrays pueden fallar
+        return await TMachine.updateOne(filter);
     }
 
     async getAll() {

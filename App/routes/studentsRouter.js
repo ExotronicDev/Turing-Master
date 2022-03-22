@@ -4,7 +4,7 @@ const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
 
 const StudentController = require("../control/controllers/StudentController");
-const { getStudents, registerStudent, getStudent, updateStudent, deleteStudent } = require('../control/controllers/Controller');
+const { getStudents, registerStudent, getStudent, updateStudent, deleteStudent, getCounter } = require('../control/controllers/Controller');
 
 const studentsRouter = express.Router();
 
@@ -12,6 +12,10 @@ studentsRouter
     .route("/")
     .get(getStudents)
     .post(registerStudent);
+
+studentsRouter
+    .route("/counter")
+    .get(getCounter);
 
 studentsRouter
     .route("/:id")

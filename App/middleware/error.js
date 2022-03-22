@@ -23,7 +23,7 @@ const errorHandler = (err, req, res, next) => {
         error = new ErrorResponse(message, 400);
     }
 
-    console.log(err.red.bold);
+    console.log(err);
 
     res.status(err.statusCode || 500).json({
         success: false,
