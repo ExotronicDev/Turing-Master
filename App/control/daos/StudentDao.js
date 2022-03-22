@@ -13,8 +13,9 @@ module.exports = class StudentDao {
         return await student.remove(filter);
     }
 
+    //Esto de los arrays lo manejan los controladores mejor.
     async update(filter, object) {
-        // falta, ya que arrays pueden fallar
+        return await student.updateOne(filter, object);
     }
 
     async getAll() {
