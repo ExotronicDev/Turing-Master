@@ -6,14 +6,14 @@ class Home extends Component {
         return (
             <div className="Home">
                 <p className= "titulo">Turing Machine Simulator</p>
-                <form action = "">
-                    <button type="submit" className="btn btn-primary btn-lg"> Teacher </button>
+                <form action = "/login/teacher">
+                    <button id="teacher" type="submit" className="btn btn-primary btn-lg"> Teacher </button>
                 </form>
-                <form action = "">
-                    <button type="submit" className="btn btn-primary btn-lg"> Student </button>
+                <form action = "/login/student">
+                    <button id="student" type="submit" className="btn btn-primary btn-lg"> Student </button>
                 </form>    
-                <form action = "">
-                    <button type="submit" className="btn btn-primary btn-lg"> Sign Up </button> 
+                <form action = "/SignUp">
+                    <button id="signup" type="submit" className="btn btn-primary btn-lg"> Sign Up </button> 
                 </form>
             </div>
         )
