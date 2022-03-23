@@ -9,7 +9,8 @@ const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
 
 // Route files
-const studentsRouter = require("./routes/studentsRouter"); // por ahora solo 1, luego separar en varios
+const studentsRouter = require("./routes/studentsRouter");
+const tmachinesRouter = require("./routes/tmachinesRouter");
 
 // Config for environment variables
 dotenv.config({ path: "./config/config.env" });
@@ -25,7 +26,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan("tiny"));
 
 // Mount routers
-app.use("/api/v1/students", studentsRouter); // por ahora solo 1, luego agregar por cada router
+app.use("/api/v1/students", studentsRouter);
+app.use("/api/v1/tmachines", tmachinesRouter);
 
 app.use(errorHandler);
 

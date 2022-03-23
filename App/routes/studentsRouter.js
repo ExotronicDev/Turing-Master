@@ -1,27 +1,24 @@
-// Express
-const { express, jwt, bcrypt } = require('../config/dependencies');
-const asyncHandler = require("../middleware/async");
-const ErrorResponse = require("../utils/errorResponse");
-
-const StudentController = require("../control/controllers/StudentController");
-const { getStudents, registerStudent, getStudent, updateStudent, deleteStudent, getCounter } = require('../control/controllers/Controller');
+const { express, jwt, bcrypt } = require("../config/dependencies");
+const {
+	getStudents,
+	registerStudent,
+	getStudent,
+	updateStudent,
+	deleteStudent,
+	getCounter,
+} = require("../control/controllers/Controller");
 
 const studentsRouter = express.Router();
 
-studentsRouter
-    .route("/")
-    .get(getStudents)
-    .post(registerStudent);
+studentsRouter.route("/").get(getStudents).post(registerStudent);
+
+studentsRouter.route("/counter").get(getCounter);
 
 studentsRouter
-    .route("/counter")
-    .get(getCounter);
-
-studentsRouter
-    .route("/:id")
-    .get(getStudent)
-    .put(updateStudent)
-    .delete(deleteStudent);
+	.route("/:id")
+	.get(getStudent)
+	.put(updateStudent)
+	.delete(deleteStudent);
 
 //---------------Student----------------------//
 /*
