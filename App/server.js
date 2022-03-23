@@ -1,4 +1,10 @@
-const { express, morgan, path, dotenv, colors } = require('./config/dependencies');
+const {
+	express,
+	morgan,
+	path,
+	dotenv,
+	colors,
+} = require("./config/dependencies");
 const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
 
@@ -9,7 +15,7 @@ const studentsRouter = require("./routes/studentsRouter"); // por ahora solo 1, 
 dotenv.config({ path: "./config/config.env" });
 
 // Start Express App
-const app = express(); 
+const app = express();
 
 // Connect to Database
 connectDB();
@@ -24,13 +30,13 @@ app.use("/api/v1/students", studentsRouter); // por ahora solo 1, luego agregar 
 app.use(errorHandler);
 
 const server = app.listen(
-    process.env.PORT, 
-    console.log(`Server initialized on port: ${process.env.PORT}.`.yellow.bold)
+	process.env.PORT,
+	console.log(`Server initialized on port: ${process.env.PORT}.`.yellow.bold)
 );
 
 // Handle unhandled promise rejections
-process.on("unhandledRejection", (err, promise) => {
-    console.log(`Error: ${err.message}`.red.bold);
-    // Close server & exit process
-    server.close(() => process.exit(1));
+process.on("unhandledRejection", (err, res, next) => {
+	console.log(`Unhandled Error: ${err}`.red.bold);
+	// Close server & exit process
+	server.close(() => process.exit(1));
 });
