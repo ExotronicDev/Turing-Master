@@ -4,9 +4,9 @@
   "description": "Simulador de Máquinas de Turing",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "proyecto": "cd view && npm start",
-    "run": "concurrently -n 'Back-end,Front-end' -c 'red,white' \"nodemon server.js\" \"npm run proyecto\""
+    "backend": "nodemon server.js",
+    "frontend": "cd view && npm start",
+    "app": "concurrently -n 'Back-end,Front-end' -c 'red,blue' \"npm run backend\" \"npm run frontend\""
   },
   "repository": {
     "type": "git",

@@ -30,7 +30,7 @@ app.use("/api/v1/students", studentsRouter); // por ahora solo 1, luego agregar 
 app.use(errorHandler);
 
 const server = app.listen(
-	process.env.PORT,
+	process.env.PORT || 8080,
 	console.log(`Server initialized on port: ${process.env.PORT}.`.yellow.bold)
 );
 
