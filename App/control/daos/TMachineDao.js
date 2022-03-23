@@ -14,7 +14,7 @@ module.exports = class TMachineDao {
     }
 
     async update(filter, object) {
-        return await TMachine.updateOne(filter);
+        return await TMachine.updateOne(filter, object);
     }
 
     async getAll() {

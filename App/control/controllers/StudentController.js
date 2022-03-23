@@ -49,7 +49,6 @@ module.exports = class StudentController {
         return await this.dao.save(newStudent);
     }
 
-    //
     // Funcionalidades de Máquinas
     async createTMachine(student, description) {
         const daoTMachine = new TMachineDao();
@@ -89,16 +88,10 @@ module.exports = class StudentController {
         return await this.dao.update({ id: student.id }, student);
     }
 
-    async getTMachine(student) {
-        const daoTMachine = new TMachineDao();
-
-        return await daoTMachine.find({ id: student.id });
-    }
-
     async getTMachines(student) {
         const daoTMachine = new TMachineDao();
 
-        return await daoTMachine.find({ id: student.id });
+        return await daoTMachine.find({ owner: { id: student.id } });
     }
 
     //Funcionalidades de Estudiantes
