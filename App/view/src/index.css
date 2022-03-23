@@ -1,7 +1,7 @@
 .Home {
   width: 100wh;
   height: 100vh;
-  background-color: #CDCDCD;
+  background: linear-gradient(69.9deg, rgb(76, 79, 106) 3.2%, rgb(118, 124, 163) 97.6%);
   background-size: 400% 400%;
   margin: auto;
   text-align: center;
@@ -59,7 +59,7 @@
 .SignUp {
   width: 100wh;
   height: 100vh;
-  background: #47858E;
+  background: linear-gradient(to top, #09203f 0%, #537895 100%);;
   opacity: 0.9;
   background-size: 400% 400%;
   text-align: center;
@@ -91,7 +91,8 @@
 .Login {
   width: 100wh;
   height: 100vh;
-  background: #47858E;
+  background: linear-gradient(89.5deg, rgb(4, 29, 55) -0.1%, rgb(2, 67, 135) 25.1%, rgb(28, 133, 243) 49.6%,
+   rgb(115, 181, 250) 74.5%, rgb(214, 239, 253) 99.3%);
   opacity: 0.9;
   background-size: 400% 400%;
   text-align: center;
@@ -113,7 +114,11 @@
   line-height: 41px;
   text-align: center;
 
-  color: #000000;
+  color: white;
+}
+
+.Login label {
+  color: white;
 }
 
 .Login input {
