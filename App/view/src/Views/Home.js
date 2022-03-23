@@ -25,7 +25,7 @@ class Home extends Component {
 						Student{" "}
 					</button>
 				</form>
-				<form action="/Register">
+				<form action="/register">
 					<button
 						id="register"
 						type="submit"

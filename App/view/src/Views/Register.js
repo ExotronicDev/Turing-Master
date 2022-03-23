@@ -70,7 +70,7 @@ class Register extends Component {
 						className="btn btn-primary"
 						style={{ marginTop: "20px", width: "200px" }}
 					>
-						Sign Up
+						Register
 					</button>
 				</form>
 			</div>
