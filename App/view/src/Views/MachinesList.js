@@ -4,7 +4,7 @@ class Login extends Component {
 	render() {
 		return (
 			<div className="TMList">
-				<p id="title">User info</p>
+				<p id="title">Turing Machines List</p>
 				<form id="form">
 					<div class="form-group">
 						<label for="email">Email</label>
