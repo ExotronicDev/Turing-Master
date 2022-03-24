@@ -79,6 +79,11 @@ module.exports = class TMachineController {
         tmStates.push(newState);
         storedTM.states = tmStates;
         await daoState.save(newState);
+
+        nextId++;
+        counter.count = nextId;
+        await this.stateCounter.update({ name: "state" }, counter);
+
         return await this.dao.update({ id: storedTM.id }, storedTM);
     }
 
