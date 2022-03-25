@@ -5,7 +5,7 @@ class Home extends Component {
 		return (
 			<div className="Home">
 				<p className="titulo">Turing Machine Simulator</p>
-				<form action="/login/teacher">
+				<form action="/TuringMachineSimulator/Login/teacher">
 					<button
 						id="teacher"
 						type="submit"
@@ -15,7 +15,7 @@ class Home extends Component {
 						Teacher{" "}
 					</button>
 				</form>
-				<form action="/login/student">
+				<form action="/TuringMachineSimulator/Login/student">
 					<button
 						id="student"
 						type="submit"
@@ -25,7 +25,7 @@ class Home extends Component {
 						Student{" "}
 					</button>
 				</form>
-				<form action="/register">
+				<form action="/TuringMachineSimulator/Register">
 					<button
 						id="register"
 						type="submit"

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Views/Home";
 import Register from "./Views/Register";
 import Login from "./Views/Login";
+import MainView from "./Views/MainView";
 
 class App extends Component {
 	render() {
@@ -13,16 +14,24 @@ class App extends Component {
 			<div className="App">
 				<Router>
 					<Routes>
-						<Route exact path="/" element={<Home />}></Route>
+						<Route 
+							exact 
+							path="/TuringMachineSimulator" 
+							element={<Home/>}></Route>
 						<Route
 							exact
-							path="/Register"
-							element={<Register />}
+							path="/TuringMachineSimulator/Register"
+							element={<Register/>}
 						></Route>
 						<Route
 							exact
-							path="/Login/:user"
-							element={<Login />}
+							path="/TuringMachineSimulator/Login/:user"
+							element={<Login/>}
+						></Route>
+						<Route
+							exact
+							path="/TuringMachineSimulator/MainView"
+							element={<MainView/>}
 						></Route>
 					</Routes>
 				</Router>

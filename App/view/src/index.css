@@ -5,8 +5,8 @@
 		69.9deg,
 		rgb(76, 79, 106) 3.2%,
 		rgb(118, 124, 163) 97.6%
-	);
-	background-size: 400% 400%;
+	) no-repeat center center fixed;
+	background-size: 400% 400% cover;
 	margin: auto;
 	text-align: center;
 }
@@ -22,7 +22,7 @@
 	height: 7vh;
 	top: 200px;
 
-	font-family: "Times New Roman";
+	font-family: "Lucida Handwriting"; /*Papyrus, Lucida Handwriting, Courier New */
 	font-style: normal;
 	font-weight: 500;
 	font-size: 40px;
@@ -92,6 +92,10 @@
 	width: 350px;
 }
 
+.Register label {
+  color: white;
+}
+
 .Login {
 	width: 100wh;
 	height: 100vh;
@@ -133,4 +137,58 @@
 
 .Login input {
 	width: 350px;
+}
+
+.MainView {
+	width: 100wh;
+	height: 100vh;
+	background: linear-gradient(179.2deg, rgb(21, 21, 212) 0.9%, rgb(53, 220, 243) 95.5%) no-repeat center center fixed;
+	background-size: 400% 400% cover;
+	margin: auto;
+	text-align: center;
+}
+
+.MainView p {
+	position: relative;
+	width: 471wh;
+	height: 7vh;
+	top: 200px;
+
+	font-family: "Lucida Handwriting"; /*Papyrus, Lucida Handwriting, Courier New */
+	font-style: normal;
+	font-weight: 500;
+	font-size: 40px;
+	line-height: 41px;
+	text-align: center;
+
+	color: #000000;
+}
+
+.MainView button {
+	font-family: "Arial";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 36px;
+	text-align: center;
+	background-color: #3d03a8;
+
+	color: #ffffff;
+}
+
+.MainView #newmachine {
+	position: relative;
+	top: 250px;
+	width: 400px;
+}
+
+.MainView #mymachines {
+	position: relative;
+	top: 300px;
+	width: 400px;
+}
+
+.MainView #edit {
+	position: relative;
+	top: 350px;
+	width: 400px;
 }
