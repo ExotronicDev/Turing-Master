@@ -16,7 +16,7 @@ class App extends Component {
 					<Routes>
 						<Route 
 							exact 
-							path="/TuringMachineSimulator" 
+							path="/" 
 							element={<Home/>}></Route>
 						<Route
 							exact

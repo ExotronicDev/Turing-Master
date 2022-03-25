@@ -1,5 +1,5 @@
+import axios from "axios";
 import React, { Component } from "react";
-//import axios from "axios";
 
 const swal = require('sweetalert2')
 
@@ -8,6 +8,7 @@ class Register extends Component {
 	state = {
 		firstName: "",
 		lastName: "",
+		id: "",
 		email: "",
 		password: "",
 		confirm: ""
@@ -32,7 +33,8 @@ class Register extends Component {
                 title: 'You must fill all fields',
                 icon: 'warning',
 				iconColor: "red",
-				background: "black"
+				background: "black",
+				color: "white"
             })
             return;
         }
@@ -42,12 +44,44 @@ class Register extends Component {
                 title: "Password doesn't match",
                 icon: 'warning',
 				iconColor: "red",
-				background: "black"
+				background: "black",
+				color: "white"
             })
             return;
         }
 
-		window.location = "/TuringMachineSimulator"
+		var user = {
+			firstName: this.state.firstName,
+			lastName: this.state.lastName,
+			id: this.state.id,
+			email: this.state.email,
+			password: this.state.password,
+		}
+
+		axios({
+            url: "/api/v1/students/",
+            method: "POST",
+            data: user
+        })
+        .then( () => {
+            swal.fire({
+                title: 'Success!',
+                text: 'Your Student account has been created successfully!',
+                icon: 'success',
+				background: "black",
+				color: "white"
+            }).then(() => {
+                window.location = "/";
+            });
+        })
+        .catch( (err) => {
+            swal.fire({
+                title: 'Ocurrio un problema al crear el usuario',
+                text: err.message,
+                icon: 'error'
+            });
+        })
+
 	}
 
 	render() {
@@ -78,6 +112,19 @@ class Register extends Component {
 							name="lastName"
 							onChange={this.handleChange}
 							value={this.state.lastName}
+						/>
+					</div>
+
+					<div className="form-group">
+						<label for="id">ID</label>
+						<input
+							type="text"
+							className="form-control"
+							id="id"
+							placeholder="Student ID"
+							name="id"
+							onChange={this.handleChange}
+							value={this.state.id}
 						/>
 					</div>
 
