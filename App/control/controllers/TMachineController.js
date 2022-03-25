@@ -5,161 +5,143 @@ const CounterDao = require("../daos/CounterDao");
 const State = require("../../model/state");
 
 module.exports = class TMachineController {
-    constructor() {
-        this.dao = new TMachineDao();
-        this.stateCounter = new CounterDao();
-    }
+	constructor() {
+		this.dao = new TMachineDao();
+		this.stateCounter = new CounterDao();
+	}
 
-    /*
-    // Operaciones CRUD
+	// Funcionalidades propias
 
-    async find(filter) {
-        return await this.dao.find(filter);
-    }
+	//Create TMachine esta implementado en StudentController
+	//Delete TMachine esta implementado en StudentController
 
-    async save(object) {
-        return await this.dao.save(object);
-    }
+	async updateTMachine(tMachine) {
+		//Esto no actualiza los arrays porque eso se hace en otro lado.
+		const storedTM = this.dao.find({ id: tMachine.id });
+		storedTM.description = tMachine.description;
+		storedTM.initialState = tMachine.initialState;
 
-    async update(filter, object) {
-        return await this.dao.update(filter, object);
-    }
+		return await this.dao.update({ id: storedTM.id }, storedTM);
+	}
 
-    async delete(filter) {
-        return await this.dao.delete(filter);
-    }
+	async getTMachines() {
+		return await this.dao.getAll();
+	}
 
-    async getAll() {
-        return await this.dao.getAll();
-    }
-    */
+	async getTMachine(idTMachine) {
+		return await this.dao.find({ id: idTMachine });
+	}
 
-    // Funcionalidades propias
+	//Funcionalidades de estados
 
-    //Create TMachine esta implementado en StudentController
-    //Delete TMachine esta implementado en StudentController
+	async createState(tMachine, stateName) {
+		const daoState = new StateDao();
 
-    async updateTMachine(tMachine) {
-        //Esto no actualiza los arrays porque eso se hace en otro lado.
-        const storedTM = this.dao.find({ id: tMachine.id });
-        storedTM.description = tMachine.description;
-        storedTM.initialState = tMachine.initialState;
+		const counter = this.stateCounter.find({ name: "state" });
+		const nextId = counter.count;
 
-        return await this.dao.update({ id: storedTM.id }, storedTM);
-    }
+		const storedTM = this.dao.find({ id: tMachine.id });
+		var tmStates = storedTM.states;
 
-    async getTMachines() {
-        return await this.dao.getAll();
-    }
+		const newState = new State({
+			id: nextId,
+			name: stateName,
+			tMachine: {
+				id: tMachine.id,
+				description: tMachine.description,
+			},
+		});
 
-    async getTMachine(idTMachine) {
-        return await this.dao.find({ id: idTMachine });
-    }
+		tmStates.push(newState);
+		storedTM.states = tmStates;
+		await daoState.save(newState);
 
-    //Funcionalidades de estados
+		nextId++;
+		counter.count = nextId;
+		await this.stateCounter.update({ name: "state" }, counter);
 
-    async createState(tMachine, stateName) {
-        const daoState = new StateDao();
+		return await this.dao.update({ id: storedTM.id }, storedTM);
+	}
 
-        const counter = this.stateCounter.find({ name: "state" });
-        const nextId = counter.count;
-        
-        const storedTM = this.dao.find({ id: tMachine.id });
-        var tmStates = storedTM.states;
+	async setStartState(tMachine, idState) {
+		const daoState = new StateDao();
 
-        const newState = new State({ 
-            id: nextId, 
-            name: stateName,
-            tMachine: {
-                id: tMachine.id,
-                description: tMachine.description
-            } 
-        });
+		const storedTM = this.dao.find({ id: tMachine.id });
+		const storedState = daoState.find({ id: idState });
 
-        tmStates.push(newState);
-        storedTM.states = tmStates;
-        await daoState.save(newState);
+		storedTM.initialState.id = storedState.id;
+		storedTM.initialState.name = storedState.name;
 
-        nextId++;
-        counter.count = nextId;
-        await this.stateCounter.update({ name: "state" }, counter);
+		return await this.dao.update({ id: storedTM.id }, storedTM);
+	}
 
-        return await this.dao.update({ id: storedTM.id }, storedTM);
-    }
+	async updateState(tMachine, updatedState) {
+		const daoState = new StateDao();
 
-    async setStartState(tMachine, idState) {
-        const daoState = new StateDao();
+		const storedTM = this.dao.find({ id: tMachine.id });
+		const storedState = daoState.find({ id: updatedState.id });
 
-        const storedTM = this.dao.find({ id: tMachine.id });
-        const storedState = daoState.find({ id: idState });
+		storedState.name = updatedState.name;
+		storedState.incomingTransitions = updatedState.incomingTransitions;
+		storedState.exitTransitions = updatedState.exitTransitions;
 
-        storedTM.initialState.id = storedState.id;
-        storedTM.initialState.name = storedState.name;
+		//Si el estado modificado es el inicial, cambiele el nombre.
+		if (storedTM.initialState.id === updatedState.id) {
+			storedTM.initialState.name = updatedState.name;
+		}
 
-        return await this.dao.update({ id: storedTM.id }, storedTM);
-    }
+		const stateArray = storedTM.states;
 
-    async updateState(tMachine, updatedState) {
-        const daoState = new StateDao();
+		//Buscar el estado a actualizar en la lista de estados de la TM.
+		for (let i = 0; i < stateArray.length; i++) {
+			if (stateArray[i].id === updatedState.id) {
+				stateArray[i].name = updatedState.name;
+			}
+		}
 
-        const storedTM = this.dao.find({ id: tMachine.id });
-        const storedState = daoState.find({ id: updatedState.id });
+		storedTM.states = stateArray;
+		await daoState.update({ id: storedState.id }, storedState);
+		return await this.dao.update({ id: storedTM.id }, storedTM);
+	}
 
-        storedState.name = updatedState.name;
-        storedState.incomingTransitions = updatedState.incomingTransitions;
-        storedState.exitTransitions = updatedState.exitTransitions;
+	async getState(tMachine, stateName) {
+		const daoState = new StateDao();
 
-        //Si el estado modificado es el inicial, cambiele el nombre.
-        if (storedTM.initialState.id === updatedState.id) {
-            storedTM.initialState.name = updatedState.name;
-        }
+		return await daoState.find({
+			name: stateName,
+			tMachine: { id: tMachine.id },
+		});
+	}
 
-        const stateArray = storedTM.states;
+	async getStates(tMachine) {
+		const daoState = new StateDao();
 
-        //Buscar el estado a actualizar en la lista de estados de la TM.
-        for (let i = 0; i < stateArray.length; i++) {
-            if (stateArray[i].id === updatedState.id) {
-                stateArray[i].name = updatedState.name;
-            }
-        }
+		return await daoState.find({ tMachine: { id: tMachine.id } });
+	}
 
-        storedTM.states = stateArray;
-        await daoState.update({ id: storedState.id }, storedState);
-        return await this.dao.update({ id: storedTM.id }, storedTM);
-    }
+	async deleteState(tMachine, stateName) {
+		const daoState = new StateDao();
 
-    async getState(tMachine, stateName) {
-        const daoState = new StateDao();
+		const storedTM = this.dao.find({ id: tMachine.id });
+		const stateArray = storedTM.states;
 
-        return await daoState.find({ name: stateName, tMachine: { id: tMachine.id } });
-    }
+		let index = -1;
 
-    async getStates(tMachine) {
-        const daoState = new StateDao();
+		for (let i = 0; i < stateArray.length; i++) {
+			if (stateArray[i].name === stateName) {
+				index = i;
+			}
+		}
 
-        return await daoState.find({ tMachine: { id: tMachine.id } });
-    }
+		if (index > -1) {
+			stateArray.splice(index, 1);
+		}
 
-    async deleteState(tMachine, stateName) {
-        const daoState = new StateDao();
-
-        const storedTM = this.dao.find({ id: tMachine.id });
-        const stateArray = storedTM.states;
-
-        let index = -1;
-
-        for (let i = 0; i < stateArray.length; i++) {
-            if (stateArray[i].name === stateName) {
-                index = i;
-            }
-        }
-
-        if (index > -1) {
-            stateArray.splice(index, 1);
-        }
-
-        storedTM.states = stateArray;
-        await this.dao.update({ id: storedTM.id }, storedTM);
-        return await daoState.delete({ name: stateName, tMachine: { id: tMachine.id } });
-    }
-}
+		storedTM.states = stateArray;
+		await this.dao.update({ id: storedTM.id }, storedTM);
+		return await daoState.delete({
+			name: stateName,
+			tMachine: { id: tMachine.id },
+		});
+	}
+};

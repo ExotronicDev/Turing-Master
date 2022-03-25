@@ -7,147 +7,121 @@ const TMachineDao = require("../daos/TMachineDao");
 const CounterDao = require("../daos/CounterDao");
 
 module.exports = class StudentController {
-    constructor() {
-        this.dao = new StudentDao();
-        this.tMachineCounter = new CounterDao();
-    }
+	constructor() {
+		this.dao = new StudentDao();
+		this.tMachineCounter = new CounterDao();
+	}
 
-    /*
-    // Operaciones CRUD
+	// Funcionalidades propias de estudiante
+	async register(student) {
+		const newStudent = new Student({
+			id: student.id,
+			firstName: student.firstName,
+			lastName: student.lastName,
+			email: student.email,
+			password: student.password,
+		});
 
-    async find(filter) {
-        return await this.dao.find(filter);
-    }
+		return await this.dao.save(newStudent);
+	}
 
-    async save(object) {
-        return await this.dao.save(object);
-    }
+	async updateStudent(student) {
+		var storedStudent = this.dao.find({ id: student.id });
 
-    async update(filter, object) {
-        return await this.dao.update(filter, object);
-    }
+		//Parece innecesario hacer esto, pero eh, quiero estar seguro. -Edu
+		storedStudent.firstName = student.firstName;
+		storedStudent.lastName = student.lastName;
+		storedStudent.email = student.email;
+		storedStudent.password = student.password;
+		storedStudent.tMachines = student.tMachines;
 
-    async delete(filter) {
-        return await this.dao.delete(filter);
-    }
+		return await this.dao.update({ id: student.id }, storedStudent);
+	}
 
-    async getAll() {
-        return await this.dao.getAll();
-    }
-    */
+	async getStudent(filter) {
+		return await this.dao.find(filter);
+	}
 
-    // Funcionalidades propias
-    async register(student) {
-        const newStudent = new Student({
-            id: student.id,
-            firstName: student.firstName,
-            lastName: student.lastName,
-            email: student.email,
-            password: student.password
-        });
+	async getStudents() {
+		return await this.dao.getAll();
+	}
 
-        return await this.dao.save(newStudent);
-    }
+	//This one is sketchy, lmao
+	async deleteStudent(idStudent) {
+		//Primero, hay que borrar las TMachines de dicho estudiante.
+		//Primero y medio, borrar el estudiante de las TMachines que tengan a ese como colaborador. //TODO
+		//Segundo, borrar el estudiante.
+		const daoTMachine = new TMachineDao();
 
-    // Funcionalidades de Máquinas
-    async createTMachine(student, description) {
-        const daoTMachine = new TMachineDao();
+		var storedStudent = await this.dao.find({ id: idStudent });
+		var studentTMachines = storedStudent[0].tMachines;
 
-        const counter = this.tMachineCounter.find({ name: "tmachine" });
-        const nextId = counter.count;
-        
-        const tMachine = new TMachine({ id: nextId, description: description });
-        tMachine.owner.id = student.id;
+		//Parece que el forEach de los arrays no soporta async. Hora de usar magia negra de JS.
+		const arrayLength = studentTMachines.length;
+		for (let i = 0; i < arrayLength; i++) {
+			var tm = studentTMachines[i];
+			await daoTMachine.delete({ id: tm.id });
+			//Espero que esto sirva fuck.
+		}
 
-        student.tMachines.push({
-            id: tMachine.id,
-            description: tMachine.description
-        });
+		return await this.dao.delete({ id: idStudent });
+	}
 
-        await this.dao.update({ id: student.id }, student);
+	// Funcionalidades de Turing Machines
+	async createTMachine(student, description) {
+		const daoTMachine = new TMachineDao();
 
-        nextId++;
-        counter.count = nextId;
-        await this.tMachineCounter.update({ name: "tmachine" }, counter);
+		const counter = this.tMachineCounter.find({ name: "tmachine" });
+		const nextId = counter.count;
 
-        return await daoTMachine.save(tMachine);
-    }
+		const tMachine = new TMachine({ id: nextId, description: description });
+		tMachine.owner.id = student.id;
 
-    async deleteTMachine(student, idTMachine) {
-        let index = -1;
+		student.tMachines.push({
+			id: tMachine.id,
+			description: tMachine.description,
+		});
 
-        for (var i = 0; i < student.tMachines.length; i++) {
-            if (student.tMachines[i].id === idTMachine) {
-                index = i;
-            }
-        }
+		await this.dao.update({ id: student.id }, student);
 
-        if (index > -1) {
-            student.tMachines.splice(index, 1); 
-        }
-        return await this.dao.update({ id: student.id }, student);
-    }
+		nextId++;
+		counter.count = nextId;
+		await this.tMachineCounter.update({ name: "tmachine" }, counter);
 
-    async getTMachines(student) {
-        const daoTMachine = new TMachineDao();
+		return await daoTMachine.save(tMachine);
+	}
 
-        return await daoTMachine.find({ owner: { id: student.id } });
-    }
+	async deleteTMachine(student, idTMachine) {
+		let index = -1;
 
-    //Funcionalidades de Estudiantes
+		for (var i = 0; i < student.tMachines.length; i++) {
+			if (student.tMachines[i].id === idTMachine) {
+				index = i;
+			}
+		}
 
-    async updateStudent(student) {
-        var storedStudent = this.dao.find({ id: student.id });
+		if (index > -1) {
+			student.tMachines.splice(index, 1);
+		}
+		return await this.dao.update({ id: student.id }, student);
+	}
 
-        //Parece innecesario hacer esto, pero eh, quiero estar seguro. -Edu
-        storedStudent.firstName = student.firstName;
-        storedStudent.lastName = student.lastName;
-        storedStudent.email = student.email;
-        storedStudent.password = student.password;
-        storedStudent.tMachines = student.tMachines;
+	async getTMachines(student) {
+		const daoTMachine = new TMachineDao();
 
-        return await this.dao.update({ id: student.id }, storedStudent);
-    }
+		return await daoTMachine.find({ owner: { id: student.id } });
+	}
 
-    async getStudent(filter) {
-        return await this.dao.find(filter);
-    }
+	//Ese student es completamente innecesario lmao. -Edu
+	async addCollaborator(student, idCollaborator, idTMachine) {
+		const daoTMachine = new TMachineDao();
 
-    async getStudents() {
-        return await this.dao.getAll();
-    }
+		var storedTM = daoTMachine.find({ id: idTMachine });
 
-    //This one is sketchy, lmao
-    async deleteStudent(idStudent) {
-        //Primero, hay que borrar las TMachines de dicho estudiante.
-        //Primero y medio, borrar el estudiante de las TMachines que tengan a ese como colaborador. //TODO
-        //Segundo, borrar el estudiante.
-        const daoTMachine = new TMachineDao();
+		var collabArray = storedTM.collaborators;
+		collabArray.push({ id: idCollaborator });
+		storedTM.collaborators = collabArray;
 
-        var storedStudent = this.dao.find({ id: idStudent });
-        var studentTMachines = storedStudent.tMachines;
-
-        //Parece que el forEach de los arrays no soporta async. Hora de usar magia negra de JS.
-        const arrayLength = studentTMachines.length;
-        for (let i = 0; i < arrayLength; i++) {
-            var tm = studentTMachines[i];
-            await daoTMachine.delete({ id: tm.id });
-            //Espero que esto sirva fuck.
-        }
-
-        return await this.dao.delete({ id: idStudent });
-    }
-
-    //Ese student es completamente innecesario lmao. -Edu
-    async addCollaborator(student, idCollaborator, idTMachine) {
-        const daoTMachine = new TMachineDao();
-
-        var storedTM = daoTMachine.find({ id: idTMachine });
-
-        var collabArray = storedTM.collaborators;
-        collabArray.push({ id: idCollaborator });
-        storedTM.collaborators = collabArray;
-
-        return await daoTMachine.update({ id: storedTM.id }, storedTM);
-    }
-}
+		return await daoTMachine.update({ id: storedTM.id }, storedTM);
+	}
+};
