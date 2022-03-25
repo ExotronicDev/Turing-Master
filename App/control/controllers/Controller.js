@@ -31,7 +31,7 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-	res.json({ success: true, data: foundStudent });
+	res.json({ success: true, data: foundStudent[0] });
 });
 
 //  @desc       Register new Student
@@ -123,16 +123,17 @@ exports.getTMachines = asyncHandler((req, res, next) => {
 exports.getTMachine = asyncHandler(async (req, res, next) => {
 	const control = new TMachineController();
 	//const idTMachine = req.body.idTMachine;
-	const foundTMachine = await control.getTMachine(req.body.idTMachine);
-	if (!foundTMachine) {
+	console.log(req.params);
+	const foundTMachine = await control.getTMachine(req.params.id);
+	if (foundTMachine.length == 0) {
 		return next(
 			new ErrorResponse(
-				`TMachine not found with id: ${req.body.idTMachine}.`,
+				`TMachine not found with id: ${req.params.id}.`,
 				404
 			)
 		);
 	}
-	res.json({ success: true, data: foundTMachine });
+	res.json({ success: true, data: foundTMachine[0] });
 });
 
 //  @desc       Create new TMachine

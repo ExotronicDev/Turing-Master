@@ -10,7 +10,7 @@ module.exports = class TMachineController {
 		this.stateCounter = new CounterDao();
 	}
 
-	// Funcionalidades propias
+	// Funcionalidades de Turing Machines
 
 	//Create TMachine esta implementado en StudentController
 	//Delete TMachine esta implementado en StudentController
