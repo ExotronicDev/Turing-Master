@@ -143,12 +143,12 @@ exports.createTMachine = asyncHandler(async (req, res, next) => {
 	const object = req.body;
 	const control = new StudentController();
 	const filter = { id: req.body.id };
-	const foundUser = await control.getStudent(filter);
+	const foundTMachine = await control.getStudent(filter);
 
-	if (foundUser.length != 0) {
+	if (foundTMachine.length != 0) {
 		return next(
 			new ErrorResponse(
-				`Student alreday registered with id: ${req.body.id}.`,
+				`TMachine alreday registered with id: ${req.body.id}.`,
 				500
 			)
 		);
