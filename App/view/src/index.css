@@ -1,14 +1,14 @@
 .Home {
-	width: 100wh;
-	height: 100vh;
-	background: linear-gradient(
-		69.9deg,
-		rgb(76, 79, 106) 3.2%,
-		rgb(118, 124, 163) 97.6%
-	) no-repeat center center fixed;
-	background-size: 400% 400% cover;
-	margin: auto;
-	text-align: center;
+    width: 100wh;
+    height: 100vh;
+    background: linear-gradient(
+        69.9deg,
+        rgb(76, 79, 106) 3.2%,
+        rgb(118, 124, 163) 97.6%
+    ) no-repeat center center fixed;
+    background-size: 400% 400% cover;
+    margin: auto;
+    text-align: center;
 }
 
 .Home button {
