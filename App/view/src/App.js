@@ -7,6 +7,7 @@ import Home from "./Views/Home";
 import Register from "./Views/Register";
 import Login from "./Views/Login";
 import MainView from "./Views/MainView";
+import MachinesList from "./Views/MachinesList";
 
 class App extends Component {
 	render() {
@@ -32,6 +33,11 @@ class App extends Component {
 							exact
 							path="/TuringMachineSimulator/MainView"
 							element={<MainView/>}
+						></Route>
+						<Route
+							exact
+							path="/TuringMachineSimulator/MachinesList"
+							element={<MachinesList/>}
 						></Route>
 					</Routes>
 				</Router>

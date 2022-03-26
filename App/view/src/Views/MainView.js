@@ -15,7 +15,7 @@ class MainView extends Component {
 						New Machine{" "}
 					</button>
 				</form>
-				<form action="">
+				<form action="/TuringMachineSimulator/MachinesList">
 					<button
 						id="mymachines"
 						type="submit"

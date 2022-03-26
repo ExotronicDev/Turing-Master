@@ -192,3 +192,28 @@
 	top: 350px;
 	width: 400px;
 }
+
+.MachinesList {
+	width: 100wh;
+	height: 100vh;
+	background: linear-gradient(135.9deg, rgb(138, 73, 250) 16.4%, rgb(125, 31, 165) 56.1%) no-repeat center center fixed;
+	background-size: 400% 400% cover;
+	margin: auto;
+	text-align: center;
+}
+
+.MachinesList h4 {
+	position: relative;
+	width: 471wh;
+	height: 7vh;
+	top: 20px;
+
+	font-family: "Lucida Handwriting"; /*Papyrus, Lucida Handwriting, Courier New */
+	font-style: normal;
+	font-weight: 500;
+	font-size: 40px;
+	line-height: 41px;
+	text-align: center;
+
+	color: #000000;
+}
