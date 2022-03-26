@@ -1,0 +1,2 @@
+Para correr con heroku CLI y git la aplicación:
+En raíz de repo correr "git subtree push --prefix App heroku main"

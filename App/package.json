@@ -4,8 +4,9 @@
   "description": "Simulador de Máquinas de Turing",
   "main": "server.js",
   "scripts": {
+    "start": "npm run app",
     "backend": "nodemon server.js",
-    "frontend": "cd view && npm start",
+    "frontend": "cd view && npm install react-scripts && npm start",
     "app": "concurrently -n 'Back-end,Front-end' -c 'red,blue' \"npm run backend\" \"npm run frontend\""
   },
   "repository": {
@@ -35,5 +36,8 @@
     "mongoose": "^6.2.6",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
