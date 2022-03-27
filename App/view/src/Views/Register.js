@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
-
+import "../App.css"
 const swal = require('sweetalert2')
-
 
 class Register extends Component {
 	state = {
@@ -27,7 +26,7 @@ class Register extends Component {
 
 	submit = (event) => {
 		event.preventDefault();
-
+		
         if (this.state.firstName === "" || this.state.lastName === "" || this.state.email === "" || this.state.password === "" || this.state.confirm === "" ){
             swal.fire({
                 title: 'You must fill all fields',
