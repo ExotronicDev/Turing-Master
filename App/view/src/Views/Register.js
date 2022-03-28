@@ -77,7 +77,9 @@ class Register extends Component {
             swal.fire({
                 title: 'Ocurrio un problema al crear el usuario',
                 text: err.message,
-                icon: 'error'
+                icon: 'error',
+				background: "black",
+				color: "white"
             });
         })
 

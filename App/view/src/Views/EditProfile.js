@@ -42,7 +42,7 @@ class EditProfile extends Component {
 							onChange={this.handleChange}
 						/>
 					</div>
-
+					
 					<div className="form-group">
 						<label for="id">ID</label>
 						<input
