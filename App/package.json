@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run app",
     "backend": "nodemon server.js",
-    "frontend": "cd view && npm install react-scripts && npm start",
+    "frontend": "cd view && npm start",
     "app": "concurrently -n 'Back-end,Front-end' -c 'red,blue' \"npm run backend\" \"npm run frontend\""
   },
   "repository": {
