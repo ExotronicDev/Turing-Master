@@ -1,53 +1,75 @@
-//TM-28
-const Symbol = require('./symbol');
+'use strict';
+var _ = require('lodash/fp');
 
-module.exports = class Tape {
-    constructor() {
-        this.size = 0;
-        this.head = new Symbol();
-        this.tail = new Symbol();
-        this.current = this.head;
-
-        this.head.setNext(tail);
-        this.tail.setPrevious(head);
+// Bidirectional infinite tape
+function Tape(blank, input) {
+  Object.defineProperty(this, 'blank', {
+    value: blank,
+    writable: false,
+    enumerable: true
+  });
+  // zipper data structure
+  // INVARIANTS: tape.before can be empty, tape.after must be nonempty.
+  // before: cells before the head (in order; left to right).
+  // after:  cells after and including the head (in reverse; right to left).
+  this.tape = {
+    before: [],
+    after: (input == null || input.length == 0) ? [blank] : input.slice().reverse(),
+    toString: function () {
+      return this.before.join('') + '🔎' + this.after.slice().reverse().join('');
     }
-
-    getCurrentValue() {
-        return this.current.value;
-    }
-
-    addSymbol(symbolValue) {
-        var newSymbol = new Symbol(symbolValue);
-
-        this.current.getNext().setPrevious(newSymbol);
-        newSymbol.setNext(this.current.next);
-        newSymbol.setPrevious(this.current);
-        this.current.setNext(newSymbol); 
-
-        this.current = newSymbol;
-    }
-
-    writeValue(newSymbolValue) {
-        this.current.setValue(newSymbolValue);
-    }
-
-    moveR() {
-        if (this.size !== 0 && this.current.getNext() !== null) {
-            // Check if the next value is not the tail
-            if (this.current.getNext().getValue() !== null) {
-                this.current = this.current.getNext();
-                console.log("Moved Right!")
-            }
-        }
-    }
-
-    moveL() {
-        if (this.size !== 0 && this.current.getPrevious() !== null) {
-            // Check if the previous value is not the head
-            if (this.current.getPrevious().getValue() !== null) {
-                this.current = this.current.getPrevious();
-                console.log("Moved Left!");
-            }
-        }
-    }
+  };
 }
+
+// Read the value at the tape head.
+Tape.prototype.read = function () {
+  return _.last(this.tape.after);
+};
+Tape.prototype.write = function (symbol) {
+  this.tape.after[this.tape.after.length - 1] = symbol;
+};
+
+Tape.prototype.headRight = function () {
+  var before = this.tape.before,
+      after = this.tape.after;
+  before.push(after.pop());
+  if (_.isEmpty(after)) {
+    after.push(this.blank);
+  }
+};
+Tape.prototype.headLeft = function () {
+  var before = this.tape.before,
+      after = this.tape.after;
+  if (_.isEmpty(before)) {
+    before.push(this.blank);
+  }
+  after.push(before.pop());
+};
+
+Tape.prototype.toString = function () {
+  return this.tape.toString();
+};
+
+// for tape visualization. not part of TM definition.
+// Read the value at an offset from the tape head.
+// 0 is the tape head. + is to the right, - to the left.
+Tape.prototype.readOffset = function (i) {
+  var tape = this.tape;
+  if (i >= 0) {
+    // right side: offset [0..length-1] ↦ array index [length-1..0]
+    return (i <= tape.after.length - 1) ? tape.after[tape.after.length - 1 - i] : this.blank;
+  } else {
+    // left side: offset [-1..-length] ↦ array index [length-1..0]
+    return (i >= -tape.before.length) ? tape.before[tape.before.length + i] : this.blank;
+  }
+};
+
+// for tape visualization.
+// Read the values from an offset range (inclusive of start and end).
+Tape.prototype.readRange = function (start, end) {
+  return _.range(start, end+1).map(function (i) {
+    return this.readOffset(i);
+  }, this);
+};
+
+module.exports = Tape;

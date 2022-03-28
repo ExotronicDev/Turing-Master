@@ -46,7 +46,4 @@ export const NonChangeValues = {
     ERROR_COLOUR: '#d15545',
 };
 
-export type LightThemeType = typeof Themes.lightTheme;
-export type DarkThemeType = typeof Themes.darkTheme;
-
 export default Themes;
