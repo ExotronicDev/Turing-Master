@@ -25,7 +25,7 @@ class MainView extends Component {
 						View My Machines{" "}
 					</button>
 				</form>
-				<form action="">
+				<form action="/TuringMachineSimulator/EditProfile">
 					<button
 						id="edit"
 						type="submit"

@@ -8,6 +8,7 @@ import Register from "./Views/Register";
 import Login from "./Views/Login";
 import MainView from "./Views/MainView";
 import MachinesList from "./Views/MachinesList";
+import EditProfile from "./Views/EditProfile";
 
 class App extends Component {
 	render() {
@@ -38,6 +39,11 @@ class App extends Component {
 							exact
 							path="/TuringMachineSimulator/MachinesList"
 							element={<MachinesList/>}
+						></Route>
+						<Route
+							exact
+							path="/TuringMachineSimulator/EditProfile"
+							element={<EditProfile/>}
 						></Route>
 					</Routes>
 				</Router>
