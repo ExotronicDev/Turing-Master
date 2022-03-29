@@ -67,6 +67,9 @@ module.exports = class StudentController {
 		return await this.dao.delete({ id: idStudent });
 	}
 
+	//
+	// Requiere cambio
+	//
 	// Funcionalidades de Turing Machines
 	async createTMachine(student, description) {
 		const daoTMachine = new TMachineDao();
@@ -76,11 +79,9 @@ module.exports = class StudentController {
 		});
 		const countObj = counter[0];
 		let nextId = countObj.count;
-		console.log(`New TMachine counter: ${nextId}`);
 
 		const tMachine = new TMachine({ id: nextId, description: description });
 		tMachine.owner.id = student.id;
-		console.log(`New TMachine: ${tMachine}`);
 
 		student.tMachines.push({
 			id: tMachine.id,

@@ -1,4 +1,4 @@
-const { express, jwt, bcrypt } = require("../config/dependencies");
+const { express } = require("../config/dependencies");
 const {
 	getTMachines,
 	createTMachine,
@@ -16,7 +16,5 @@ tmachinesRouter
 	.get(getTMachine)
 	.put(updateTMachine)
 	.delete(deleteTMachine);
-
-// tmachinesRouter.route("/:id/tmachines").get(getStudentTMachines);
 
 module.exports = tmachinesRouter;

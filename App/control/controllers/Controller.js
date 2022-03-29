@@ -117,29 +117,6 @@ exports.getTMachines = asyncHandler(async (req, res, next) => {
 	});
 });
 
-//  @desc       Get Student TMachines
-//  @route      GET /api/v1/students/:idStudent/tmachines
-//  @access     Private
-exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
-	const control = new StudentController();
-	const foundStudent = await control.getStudent({ id: req.params.idStudent });
-	if (foundStudent.length == 0) {
-		return next(
-			new ErrorResponse(
-				`Student with id: ${req.params.idStudent} does not exist.`,
-				404
-			)
-		);
-	}
-
-	const foundTMachines = await control.getTMachines(foundStudent[0]);
-	res.json({
-		success: true,
-		count: foundTMachines.length,
-		data: foundTMachines,
-	});
-});
-
 //  @desc       Get single TMachine
 //  @route      GET /api/v1/tmachines/:id
 //  @access     Public
@@ -157,6 +134,7 @@ exports.getTMachine = asyncHandler(async (req, res, next) => {
 	res.json({ success: true, data: foundTMachine[0] });
 });
 
+// 	No funcional
 //  @desc       Create new TMachine
 //  @route      POST /api/v1/tmachines
 //  @access     Private
@@ -177,41 +155,6 @@ exports.createTMachine = asyncHandler(async (req, res, next) => {
 
 	const savedUser = await control.createTMachine(object);
 	res.json({ success: true, data: savedUser });
-});
-
-//  @desc       Create new Student TMachine
-//  @route      POST /api/v1/students/:idStudent/tmachines
-//  @access     Private
-exports.createStudentTMachine = asyncHandler(async (req, res, next) => {
-	const description = req.body.description;
-	const control = new StudentController();
-	const foundStudent = await control.getStudent({ id: req.params.idStudent });
-	if (foundStudent.length == 0) {
-		return next(
-			new ErrorResponse(
-				`Student with id: ${req.params.idStudent} does not exist.`,
-				404
-			)
-		);
-	}
-
-	// const filter = { id: req.body.id };
-	// const foundTMachine = await control.getStudent(filter);
-
-	// if (foundTMachine.length != 0) {
-	// 	return next(
-	// 		new ErrorResponse(
-	// 			`TMachine alreday registered with id: ${req.body.id}.`,
-	// 			500
-	// 		)
-	// 	);
-	// }
-
-	const savedTMachine = await control.createTMachine(
-		foundStudent[0],
-		description
-	);
-	res.json({ success: true, data: savedTMachine });
 });
 
 //  @desc       Update TMachine
@@ -236,6 +179,107 @@ exports.updateTMachine = asyncHandler(async (req, res, next) => {
 //  @route      DELETE /api/v1/tmachines/:id
 //  @access     Private
 exports.deleteTMachine = asyncHandler(async (req, res, next) => {
+	const control = new StudentController();
+	const filter = { id: req.body.id };
+	const foundUser = await control.getStudent(filter);
+	if (!foundUser) {
+		return next(
+			new ErrorResponse(`Student not found with id: ${req.body.id}.`, 404)
+		);
+	}
+	const deletedUser = await control.deleteTMachine(filter);
+	res.json({ success: true, data: deletedUser });
+});
+
+//-----------------Student TMachines-----------------//
+
+//  @desc       Get Student TMachines
+//  @route      GET /api/v1/students/:idStudent/tmachines
+//  @access     Private
+exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
+	const control = new StudentController();
+	const foundStudent = await control.getStudent({ id: req.params.idStudent });
+	if (foundStudent.length == 0) {
+		return next(
+			new ErrorResponse(
+				`Student with id: ${req.params.idStudent} does not exist.`,
+				404
+			)
+		);
+	}
+
+	const foundTMachines = await control.getTMachines(foundStudent[0]);
+	res.json({
+		success: true,
+		count: foundTMachines.length,
+		data: foundTMachines,
+	});
+});
+
+// Voy aca
+//  @desc       Get single Student TMachine
+//  @route      GET /api/v1/:idStudent/tmachines/:idTMachine
+//  @access     Private
+exports.getStudentTMachine = asyncHandler(async (req, res, next) => {
+	const control = new TMachineController();
+	const foundTMachine = await control.getTMachine(req.params.id);
+	if (foundTMachine.length == 0) {
+		return next(
+			new ErrorResponse(
+				`TMachine not found with id: ${req.params.id}.`,
+				404
+			)
+		);
+	}
+	res.json({ success: true, data: foundTMachine[0] });
+});
+
+//  @desc       Create new Student TMachine
+//  @route      POST /api/v1/students/:idStudent/tmachines
+//  @access     Private
+exports.createStudentTMachine = asyncHandler(async (req, res, next) => {
+	const description = req.body.description;
+	const control = new StudentController();
+	const foundStudent = await control.getStudent({ id: req.params.idStudent });
+	if (foundStudent.length == 0) {
+		return next(
+			new ErrorResponse(
+				`Student with id: ${req.params.idStudent} does not exist.`,
+				404
+			)
+		);
+	}
+
+	const savedTMachine = await control.createTMachine(
+		foundStudent[0],
+		description
+	);
+	res.json({ success: true, data: savedTMachine });
+});
+
+// Voy aca
+//  @desc       Update Student TMachine
+//  @route      PUT /api/v1/students/:idStudent/tmachines/:idTMachine
+//  @access     Private
+exports.updateStudentTMachine = asyncHandler(async (req, res, next) => {
+	const object = req.body;
+	const control = new StudentController();
+	const filter = { id: req.body.id };
+	const foundUser = await control.getStudent(filter);
+	if (!foundUser) {
+		return next(
+			new ErrorResponse(`Student not found with id: ${req.body.id}.`, 404)
+		);
+	}
+
+	const updatedUser = await control.updateTMachine(object);
+	res.json({ success: true, data: updatedUser });
+});
+
+//  @desc       Delete Student TMachine
+//  @route      DELETE /api/v1/students/:idStudent/tmachines/:idTMachine
+//  @access     Private
+exports.deleteStudentTMachine = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
 	const filter = { id: req.body.id };
 	const foundUser = await control.getStudent(filter);

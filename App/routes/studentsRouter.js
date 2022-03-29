@@ -1,4 +1,4 @@
-const { express, jwt, bcrypt } = require("../config/dependencies");
+const { express } = require("../config/dependencies");
 const {
 	getStudents,
 	registerStudent,
@@ -26,5 +26,7 @@ studentsRouter
 	.route("/:idStudent/tmachines")
 	.get(getStudentTMachines)
 	.post(createStudentTMachine);
+
+studentsRouter.route(":idStudent/tmachines/:idTMachine").get().put().delete();
 
 module.exports = studentsRouter;
