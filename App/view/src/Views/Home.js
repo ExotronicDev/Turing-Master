@@ -35,6 +35,16 @@ class Home extends Component {
 						Register{" "}
 					</button>
 				</form>
+				<form action="/TuringMachineSimulator/MachineSimulator">
+					<button
+						id="Simulator"
+						type="submit"
+						className="btn btn-primary btn-lg"
+					>
+						{" "}
+						Student{" "}
+					</button>
+				</form>
 			</div>
 		);
 	}
