@@ -40,9 +40,10 @@ class Home extends Component {
 						id="Simulator"
 						type="submit"
 						className="btn btn-primary btn-lg"
+						style={{ marginTop: "400px", width: "400px" }}
 					>
 						{" "}
-						Student{" "}
+						Simulator{" "}
 					</button>
 				</form>
 			</div>
