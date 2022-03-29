@@ -6,6 +6,8 @@ const {
 	updateStudent,
 	deleteStudent,
 	getCounter,
+	getStudentTMachines,
+	createStudentTMachine,
 } = require("../control/controllers/Controller");
 
 const studentsRouter = express.Router();
@@ -19,5 +21,10 @@ studentsRouter
 	.get(getStudent)
 	.put(updateStudent)
 	.delete(deleteStudent);
+
+studentsRouter
+	.route("/:idStudent/tmachines")
+	.get(getStudentTMachines)
+	.post(createStudentTMachine);
 
 module.exports = studentsRouter;

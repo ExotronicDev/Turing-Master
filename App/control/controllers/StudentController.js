@@ -71,11 +71,16 @@ module.exports = class StudentController {
 	async createTMachine(student, description) {
 		const daoTMachine = new TMachineDao();
 
-		const counter = this.tMachineCounter.find({ name: "tmachine" });
-		const nextId = counter.count;
+		const counter = await this.tMachineCounter.find({
+			name: "tmachine",
+		});
+		const countObj = counter[0];
+		let nextId = countObj.count;
+		console.log(`New TMachine counter: ${nextId}`);
 
 		const tMachine = new TMachine({ id: nextId, description: description });
 		tMachine.owner.id = student.id;
+		console.log(`New TMachine: ${tMachine}`);
 
 		student.tMachines.push({
 			id: tMachine.id,
@@ -85,8 +90,8 @@ module.exports = class StudentController {
 		await this.dao.update({ id: student.id }, student);
 
 		nextId++;
-		counter.count = nextId;
-		await this.tMachineCounter.update({ name: "tmachine" }, counter);
+		countObj.count = nextId;
+		await this.tMachineCounter.update({ name: "tmachine" }, countObj);
 
 		return await daoTMachine.save(tMachine);
 	}

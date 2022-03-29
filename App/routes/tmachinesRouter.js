@@ -17,4 +17,6 @@ tmachinesRouter
 	.put(updateTMachine)
 	.delete(deleteTMachine);
 
+// tmachinesRouter.route("/:id/tmachines").get(getStudentTMachines);
+
 module.exports = tmachinesRouter;
