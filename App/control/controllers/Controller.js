@@ -122,8 +122,6 @@ exports.getTMachines = asyncHandler((req, res, next) => {
 //  @access     Public
 exports.getTMachine = asyncHandler(async (req, res, next) => {
 	const control = new TMachineController();
-	//const idTMachine = req.body.idTMachine;
-	console.log(req.params);
 	const foundTMachine = await control.getTMachine(req.params.id);
 	if (foundTMachine.length == 0) {
 		return next(
