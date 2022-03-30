@@ -1,7 +1,7 @@
 const { mongoose, bcryptjs } = require("../config/dependencies");
 const { Schema } = mongoose;
 
-const UserSchema = new Schema({
+const StudentSchema = new Schema({
 	id: {
 		type: Number,
 		index: true,
@@ -36,11 +36,12 @@ const UserSchema = new Schema({
 });
 
 // Encrypt password with bcryptjs
-UserSchema.pre("save", async function (next) {
+StudentSchema.pre("save", async function (next) {
 	const salt = await bcryptjs.genSalt(10);
 	this.password = await bcryptjs.hash(this.password, salt);
+	next();
 });
 
-const Student = mongoose.model("Student", UserSchema);
+const Student = mongoose.model("Student", StudentSchema);
 
 module.exports = Student;
