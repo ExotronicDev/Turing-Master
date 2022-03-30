@@ -16,6 +16,7 @@ const {
 	deleteStudentTMachine,
 } = require("../control/controllers/Controller");
 
+// Create router
 const studentsRouter = express.Router();
 
 // Counter
@@ -36,10 +37,7 @@ studentsRouter
 	.delete(protect, deleteStudent);
 
 // Student TMachines routes
-studentsRouter
-	.route("/:idStudent/tmachines")
-	.get(protect, getStudentTMachines)
-	.post(protect, createStudentTMachine); // cambio de ruta
+studentsRouter.route("/:id/tmachines").get(protect, getStudentTMachines);
 
 // studentsRouter
 // 	.route(":idStudent/tmachines/:idTMachine")
