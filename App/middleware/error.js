@@ -25,7 +25,7 @@ const errorHandler = (err, req, res, next) => {
 
 	console.log(`Error: ${err}`.red.bold);
 
-	res.status(err.statusCode || 500).json({
+	res.json({
 		success: false,
 		error: err.message || "Server Error",
 	});
