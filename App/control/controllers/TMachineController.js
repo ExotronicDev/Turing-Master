@@ -17,9 +17,10 @@ module.exports = class TMachineController {
 
 	async updateTMachine(tMachine) {
 		//Esto no actualiza los arrays porque eso se hace en otro lado.
-		const storedTM = this.dao.find({ id: tMachine.id });
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
 		storedTM.description = tMachine.description;
-		storedTM.initialState = tMachine.initialState;
+		//storedTM.initialState = tMachine.initialState;
 
 		return await this.dao.update({ id: storedTM.id }, storedTM);
 	}
@@ -37,11 +38,12 @@ module.exports = class TMachineController {
 	async createState(tMachine, stateName) {
 		const daoState = new StateDao();
 
-		const query = this.stateCounter.find({ name: "state" });
+		const query = await this.stateCounter.find({ name: "state" });
 		const counter = query[0];
 		let nextId = counter.count;
 
-		const storedTM = this.dao.find({ id: tMachine.id });
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
 		var tmStates = storedTM.states;
 
 		const newState = new State({
@@ -67,8 +69,10 @@ module.exports = class TMachineController {
 	async setStartState(tMachine, idState) {
 		const daoState = new StateDao();
 
-		const storedTM = this.dao.find({ id: tMachine.id });
-		const storedState = daoState.find({ id: idState });
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
+		const storedStateQuery = await daoState.find({ id: idState });
+		const storedState = storedStateQuery[0];
 
 		storedTM.initialState.id = storedState.id;
 		storedTM.initialState.name = storedState.name;
@@ -79,8 +83,10 @@ module.exports = class TMachineController {
 	async updateState(tMachine, updatedState) {
 		const daoState = new StateDao();
 
-		const storedTM = this.dao.find({ id: tMachine.id });
-		const storedState = daoState.find({ id: updatedState.id });
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
+		const storedStateQuery = await daoState.find({ id: updatedState.id });
+		const storedState = storedStateQuery[0];
 
 		storedState.name = updatedState.name;
 		storedState.incomingTransitions = updatedState.incomingTransitions;
@@ -123,7 +129,8 @@ module.exports = class TMachineController {
 	async deleteState(tMachine, stateName) {
 		const daoState = new StateDao();
 
-		const storedTM = this.dao.find({ id: tMachine.id });
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
 		const stateArray = storedTM.states;
 
 		let index = -1;

@@ -19,8 +19,10 @@ module.exports = class StateController {
         //Esos parametros los recibe del controlador grande. Estos deberían pasar directo del respectivo router.
         //Hay que cambiar el MoveValue a un número
         //Propuesta: -1 es izquierda, 1 es derecha, 0 es nada.
-        var storedOrigin = this.dao.find({ id: idOriginState });
-        var storedTarget = this.dao.find({ id: idTargetState });
+        var storedOriginQuery = await this.dao.find({ id: idOriginState });
+        var storedOrigin = storedOriginQuery[0];
+        var storedTargetQuery = await this.dao.find({ id: idTargetState });
+        var storedTarget = storedTargetQuery[0];
 
         const newTransition = new Transition({
             id: nextId,
@@ -78,7 +80,8 @@ module.exports = class StateController {
     async updateIncomingTransition(idState, newTransition) {
         const daoTransition = new TransitionDao();
 
-        var storedState = this.dao.find({ id: idState });
+        var storedStateQuery = await this.dao.find({ id: idState });
+        var storedState = storedStateQuery[0];
         var storedIncomingTransitions = storedState.incomingTransitions;
 
         for (let i = 0; i < storedIncomingTransitions.length; i++) {
@@ -98,7 +101,8 @@ module.exports = class StateController {
     async updateExitTransition(idState, newTransition) {
         const daoTransition = new TransitionDao();
 
-        var storedState = this.dao.find({ id: idState });
+        var storedStateQuery = await this.dao.find({ id: idState });
+        var storedState = storedStateQuery[0];
         var storedExitTransitions = storedState.exitTransitions;
 
         for (let i = 0; i < storedExitTransitions.length; i++) {
@@ -136,8 +140,10 @@ module.exports = class StateController {
     async deleteTransition(idOriginState, idTargetState, idTransition) {
         const daoTransition = new TransitionDao();
 
-        var storedOrigin = this.dao.find({ id: idOriginState });
-        var storedTarget = this.dao.find({ id: idTargetState });
+        var storedOriginQuery = await this.dao.find({ id: idOriginState });
+        var storedOrigin = storedOriginQuery[0];
+        var storedTargetQuery = await this.dao.find({ id: idTargetState });
+        var storedTarget = storedTargetQuery[0];
 
         //Quitar la transition del storedOrigin.
         var storedExitTransitions = storedOrigin.exitTransitions;
