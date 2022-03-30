@@ -37,8 +37,9 @@ module.exports = class TMachineController {
 	async createState(tMachine, stateName) {
 		const daoState = new StateDao();
 
-		const counter = this.stateCounter.find({ name: "state" });
-		const nextId = counter.count;
+		const query = this.stateCounter.find({ name: "state" });
+		const counter = query[0];
+		let nextId = counter.count;
 
 		const storedTM = this.dao.find({ id: tMachine.id });
 		var tmStates = storedTM.states;

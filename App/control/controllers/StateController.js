@@ -12,8 +12,9 @@ module.exports = class StateController {
 
     async createTransition(idOriginState, tReadValue, tWriteValue, tMoveValue, idTargetState) {
         const daoTransition = new TransitionDao();
-        const counter = this.transitionCounter.find({ name: "transition" });
-        const nextId = counter.count;
+        const query = this.transitionCounter.find({ name: "transition" });
+        const counter = query[0];
+        let nextId = counter.count;
         
         //Esos parametros los recibe del controlador grande. Estos deberían pasar directo del respectivo router.
         //Hay que cambiar el MoveValue a un número
