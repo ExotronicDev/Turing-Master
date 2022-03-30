@@ -189,8 +189,10 @@ exports.getTMachine = asyncHandler(async (req, res, next) => {
 //  @route      POST /api/v1/tmachines
 //  @access     Private
 exports.createTMachine = asyncHandler(async (req, res, next) => {
-	const object = req.body;
-	const control = new StudentController();
+	// const object = req.body;
+	// Add student to req.body
+	req.body.user = req.user.id;
+	const control = new TMachineController();
 	const filter = { id: req.body.id };
 	const foundTMachine = await control.getStudent(filter);
 
@@ -326,6 +328,7 @@ exports.updateStudentTMachine = asyncHandler(async (req, res, next) => {
 	res.json({ success: true, data: updatedUser });
 });
 
+// Voy aca
 //  @desc       Delete Student TMachine
 //  @route      DELETE /api/v1/students/:idStudent/tmachines/:idTMachine
 //  @access     Private
