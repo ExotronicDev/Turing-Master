@@ -4,6 +4,7 @@ const {
 	getCounter,
 	registerStudent,
 	loginStudent,
+	logout,
 	getMe,
 	getStudents,
 	getStudent,
@@ -24,6 +25,7 @@ studentsRouter.route("/counter").get(getCounter);
 // Authentication routes
 studentsRouter.route("/register").post(registerStudent);
 studentsRouter.route("/login").post(loginStudent);
+studentsRouter.route("/logout").get(logout);
 studentsRouter.route("/me").get(protect, getMe);
 
 // Student routes

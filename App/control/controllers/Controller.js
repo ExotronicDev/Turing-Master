@@ -44,6 +44,18 @@ exports.loginStudent = asyncHandler(async (req, res, next) => {
 	sendTokenResponse(loggedStudent, 200, res);
 });
 
+//  @desc       Logout Student and clear cookie
+//  @route      POST /api/v1/students/logout
+//  @access     Private
+exports.logout = asyncHandler(async (req, res, next) => {
+	res.cookie("token", "none", {
+		expires: new Date(Date.now() + 10 * 1000),
+		httpOnly: true,
+	});
+
+	res.json({ success: true, data: {} });
+});
+
 //  @desc       Login Student
 //  @route      POST /api/v1/students/me
 //  @access     Private
@@ -169,11 +181,21 @@ exports.getTMachines = asyncHandler(async (req, res, next) => {
 
 //  @desc       Get single TMachine
 //  @route      GET /api/v1/tmachines/:id
-//  @access     Public
+//  @access     Private
 exports.getTMachine = asyncHandler(async (req, res, next) => {
-	const control = new TMachineController();
-	const foundTMachine = await control.getTMachine(req.params.id);
-	if (foundTMachine.length == 0) {
+	const controlStudent = new StudentController();
+	const controlTMachine = new TMachineController();
+	const foundStudents = await controlStudent.getStudent({ id: req.user.id });
+	if (foundStudents.length == 0) {
+		return next(
+			new ErrorResponse(
+				`Student (logged in?) with id: ${req.params.idStudent} does not exist.`,
+				404
+			)
+		);
+	}
+	const foundTMachines = await controlTMachine.getTMachine(req.params.id);
+	if (foundTMachines.length == 0) {
 		return next(
 			new ErrorResponse(
 				`TMachine not found with id: ${req.params.id}.`,
@@ -181,7 +203,22 @@ exports.getTMachine = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-	res.json({ success: true, data: foundTMachine[0] });
+
+	const loggedStudent = foundStudents[0];
+	const requestedTMachine = foundTMachines[0];
+	if (loggedStudent.id !== requestedTMachine.owner.id) {
+		return next(
+			new ErrorResponse(
+				`Current user does not have access to the requested TMachine with id: ${req.params.id}.`,
+				401
+			)
+		);
+	}
+
+	res.json({
+		success: true,
+		data: requestedTMachine,
+	});
 });
 
 // 	No funcional
@@ -275,9 +312,10 @@ exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
 exports.getStudentTMachine = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
 	const controlTMachine = new TMachineController();
+	const { idStudent, idTMachine } = req.params;
 	console.log("ABER");
 
-	const foundStudent = await control.getStudent({ id: req.params.idStudent });
+	const foundStudent = await control.getStudent({ id: idStudent });
 	if (foundStudent.length == 0) {
 		return next(
 			new ErrorResponse(
@@ -287,9 +325,7 @@ exports.getStudentTMachine = asyncHandler(async (req, res, next) => {
 		);
 	}
 
-	const foundTMachines = await controlTMachine.getTMachine(
-		req.params.idTMachine
-	);
+	const foundTMachines = await controlTMachine.getTMachine(idTMachine);
 	res.json({
 		success: true,
 		data: foundTMachines[0],
