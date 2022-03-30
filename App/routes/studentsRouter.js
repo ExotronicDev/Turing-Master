@@ -12,7 +12,6 @@ const {
 	deleteStudent,
 	getStudentTMachines,
 	createStudentTMachine,
-	getStudentTMachine,
 	updateStudentTMachine,
 	deleteStudentTMachine,
 } = require("../control/controllers/Controller");
@@ -40,12 +39,12 @@ studentsRouter
 studentsRouter
 	.route("/:idStudent/tmachines")
 	.get(protect, getStudentTMachines)
-	.post(protect, createStudentTMachine);
+	.post(protect, createStudentTMachine); // cambio de ruta
 
-studentsRouter
-	.route(":idStudent/tmachines/:idTMachine")
-	.get(protect, getStudentTMachine)
-	.put(protect, updateStudentTMachine)
-	.delete(protect, deleteStudentTMachine);
+// studentsRouter
+// 	.route(":idStudent/tmachines/:idTMachine")
+// 	.get(protect, getStudentTMachine)
+// 	.put(protect, updateStudentTMachine)
+// 	.delete(protect, deleteStudentTMachine);
 
 module.exports = studentsRouter;

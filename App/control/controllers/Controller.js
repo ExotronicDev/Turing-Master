@@ -158,6 +158,30 @@ exports.deleteStudent = asyncHandler(async (req, res, next) => {
 	res.json({ success: true, data: deletedStudent });
 });
 
+//	HACE FALTA VERIFICAR OWNER
+//  @desc       Get Student TMachines
+//  @route      GET /api/v1/students/:idStudent/tmachines
+//  @access     Private
+exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
+	const control = new StudentController();
+	const foundStudent = await control.getStudent({ id: req.params.idStudent });
+	if (foundStudent.length == 0) {
+		return next(
+			new ErrorResponse(
+				`Student with id: ${req.params.idStudent} does not exist.`,
+				404
+			)
+		);
+	}
+
+	const foundTMachines = await control.getTMachines(foundStudent[0]);
+	res.json({
+		success: true,
+		count: foundTMachines.length,
+		data: foundTMachines,
+	});
+});
+
 //-----------------Counter-----------------//
 
 exports.getCounter = asyncHandler(async (req, res, next) => {
@@ -246,6 +270,29 @@ exports.createTMachine = asyncHandler(async (req, res, next) => {
 	res.json({ success: true, data: savedUser });
 });
 
+//  @desc       Create new Student TMachine
+//  @route      POST /api/v1/students/:idStudent/tmachines
+//  @access     Private
+exports.createStudentTMachine = asyncHandler(async (req, res, next) => {
+	const description = req.body.description;
+	const control = new StudentController();
+	const foundStudent = await control.getStudent({ id: req.params.idStudent });
+	if (foundStudent.length == 0) {
+		return next(
+			new ErrorResponse(
+				`Student with id: ${req.params.idStudent} does not exist.`,
+				404
+			)
+		);
+	}
+
+	const savedTMachine = await control.createTMachine(
+		foundStudent[0],
+		description
+	);
+	res.json({ success: true, data: savedTMachine });
+});
+
 //  @desc       Update TMachine
 //  @route      PUT /api/v1/tmachines/:id
 //  @access     Private
@@ -281,79 +328,6 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 });
 
 //-----------------Student TMachines-----------------//
-
-//  @desc       Get Student TMachines
-//  @route      GET /api/v1/students/:idStudent/tmachines
-//  @access     Private
-exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
-	const control = new StudentController();
-	const foundStudent = await control.getStudent({ id: req.params.idStudent });
-	if (foundStudent.length == 0) {
-		return next(
-			new ErrorResponse(
-				`Student with id: ${req.params.idStudent} does not exist.`,
-				404
-			)
-		);
-	}
-
-	const foundTMachines = await control.getTMachines(foundStudent[0]);
-	res.json({
-		success: true,
-		count: foundTMachines.length,
-		data: foundTMachines,
-	});
-});
-
-// Voy aca
-//  @desc       Get single Student TMachine
-//  @route      GET /api/v1/students/:idStudent/tmachines/:idTMachine
-//  @access     Private
-exports.getStudentTMachine = asyncHandler(async (req, res, next) => {
-	const control = new StudentController();
-	const controlTMachine = new TMachineController();
-	const { idStudent, idTMachine } = req.params;
-	console.log("ABER");
-
-	const foundStudent = await control.getStudent({ id: idStudent });
-	if (foundStudent.length == 0) {
-		return next(
-			new ErrorResponse(
-				`Student with id: ${req.params.idStudent} does not exist.`,
-				404
-			)
-		);
-	}
-
-	const foundTMachines = await controlTMachine.getTMachine(idTMachine);
-	res.json({
-		success: true,
-		data: foundTMachines[0],
-	});
-});
-
-//  @desc       Create new Student TMachine
-//  @route      POST /api/v1/students/:idStudent/tmachines
-//  @access     Private
-exports.createStudentTMachine = asyncHandler(async (req, res, next) => {
-	const description = req.body.description;
-	const control = new StudentController();
-	const foundStudent = await control.getStudent({ id: req.params.idStudent });
-	if (foundStudent.length == 0) {
-		return next(
-			new ErrorResponse(
-				`Student with id: ${req.params.idStudent} does not exist.`,
-				404
-			)
-		);
-	}
-
-	const savedTMachine = await control.createTMachine(
-		foundStudent[0],
-		description
-	);
-	res.json({ success: true, data: savedTMachine });
-});
 
 // Voy aca
 //  @desc       Update Student TMachine
