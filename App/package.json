@@ -4,6 +4,8 @@
   "description": "Simulador de Máquinas de Turing",
   "main": "server.js",
   "scripts": {
+    "first-install": "npm install && cd view && npm install && cd ..",
+    "heroku-postbuild": "npm first-install && npm start",
     "start": "npm run app",
     "backend": "nodemon server.js",
     "frontend": "cd view && npm start",
