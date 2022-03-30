@@ -69,7 +69,7 @@ const sendTokenResponse = (student, statusCode, res) => {
 		options.httpOnly = true;
 	}
 
-	res.status(statusCode).cookie("token", token, options).json({
+	res.cookie("token", token, options).json({
 		success: true,
 		token,
 		data: student,
