@@ -14,7 +14,6 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
 	const filter = { $or: [{ email: req.body.email }, { id: req.body.id }] };
 	const foundStudent = await control.getStudent(filter);
-
 	if (foundStudent.length != 0) {
 		return next(
 			new ErrorResponse(
@@ -23,10 +22,8 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-
 	const savedStudent = await control.register(student);
-	const token = savedStudent.getSignedJwtToken();
-	res.json({ success: true, token, data: savedStudent });
+	sendTokenResponse(savedStudent, 200, res);
 });
 
 //  @desc       Login Student
@@ -40,15 +37,44 @@ exports.loginStudent = asyncHandler(async (req, res, next) => {
 		);
 	}
 	const control = new StudentController();
-	//const foundStudent = await control.getStudent(filter);
 	const loggedStudent = await control.login(email, password);
 	if (!loggedStudent) {
 		return next(new ErrorResponse(`Invalid credentials.`, 401));
 	}
-
-	const token = loggedStudent.getSignedJwtToken();
-	res.json({ success: true, token, data: loggedStudent });
+	sendTokenResponse(loggedStudent, 200, res);
 });
+
+//  @desc       Login Student
+//  @route      POST /api/v1/students/me
+//  @access     Private
+exports.getMe = asyncHandler(async (req, res, next) => {
+	const control = new StudentController();
+	const student = await control.getStudent({ id: req.student.id });
+
+	res.json({ success: true, data: student });
+});
+
+const sendTokenResponse = (student, statusCode, res) => {
+	// Create token
+	const token = student.getSignedJwtToken();
+
+	// Miliseconds -> seconds -> minutes -> hours -> days
+	const days = process.env.JWT_COOKIE_EXPIRE * 1000 * 60 * 60 * 24;
+	const options = {
+		expires: new Date(Date.now() + days),
+		httpOnly: true,
+	};
+
+	if (process.env.NODE_ENV === "production") {
+		options.secure = true;
+	}
+
+	res.status(statusCode).cookie("token", token, options).json({
+		success: true,
+		token,
+		data: student,
+	});
+};
 
 //-----------------Student-----------------//
 

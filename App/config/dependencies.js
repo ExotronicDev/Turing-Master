@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const colors = require("colors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 module.exports = {
 	express,
@@ -17,4 +18,5 @@ module.exports = {
 	colors,
 	bcrypt,
 	jwt,
+	cookieParser,
 };
