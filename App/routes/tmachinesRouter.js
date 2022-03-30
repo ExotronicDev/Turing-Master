@@ -1,4 +1,5 @@
 const { express } = require("../config/dependencies");
+const { protect } = require("../middleware/auth");
 const {
 	getTMachines,
 	createTMachine,
@@ -9,8 +10,8 @@ const {
 
 const tmachinesRouter = express.Router();
 
+// TMachine routes
 tmachinesRouter.route("/").get(getTMachines).post(createTMachine);
-
 tmachinesRouter
 	.route("/:id")
 	.get(getTMachine)
