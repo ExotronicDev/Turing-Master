@@ -1,20 +1,24 @@
 const { express } = require("../config/dependencies");
 const {
-	getStudents,
+	getCounter,
 	registerStudent,
+	loginStudent,
+	getStudents,
 	getStudent,
 	updateStudent,
 	deleteStudent,
-	getCounter,
 	getStudentTMachines,
 	createStudentTMachine,
 } = require("../control/controllers/Controller");
 
 const studentsRouter = express.Router();
 
-studentsRouter.route("/").get(getStudents).post(registerStudent);
-
 studentsRouter.route("/counter").get(getCounter);
+
+studentsRouter.route("/register").post(registerStudent);
+studentsRouter.route("/login").post(loginStudent);
+
+studentsRouter.route("/").get(getStudents);
 
 studentsRouter
 	.route("/:id")

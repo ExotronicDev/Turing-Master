@@ -5,6 +5,10 @@ module.exports = class StudentDao {
 		return await student.find(filter);
 	}
 
+	async findWithPassword(filter) {
+		return await student.findOne(filter).select("+password");
+	}
+
 	async save(object) {
 		return await object.save();
 	}

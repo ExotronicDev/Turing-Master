@@ -15,6 +15,8 @@ const StudentSchema = new Schema({
 	lastName: { type: String, required: [true, "Please add a last name."] },
 	email: {
 		type: String,
+		index: true,
+		unique: true,
 		required: [true, "Please add an email."],
 		match: [
 			/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
@@ -47,6 +49,11 @@ StudentSchema.methods.getSignedJwtToken = function () {
 	return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {
 		expiresIn: process.env.JWT_EXPIRE,
 	});
+};
+
+// Match user entered password to hashed password of user in database
+StudentSchema.methods.matchPassword = async function (enteredPassword) {
+	return await bcrypt.compare(enteredPassword, this.password);
 };
 
 const Student = mongoose.model("Student", StudentSchema);

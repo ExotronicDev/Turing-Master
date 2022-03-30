@@ -1,4 +1,3 @@
-const asyncHandler = require("../../middleware/async");
 const TMachine = require("../../model/tmachine");
 const Student = require("../../model/student");
 
@@ -12,7 +11,7 @@ module.exports = class StudentController {
 		this.tMachineCounter = new CounterDao();
 	}
 
-	// Funcionalidades propias de estudiante
+	// Funcionalidades de autenticación
 	async register(student) {
 		const newStudent = new Student({
 			id: student.id,
@@ -25,6 +24,21 @@ module.exports = class StudentController {
 		return await this.dao.save(newStudent);
 	}
 
+	async verify(email) {
+		return await this.dao.findWithPassword({ email });
+	}
+
+	async login(email, password) {
+		const student = await this.dao.findWithPassword({ email });
+		if (!student) return false;
+
+		const isMatch = await student.matchPassword(password);
+		if (!isMatch) return false;
+
+		return student;
+	}
+
+	// Funcionalidades propias de estudiante
 	async updateStudent(student) {
 		var storedStudent = this.dao.find({ id: student.id });
 

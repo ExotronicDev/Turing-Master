@@ -7,31 +7,48 @@ const TMachineController = require("./TMachineController");
 //-----------------Authentication-----------------//
 
 //  @desc       Register new Student
-//  @route      POST /api/v1/students
-//  @access     Private
+//  @route      POST /api/v1/students/register
+//  @access     Public
 exports.registerStudent = asyncHandler(async (req, res, next) => {
 	const student = req.body;
 	const control = new StudentController();
-	const filter = { id: req.body.id };
+	const filter = { $or: [{ email: req.body.email }, { id: req.body.id }] };
 	const foundStudent = await control.getStudent(filter);
 
 	if (foundStudent.length != 0) {
 		return next(
 			new ErrorResponse(
-				`Student alreday registered with id: ${req.body.id}.`,
+				`Student is alreday registered. Please login with the existing account or create a new one.`,
 				500
 			)
 		);
 	}
 
 	const savedStudent = await control.register(student);
-	res.json({ success: true, data: savedStudent });
+	const token = savedStudent.getSignedJwtToken();
+	res.json({ success: true, token, data: savedStudent });
 });
 
 //  @desc       Login Student
-//  @route      POST /api/v1/students
-//  @access     Private
-exports.loginStudent = asyncHandler(async (req, res, next) => {});
+//  @route      POST /api/v1/students/login
+//  @access     Public
+exports.loginStudent = asyncHandler(async (req, res, next) => {
+	const { email, password } = req.body;
+	if (!email || !password) {
+		return next(
+			new ErrorResponse(`Please provide an email and password.`, 400)
+		);
+	}
+	const control = new StudentController();
+	//const foundStudent = await control.getStudent(filter);
+	const loggedStudent = await control.login(email, password);
+	if (!loggedStudent) {
+		return next(new ErrorResponse(`Invalid credentials.`, 401));
+	}
+
+	const token = loggedStudent.getSignedJwtToken();
+	res.json({ success: true, token, data: loggedStudent });
+});
 
 //-----------------Student-----------------//
 
@@ -41,7 +58,7 @@ exports.loginStudent = asyncHandler(async (req, res, next) => {});
 exports.getStudents = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
 	control.getStudents().then((data) => {
-		res.json({ success: true, count: data.length, data: data });
+		res.json({ success: true, count: data.length, data });
 	});
 });
 
@@ -120,7 +137,7 @@ exports.getCounter = asyncHandler(async (req, res, next) => {
 exports.getTMachines = asyncHandler(async (req, res, next) => {
 	const control = new TMachineController();
 	control.getTMachines().then((data) => {
-		res.json({ success: true, count: data.length, data: data });
+		res.json({ success: true, count: data.length, data });
 	});
 });
 
