@@ -1,4 +1,4 @@
-const { mongoose, bcryptjs } = require("../config/dependencies");
+const { mongoose, bcrypt, jwt } = require("../config/dependencies");
 const { Schema } = mongoose;
 
 const StudentSchema = new Schema({
@@ -35,12 +35,19 @@ const StudentSchema = new Schema({
 	],
 });
 
-// Encrypt password with bcryptjs
+// Encrypt password with bcrypt
 StudentSchema.pre("save", async function (next) {
-	const salt = await bcryptjs.genSalt(10);
-	this.password = await bcryptjs.hash(this.password, salt);
+	const salt = await bcrypt.genSalt(10);
+	this.password = await bcrypt.hash(this.password, salt);
 	next();
 });
+
+// Sign JWT and return
+StudentSchema.methods.getSignedJwtToken = function () {
+	return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {
+		expiresIn: process.env.JWT_EXPIRE,
+	});
+};
 
 const Student = mongoose.model("Student", StudentSchema);
 

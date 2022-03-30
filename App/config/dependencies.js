@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const dotenv = require("dotenv");
 const colors = require("colors");
-const bcryptjs = require("bcryptjs");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
 	express,
@@ -14,5 +15,6 @@ module.exports = {
 	dotenv,
 	mongoose,
 	colors,
-	bcryptjs,
+	bcrypt,
+	jwt,
 };

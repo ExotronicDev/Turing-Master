@@ -31,7 +31,7 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
 //  @desc       Login Student
 //  @route      POST /api/v1/students
 //  @access     Private
-exports.registerStudent = asyncHandler(async (req, res, next) => {});
+exports.loginStudent = asyncHandler(async (req, res, next) => {});
 
 //-----------------Student-----------------//
 
