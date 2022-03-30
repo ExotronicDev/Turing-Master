@@ -17,17 +17,22 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
 	// Make sure token exists
 	if (!token) {
-		return next(new ErrorResponse("Access has been denied to this route."));
+		return next(
+			new ErrorResponse("Access has been denied to this route.", 401)
+		);
 	}
 
 	try {
 		// Verify token
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 		const control = new StudentController();
-		req.student = await control.getStudent({ id: decoded.id });
+		const userQuery = await control.getStudent({ id: decoded.id });
+		req.user = userQuery[0];
 		next();
 	} catch (err) {
-		return next(new ErrorResponse("Access has been denied to this route."));
+		return next(
+			new ErrorResponse("Access has been denied to this route.", 401)
+		);
 	}
 });
 

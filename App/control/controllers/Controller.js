@@ -49,9 +49,9 @@ exports.loginStudent = asyncHandler(async (req, res, next) => {
 //  @access     Private
 exports.getMe = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
-	const student = await control.getStudent({ id: req.student.id });
+	const student = await control.getStudent({ id: req.user.id });
 
-	res.json({ success: true, data: student });
+	res.json({ success: true, data: student[0] });
 });
 
 const sendTokenResponse = (student, statusCode, res) => {
