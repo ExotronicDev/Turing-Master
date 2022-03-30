@@ -62,11 +62,11 @@ const sendTokenResponse = (student, statusCode, res) => {
 	const days = process.env.JWT_COOKIE_EXPIRE * 1000 * 60 * 60 * 24;
 	const options = {
 		expires: new Date(Date.now() + days),
-		httpOnly: true,
 	};
 
 	if (process.env.NODE_ENV === "production") {
 		options.secure = true;
+		options.httpOnly = true;
 	}
 
 	res.status(statusCode).cookie("token", token, options).json({
@@ -270,20 +270,30 @@ exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
 
 // Voy aca
 //  @desc       Get single Student TMachine
-//  @route      GET /api/v1/:idStudent/tmachines/:idTMachine
+//  @route      GET /api/v1/students/:idStudent/tmachines/:idTMachine
 //  @access     Private
 exports.getStudentTMachine = asyncHandler(async (req, res, next) => {
-	const control = new TMachineController();
-	const foundTMachine = await control.getTMachine(req.params.id);
-	if (foundTMachine.length == 0) {
+	const control = new StudentController();
+	const controlTMachine = new TMachineController();
+	console.log("ABER");
+
+	const foundStudent = await control.getStudent({ id: req.params.idStudent });
+	if (foundStudent.length == 0) {
 		return next(
 			new ErrorResponse(
-				`TMachine not found with id: ${req.params.id}.`,
+				`Student with id: ${req.params.idStudent} does not exist.`,
 				404
 			)
 		);
 	}
-	res.json({ success: true, data: foundTMachine[0] });
+
+	const foundTMachines = await controlTMachine.getTMachine(
+		req.params.idTMachine
+	);
+	res.json({
+		success: true,
+		data: foundTMachines[0],
+	});
 });
 
 //  @desc       Create new Student TMachine

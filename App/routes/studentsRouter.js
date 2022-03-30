@@ -4,13 +4,16 @@ const {
 	getCounter,
 	registerStudent,
 	loginStudent,
+	getMe,
 	getStudents,
 	getStudent,
 	updateStudent,
 	deleteStudent,
 	getStudentTMachines,
 	createStudentTMachine,
-	getMe,
+	getStudentTMachine,
+	updateStudentTMachine,
+	deleteStudentTMachine,
 } = require("../control/controllers/Controller");
 
 const studentsRouter = express.Router();
@@ -37,9 +40,10 @@ studentsRouter
 	.get(protect, getStudentTMachines)
 	.post(protect, createStudentTMachine);
 
-// studentsRouter.route(":idStudent/tmachines/:idTMachine")
-// 	.get(protect, getStudentTMachines)
-// 	.put(protect, updateStudentTMachine)
-// 	.delete(protect, deleteStudentTMachine);
+studentsRouter
+	.route(":idStudent/tmachines/:idTMachine")
+	.get(protect, getStudentTMachine)
+	.put(protect, updateStudentTMachine)
+	.delete(protect, deleteStudentTMachine);
 
 module.exports = studentsRouter;
