@@ -57,25 +57,35 @@ class Register extends Component {
 		}
 
 		axios({
-            url: "/api/v1/students/",
+            url: "/api/v1/students/register",
             method: "POST",
             data: user
         })
-        .then( () => {
-            swal.fire({
-                title: 'Success!',
-                text: 'Your Student account has been created successfully!',
-                icon: 'success',
-				background: "black",
-				color: "white"
-            }).then(() => {
-                window.location = "/";
-            });
+        .then( (res) => {
+			if (res.data.success){
+				swal.fire({
+					title: 'Success!',
+					text: 'Your Student account has been created successfully!',
+					icon: 'success',
+					background: "black",
+					color: "white"
+				}).then(() => {
+					window.location = "/";
+				});
+			} else {
+				swal.fire({
+					title: 'Error!',
+					text: res.data.error,
+					icon: 'warning',
+					background: "black",
+					color: "white"
+				})
+			}
         })
-        .catch( (err) => {
+        .catch( () => {
             swal.fire({
-                title: 'Ocurrio un problema al crear el usuario',
-                text: err.message,
+                title: 'Oops !',
+                text: "Unexpected error, Try Again",
                 icon: 'error',
 				background: "black",
 				color: "white"

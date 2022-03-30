@@ -26,7 +26,7 @@ const StudentSchema = new Schema({
 	password: {
 		type: String,
 		required: [true, "Please add a password."],
-		minlength: 8,
+		minlength: [8, "Password is too short. The minimum required is 8 characters long."],
 		select: false,
 	},
 	tMachines: [
