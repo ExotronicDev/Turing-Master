@@ -4,6 +4,35 @@ const StudentController = require("./StudentController");
 const CounterDao = require("../daos/CounterDao");
 const TMachineController = require("./TMachineController");
 
+//-----------------Authentication-----------------//
+
+//  @desc       Register new Student
+//  @route      POST /api/v1/students
+//  @access     Private
+exports.registerStudent = asyncHandler(async (req, res, next) => {
+	const student = req.body;
+	const control = new StudentController();
+	const filter = { id: req.body.id };
+	const foundStudent = await control.getStudent(filter);
+
+	if (foundStudent.length != 0) {
+		return next(
+			new ErrorResponse(
+				`Student alreday registered with id: ${req.body.id}.`,
+				500
+			)
+		);
+	}
+
+	const savedStudent = await control.register(student);
+	res.json({ success: true, data: savedStudent });
+});
+
+//  @desc       Login Student
+//  @route      POST /api/v1/students
+//  @access     Private
+exports.registerStudent = asyncHandler(async (req, res, next) => {});
+
 //-----------------Student-----------------//
 
 //  @desc       Get all Students
@@ -32,28 +61,6 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
 		);
 	}
 	res.json({ success: true, data: foundStudent[0] });
-});
-
-//  @desc       Register new Student
-//  @route      POST /api/v1/students
-//  @access     Private
-exports.registerStudent = asyncHandler(async (req, res, next) => {
-	const student = req.body;
-	const control = new StudentController();
-	const filter = { id: req.body.id };
-	const foundStudent = await control.getStudent(filter);
-
-	if (foundStudent.length != 0) {
-		return next(
-			new ErrorResponse(
-				`Student alreday registered with id: ${req.body.id}.`,
-				500
-			)
-		);
-	}
-
-	const savedStudent = await control.register(student);
-	res.json({ success: true, data: savedStudent });
 });
 
 //  @desc       Update Student
