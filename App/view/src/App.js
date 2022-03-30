@@ -10,6 +10,7 @@ import MainView from "./Views/MainView";
 import MachinesList from "./Views/MachinesList";
 import EditProfile from "./Views/EditProfile";
 
+
 class App extends Component {
 	render() {
 		return (

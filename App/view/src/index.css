@@ -9,6 +9,8 @@
     background-size: 400% 400% cover;
     margin: auto;
     text-align: center;
+	background-attachment: fixed;
+    overflow-x: scroll;
 }
 
 .Home button {
@@ -71,6 +73,8 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	background-attachment: fixed;
+    overflow-x: scroll;
 }
 
 .Register #title {
@@ -114,6 +118,7 @@
 	justify-content: center;
 	display: flex;
 	flex-direction: column;
+	overflow-x: scroll;
 }
 
 .Login #title {
@@ -146,6 +151,7 @@
 	background-size: 400% 400% cover;
 	margin: auto;
 	text-align: center;
+	overflow-x: scroll;
 }
 
 .MainView p {
@@ -200,6 +206,7 @@
 	background-size: 400% 400% cover;
 	margin: auto;
 	text-align: center;
+	overflow-x: scroll;
 }
 
 .MachinesList h4 {

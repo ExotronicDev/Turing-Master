@@ -1,6 +1,15 @@
 import React, { Component } from "react";
+import Cookies from "js-cookie";
 
 class MainView extends Component {
+	componentDidMount = () => {
+		const token = Cookies.get('token')
+        if (token === undefined) {
+            window.location=("/TuringMachineSimulator/Login/student");
+        }
+	}
+	
+
 	render() {
 		return (
 			<div className="MainView">

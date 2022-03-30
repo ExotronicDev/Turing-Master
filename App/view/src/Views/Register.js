@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { Component } from "react";
-import "../App.css"
 const swal = require('sweetalert2')
 
 class Register extends Component {
