@@ -362,5 +362,5 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-	res.json({ success: true, data: modifiedStudent });
+	res.json({ success: true, data: updateResponse });
 });
