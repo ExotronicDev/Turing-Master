@@ -32,6 +32,7 @@ class Login extends Component {
         })
         .then( (res) => {
 			if (res.data.success) {
+				localStorage.setItem("id", res.data.data.id);
 				window.location = "/TuringMachineSimulator/MainView"
 			} else {
 				swal.fire({

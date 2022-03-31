@@ -224,3 +224,64 @@
 
 	color: #000000;
 }
+
+.EditProfile {
+	width: 100wh;
+	height: 100vh;
+	background: linear-gradient(to top, #09203f 0%, #537895 100%);
+	opacity: 0.9;
+	background-size: 400% 400%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-attachment: fixed;
+    overflow-x: scroll;
+}
+
+.EditProfile #title {
+	position: relative;
+	width: 471wh;
+	height: 7vh;
+
+	font-family: "Times New Roman";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 40px;
+	line-height: 41px;
+	text-align: center;
+
+	color: #000000;
+}
+
+.EditProfile #checkF {
+	width: 15px;
+	height: 15px;
+}
+
+.EditProfile #check2 {
+	width: 15px;
+	height: 15px;
+}
+
+.EditProfile #check3 {
+	width: 15px;
+	height: 15px;
+}
+
+.EditProfile #edit {
+	width: 50px;
+	height: 30px;
+	text-align: left;
+}
+
+.EditProfile input {
+	width: 350px;
+}
+
+.EditProfile label {
+  color: white;
+  width: 100px;
+  height: 30px;
+}
