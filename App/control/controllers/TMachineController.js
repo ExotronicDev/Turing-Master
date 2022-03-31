@@ -12,8 +12,15 @@ module.exports = class TMachineController {
 
 	// Funcionalidades de Turing Machines
 
+	async getTMachines() {
+		return await this.dao.getAll();
+	}
+
+	async getTMachine(idTMachine) {
+		return await this.dao.find({ id: idTMachine });
+	}
+
 	//Create TMachine esta implementado en StudentController
-	//Delete TMachine esta implementado en StudentController
 
 	async updateTMachine(tMachine) {
 		//Esto no actualiza los arrays porque eso se hace en otro lado.
@@ -25,12 +32,9 @@ module.exports = class TMachineController {
 		return await this.dao.update({ id: storedTM.id }, storedTM);
 	}
 
-	async getTMachines() {
-		return await this.dao.getAll();
-	}
-
-	async getTMachine(idTMachine) {
-		return await this.dao.find({ id: idTMachine });
+	//Delete TMachine esta implementado en StudentController (pero aca hay otro)
+	async deleteTMachine(idTMachine) {
+		return await this.dao.delete({ id: idTMachine });
 	}
 
 	//Funcionalidades de estados
