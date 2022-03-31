@@ -96,6 +96,7 @@ module.exports = class StudentController {
 
 		const tMachine = new TMachine({ id: nextId, description: description });
 		tMachine.owner.id = student.id;
+		tMachine.initialState = null;
 
 		student.tMachines.push({
 			id: tMachine.id,
