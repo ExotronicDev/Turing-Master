@@ -11,7 +11,7 @@ module.exports = class StateController {
     }
 
     async createTransition(idOriginState, tReadValue, tWriteValue, tMoveValue, idTargetState) {
-        const daoTransition = new TransitionDao();
+        //const daoTransition = new TransitionDao();
         const query = this.transitionCounter.find({ name: "transition" });
         const counter = query[0];
         let nextId = counter.count;
@@ -19,8 +19,10 @@ module.exports = class StateController {
         //Esos parametros los recibe del controlador grande. Estos deberían pasar directo del respectivo router.
         //Hay que cambiar el MoveValue a un número
         //Propuesta: -1 es izquierda, 1 es derecha, 0 es nada.
-        var storedOrigin = this.dao.find({ id: idOriginState });
-        var storedTarget = this.dao.find({ id: idTargetState });
+        var storedOriginQuery = await this.dao.find({ id: idOriginState });
+        var storedOrigin = storedOriginQuery[0];
+        var storedTargetQuery = await this.dao.find({ id: idTargetState });
+        var storedTarget = storedTargetQuery[0];
 
         const newTransition = new Transition({
             id: nextId,
@@ -70,15 +72,16 @@ module.exports = class StateController {
         //Aumentar el counter.
         nextId++;
         counter.count = nextId;
-        await this.transitionCounter.update({ name: "transition" }, counter);
+        return await this.transitionCounter.update({ name: "transition" }, counter);
 
-        return await daoTransition.save(newTransition);
+        //return await daoTransition.save(newTransition);
     }
 
     async updateIncomingTransition(idState, newTransition) {
-        const daoTransition = new TransitionDao();
+        //const daoTransition = new TransitionDao();
 
-        var storedState = this.dao.find({ id: idState });
+        var storedStateQuery = await this.dao.find({ id: idState });
+        var storedState = storedStateQuery[0];
         var storedIncomingTransitions = storedState.incomingTransitions;
 
         for (let i = 0; i < storedIncomingTransitions.length; i++) {
@@ -91,14 +94,15 @@ module.exports = class StateController {
             }
         }
 
-        await this.dao.update({ id: storedState.id }, storedState);
-        return await daoTransition.update({ id: newTransition.id }, newTransition);
+        return await this.dao.update({ id: storedState.id }, storedState);
+        //return await daoTransition.update({ id: newTransition.id }, newTransition);
     }
 
     async updateExitTransition(idState, newTransition) {
-        const daoTransition = new TransitionDao();
+        //const daoTransition = new TransitionDao();
 
-        var storedState = this.dao.find({ id: idState });
+        var storedStateQuery = await this.dao.find({ id: idState });
+        var storedState = storedStateQuery[0];
         var storedExitTransitions = storedState.exitTransitions;
 
         for (let i = 0; i < storedExitTransitions.length; i++) {
@@ -111,8 +115,8 @@ module.exports = class StateController {
             }
         }
 
-        await this.dao.update({ id: storedState.id }, storedState);
-        return await daoTransition.update({ id: newTransition.id }, newTransition);
+        return await this.dao.update({ id: storedState.id }, storedState);
+        //return await daoTransition.update({ id: newTransition.id }, newTransition);
     }
 
     async getTransition(idTransition) {
@@ -134,10 +138,12 @@ module.exports = class StateController {
     }
 
     async deleteTransition(idOriginState, idTargetState, idTransition) {
-        const daoTransition = new TransitionDao();
+        //const daoTransition = new TransitionDao();
 
-        var storedOrigin = this.dao.find({ id: idOriginState });
-        var storedTarget = this.dao.find({ id: idTargetState });
+        var storedOriginQuery = await this.dao.find({ id: idOriginState });
+        var storedOrigin = storedOriginQuery[0];
+        var storedTargetQuery = await this.dao.find({ id: idTargetState });
+        var storedTarget = storedTargetQuery[0];
 
         //Quitar la transition del storedOrigin.
         var storedExitTransitions = storedOrigin.exitTransitions;
@@ -169,8 +175,8 @@ module.exports = class StateController {
         }
         
         storedTarget.incomingTransitions = storedIncomingTransitions;
-        await this.dao.update({ id: storedTarget }, storedTarget);
+        return await this.dao.update({ id: storedTarget }, storedTarget);
 
-        return daoTransition.delete({ id: idTransition });
+        //return daoTransition.delete({ id: idTransition });
     }
 }

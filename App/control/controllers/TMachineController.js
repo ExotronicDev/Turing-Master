@@ -12,18 +12,6 @@ module.exports = class TMachineController {
 
 	// Funcionalidades de Turing Machines
 
-	//Create TMachine esta implementado en StudentController
-	//Delete TMachine esta implementado en StudentController
-
-	async updateTMachine(tMachine) {
-		//Esto no actualiza los arrays porque eso se hace en otro lado.
-		const storedTM = this.dao.find({ id: tMachine.id });
-		storedTM.description = tMachine.description;
-		storedTM.initialState = tMachine.initialState;
-
-		return await this.dao.update({ id: storedTM.id }, storedTM);
-	}
-
 	async getTMachines() {
 		return await this.dao.getAll();
 	}
@@ -32,16 +20,39 @@ module.exports = class TMachineController {
 		return await this.dao.find({ id: idTMachine });
 	}
 
+	//Create TMachine esta implementado en StudentController
+
+	async updateTMachine(tMachine) {
+		//Esto no actualiza los arrays porque eso se hace en otro lado.
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
+		storedTM.description = tMachine.description;
+		//storedTM.initialState = tMachine.initialState;
+
+		return await this.dao.update({ id: storedTM.id }, storedTM);
+	}
+
+	//Delete TMachine esta implementado en StudentController (pero aca hay otro)
+	async deleteTMachine(idTMachine) {
+		const daoState = new StateDao();
+		
+		await daoState.deleteMany({ tMachine: { id: idTMachine } });
+
+		//TODO: Borrar los estados.
+		return await this.dao.delete({ id: idTMachine });
+	}
+
 	//Funcionalidades de estados
 
 	async createState(tMachine, stateName) {
 		const daoState = new StateDao();
 
-		const query = this.stateCounter.find({ name: "state" });
+		const query = await this.stateCounter.find({ name: "state" });
 		const counter = query[0];
 		let nextId = counter.count;
 
-		const storedTM = this.dao.find({ id: tMachine.id });
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
 		var tmStates = storedTM.states;
 
 		const newState = new State({
@@ -67,8 +78,10 @@ module.exports = class TMachineController {
 	async setStartState(tMachine, idState) {
 		const daoState = new StateDao();
 
-		const storedTM = this.dao.find({ id: tMachine.id });
-		const storedState = daoState.find({ id: idState });
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
+		const storedStateQuery = await daoState.find({ id: idState });
+		const storedState = storedStateQuery[0];
 
 		storedTM.initialState.id = storedState.id;
 		storedTM.initialState.name = storedState.name;
@@ -79,8 +92,10 @@ module.exports = class TMachineController {
 	async updateState(tMachine, updatedState) {
 		const daoState = new StateDao();
 
-		const storedTM = this.dao.find({ id: tMachine.id });
-		const storedState = daoState.find({ id: updatedState.id });
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
+		const storedStateQuery = await daoState.find({ id: updatedState.id });
+		const storedState = storedStateQuery[0];
 
 		storedState.name = updatedState.name;
 		storedState.incomingTransitions = updatedState.incomingTransitions;
@@ -123,7 +138,8 @@ module.exports = class TMachineController {
 	async deleteState(tMachine, stateName) {
 		const daoState = new StateDao();
 
-		const storedTM = this.dao.find({ id: tMachine.id });
+		const storedTMQuery = await this.dao.find({ id: tMachine.id });
+		const storedTM = storedTMQuery[0];
 		const stateArray = storedTM.states;
 
 		let index = -1;

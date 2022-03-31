@@ -13,6 +13,10 @@ module.exports = class StateDao {
 		return await state.deleteOne(filter);
 	}
 
+	async deleteMany(filter) {
+		return await state.deleteMany(filter);
+	}
+
 	async update(filter, object) {
 		return await state.updateOne(filter, object);
 	}

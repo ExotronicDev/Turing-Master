@@ -8,6 +8,7 @@ const {
 	deleteTMachine,
 } = require("../control/controllers/Controller");
 
+// Create router
 const tmachinesRouter = express.Router();
 
 // TMachine routes
