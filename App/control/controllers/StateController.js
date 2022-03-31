@@ -11,7 +11,7 @@ module.exports = class StateController {
     }
 
     async createTransition(idOriginState, tReadValue, tWriteValue, tMoveValue, idTargetState) {
-        const daoTransition = new TransitionDao();
+        //const daoTransition = new TransitionDao();
         const query = this.transitionCounter.find({ name: "transition" });
         const counter = query[0];
         let nextId = counter.count;
@@ -72,13 +72,13 @@ module.exports = class StateController {
         //Aumentar el counter.
         nextId++;
         counter.count = nextId;
-        await this.transitionCounter.update({ name: "transition" }, counter);
+        return await this.transitionCounter.update({ name: "transition" }, counter);
 
-        return await daoTransition.save(newTransition);
+        //return await daoTransition.save(newTransition);
     }
 
     async updateIncomingTransition(idState, newTransition) {
-        const daoTransition = new TransitionDao();
+        //const daoTransition = new TransitionDao();
 
         var storedStateQuery = await this.dao.find({ id: idState });
         var storedState = storedStateQuery[0];
@@ -94,12 +94,12 @@ module.exports = class StateController {
             }
         }
 
-        await this.dao.update({ id: storedState.id }, storedState);
-        return await daoTransition.update({ id: newTransition.id }, newTransition);
+        return await this.dao.update({ id: storedState.id }, storedState);
+        //return await daoTransition.update({ id: newTransition.id }, newTransition);
     }
 
     async updateExitTransition(idState, newTransition) {
-        const daoTransition = new TransitionDao();
+        //const daoTransition = new TransitionDao();
 
         var storedStateQuery = await this.dao.find({ id: idState });
         var storedState = storedStateQuery[0];
@@ -115,8 +115,8 @@ module.exports = class StateController {
             }
         }
 
-        await this.dao.update({ id: storedState.id }, storedState);
-        return await daoTransition.update({ id: newTransition.id }, newTransition);
+        return await this.dao.update({ id: storedState.id }, storedState);
+        //return await daoTransition.update({ id: newTransition.id }, newTransition);
     }
 
     async getTransition(idTransition) {
@@ -138,7 +138,7 @@ module.exports = class StateController {
     }
 
     async deleteTransition(idOriginState, idTargetState, idTransition) {
-        const daoTransition = new TransitionDao();
+        //const daoTransition = new TransitionDao();
 
         var storedOriginQuery = await this.dao.find({ id: idOriginState });
         var storedOrigin = storedOriginQuery[0];
@@ -175,8 +175,8 @@ module.exports = class StateController {
         }
         
         storedTarget.incomingTransitions = storedIncomingTransitions;
-        await this.dao.update({ id: storedTarget }, storedTarget);
+        return await this.dao.update({ id: storedTarget }, storedTarget);
 
-        return daoTransition.delete({ id: idTransition });
+        //return daoTransition.delete({ id: idTransition });
     }
 }
