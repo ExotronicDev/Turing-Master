@@ -22,20 +22,14 @@ module.exports = class TMachineController {
 
 	//Create TMachine esta implementado en StudentController
 
-	async updateTMachine(tMachine) {
-		//Esto no actualiza los arrays porque eso se hace en otro lado.
-		const storedTMQuery = await this.dao.find({ id: tMachine.id });
-		const storedTM = storedTMQuery[0];
-		storedTM.description = tMachine.description;
-		//storedTM.initialState = tMachine.initialState;
-
-		return await this.dao.update({ id: storedTM.id }, storedTM);
+	async updateTMachine(idTMachine, updatesTMachine) {
+		return await this.dao.update({ id: idTMachine }, updatesTMachine);
 	}
 
 	//Delete TMachine esta implementado en StudentController (pero aca hay otro)
 	async deleteTMachine(idTMachine) {
 		const daoState = new StateDao();
-		
+
 		await daoState.deleteMany({ tMachine: { id: idTMachine } });
 
 		//TODO: Borrar los estados.

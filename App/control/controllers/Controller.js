@@ -301,7 +301,10 @@ exports.updateTMachine = asyncHandler(async (req, res, next) => {
 		);
 	}
 
-	const updateResponse = await controlTMachine.updateTMachine(tMachine);
+	const updateResponse = await controlTMachine.updateTMachine(
+		req.params.id,
+		tMachine
+	);
 	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
 		return next(
 			new ErrorResponse(
