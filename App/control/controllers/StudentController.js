@@ -113,16 +113,21 @@ module.exports = class StudentController {
 
 	async deleteTMachine(student, idTMachine) {
 		let index = -1;
+		var tMachines = student.tMachines;
 
-		for (var i = 0; i < student.tMachines.length; i++) {
-			if (student.tMachines[i].id === idTMachine) {
+		for (let i = 0; i < tMachines.length; i++) {
+			let tmId = tMachines[i].id;
+			if (tmId == idTMachine) {
 				index = i;
 			}
 		}
 
 		if (index > -1) {
-			student.tMachines.splice(index, 1);
+			tMachines.splice(index, 1);
 		}
+
+		student.tMachines = tMachines;
+
 		return await this.dao.update({ id: student.id }, student);
 	}
 

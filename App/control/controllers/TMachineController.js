@@ -34,6 +34,11 @@ module.exports = class TMachineController {
 
 	//Delete TMachine esta implementado en StudentController (pero aca hay otro)
 	async deleteTMachine(idTMachine) {
+		const daoState = new StateDao();
+		
+		await daoState.deleteMany({ tMachine: { id: idTMachine } });
+
+		//TODO: Borrar los estados.
 		return await this.dao.delete({ id: idTMachine });
 	}
 
