@@ -11,9 +11,6 @@ const {
 	updateStudent,
 	deleteStudent,
 	getStudentTMachines,
-	createStudentTMachine,
-	updateStudentTMachine,
-	deleteStudentTMachine,
 } = require("../control/controllers/Controller");
 
 // Create router
@@ -38,11 +35,5 @@ studentsRouter
 
 // Student TMachines routes
 studentsRouter.route("/:id/tmachines").get(protect, getStudentTMachines);
-
-// studentsRouter
-// 	.route(":idStudent/tmachines/:idTMachine")
-// 	.get(protect, getStudentTMachine)
-// 	.put(protect, updateStudentTMachine)
-// 	.delete(protect, deleteStudentTMachine);
 
 module.exports = studentsRouter;
