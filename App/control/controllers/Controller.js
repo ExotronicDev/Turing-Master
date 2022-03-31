@@ -52,7 +52,6 @@ exports.logout = asyncHandler(async (req, res, next) => {
 		expires: new Date(Date.now() + 10 * 1000),
 		httpOnly: true,
 	});
-
 	res.json({ success: true, data: {} });
 });
 
@@ -62,7 +61,6 @@ exports.logout = asyncHandler(async (req, res, next) => {
 exports.getMe = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
 	const student = await control.getStudent({ id: req.user.id });
-
 	res.json({ success: true, data: student[0] });
 });
 
@@ -105,8 +103,7 @@ exports.getStudents = asyncHandler(async (req, res, next) => {
 //  @access     Public
 exports.getStudent = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
-	const filter = { id: req.params.id };
-	const foundStudent = await control.getStudent(filter);
+	const foundStudent = await control.getStudent({ id: req.params.id });
 	if (foundStudent.length == 0) {
 		return next(
 			new ErrorResponse(
@@ -127,8 +124,7 @@ exports.updateStudent = asyncHandler(async (req, res, next) => {
 		student.id = req.params.id;
 	}
 	const control = new StudentController();
-	const filter = { id: req.params.id };
-	const foundStudent = await control.getStudent(filter);
+	const foundStudent = await control.getStudent({ id: req.params.id });
 	if (foundStudent.length == 0) {
 		return next(
 			new ErrorResponse(
@@ -137,7 +133,6 @@ exports.updateStudent = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-
 	const updateResponse = await control.updateStudent(student);
 	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
 		return next(
@@ -190,7 +185,6 @@ exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-
 	const foundStudent = await control.getStudent({ id: req.params.id });
 	if (foundStudent.length == 0) {
 		return next(
@@ -200,7 +194,6 @@ exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-
 	const foundTMachines = await control.getTMachines(foundStudent[0]);
 	res.json({
 		success: true,
@@ -237,14 +230,6 @@ exports.getTMachine = asyncHandler(async (req, res, next) => {
 	const controlStudent = new StudentController();
 	const controlTMachine = new TMachineController();
 	const foundStudents = await controlStudent.getStudent({ id: req.user.id });
-	// if (foundStudents.length == 0) {
-	// 	return next(
-	// 		new ErrorResponse(
-	// 			`Student (logged in?) with id: ${req.user.id} does not exist.`,
-	// 			404
-	// 		)
-	// 	);
-	// }
 	const foundTMachines = await controlTMachine.getTMachine(req.params.id);
 	if (foundTMachines.length == 0) {
 		return next(
@@ -254,7 +239,6 @@ exports.getTMachine = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-
 	const loggedStudent = foundStudents[0];
 	const requestedTMachine = foundTMachines[0];
 	// Extensión: collaborators
@@ -278,14 +262,6 @@ exports.getTMachine = asyncHandler(async (req, res, next) => {
 exports.createTMachine = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
 	const foundStudents = await control.getStudent({ id: req.user.id });
-	// if (foundStudents.length == 0) {
-	// 	return next(
-	// 		new ErrorResponse(
-	// 			`Student (logged in?) with id: ${req.user.id} does not exist.`,
-	// 			404
-	// 		)
-	// 	);
-	// }
 	const student = foundStudents[0];
 	const newTMachine = await control.createTMachine(
 		student,
@@ -293,30 +269,6 @@ exports.createTMachine = asyncHandler(async (req, res, next) => {
 	);
 	res.json({ success: true, data: newTMachine });
 });
-
-//  No necesario
-//  @desc       Create new Student TMachine
-//  @route      POST /api/v1/students/:idStudent/tmachines
-//  @access     Private
-// exports.createStudentTMachine = asyncHandler(async (req, res, next) => {
-// 	const description = req.body.description;
-// 	const control = new StudentController();
-// 	const foundStudent = await control.getStudent({ id: req.params.idStudent });
-// 	if (foundStudent.length == 0) {
-// 		return next(
-// 			new ErrorResponse(
-// 				`Student with id: ${req.params.idStudent} does not exist.`,
-// 				404
-// 			)
-// 		);
-// 	}
-
-// 	const savedTMachine = await control.createTMachine(
-// 		foundStudent[0],
-// 		description
-// 	);
-// 	res.json({ success: true, data: savedTMachine });
-// });
 
 //  @desc       Update TMachine
 //  @route      PUT /api/v1/tmachines/:id
@@ -338,14 +290,6 @@ exports.updateTMachine = asyncHandler(async (req, res, next) => {
 	}
 	const controlStudent = new StudentController();
 	const foundStudents = await controlStudent.getStudent({ id: req.user.id });
-	// if (foundStudents.length == 0) {
-	// 	return next(
-	// 		new ErrorResponse(
-	// 			`Student (logged in?) with id: ${req.user.id} does not exist.`,
-	// 			404
-	// 		)
-	// 	);
-	// }
 	const loggedStudent = foundStudents[0];
 	const originalTMachine = foundTMachines[0];
 	if (loggedStudent.id != originalTMachine.owner.id) {
@@ -383,20 +327,8 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-	// const tMachine = req.body;
-	// if (!tMachine.id) {
-	// 	tMachine.id = req.params.id;
-	// }
 	const controlStudent = new StudentController();
 	const foundStudents = await controlStudent.getStudent({ id: req.user.id });
-	// if (foundStudents.length == 0) {
-	// 	return next(
-	// 		new ErrorResponse(
-	// 			`Student (logged in?) with id: ${req.user.id} does not exist.`,
-	// 			404
-	// 		)
-	// 	);
-	// }
 	const loggedStudent = foundStudents[0];
 	const originalTMachine = foundTMachines[0];
 	if (loggedStudent.id != originalTMachine.owner.id) {
@@ -418,47 +350,17 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 		);
 	}
 	console.log(loggedStudent);
-	const modifiedStudent = await controlStudent.deleteTMachine(
+	const updateResponse = await controlStudent.deleteTMachine(
 		loggedStudent,
 		req.params.id
 	);
+	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
+		return next(
+			new ErrorResponse(
+				`Error deleting the TMachine with id: ${req.params.id} from the current user.`,
+				304
+			)
+		);
+	}
 	res.json({ success: true, data: modifiedStudent });
 });
-
-//-----------------Student TMachines-----------------//
-
-// Voy aca
-//  @desc       Update Student TMachine
-//  @route      PUT /api/v1/students/:idStudent/tmachines/:idTMachine
-//  @access     Private
-// exports.updateStudentTMachine = asyncHandler(async (req, res, next) => {
-// 	const object = req.body;
-// 	const control = new StudentController();
-// 	const filter = { id: req.body.id };
-// 	const foundUser = await control.getStudent(filter);
-// 	if (!foundUser) {
-// 		return next(
-// 			new ErrorResponse(`Student not found with id: ${req.body.id}.`, 404)
-// 		);
-// 	}
-
-// 	const updatedUser = await control.updateTMachine(object);
-// 	res.json({ success: true, data: updatedUser });
-// });
-
-// Voy aca
-//  @desc       Delete Student TMachine
-//  @route      DELETE /api/v1/students/:idStudent/tmachines/:idTMachine
-//  @access     Private
-// exports.deleteStudentTMachine = asyncHandler(async (req, res, next) => {
-// 	const control = new StudentController();
-// 	const filter = { id: req.body.id };
-// 	const foundUser = await control.getStudent(filter);
-// 	if (!foundUser) {
-// 		return next(
-// 			new ErrorResponse(`Student not found with id: ${req.body.id}.`, 404)
-// 		);
-// 	}
-// 	const deletedUser = await control.deleteTMachine(filter);
-// 	res.json({ success: true, data: deletedUser });
-// });
