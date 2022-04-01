@@ -38,35 +38,36 @@ module.exports = class TMachineController {
 
 	//Funcionalidades de estados
 
-	async createState(tMachine, stateName) {
-		const daoState = new StateDao();
-
+	async createState(stateArray, stateName) {
 		const query = await this.stateCounter.find({ name: "state" });
 		const counter = query[0];
 		let nextId = counter.count;
 
-		const storedTMQuery = await this.dao.find({ id: tMachine.id });
-		const storedTM = storedTMQuery[0];
-		var tmStates = storedTM.states;
+		const stateArrayLength = stateArray.length;
 
-		const newState = new State({
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === stateName) {
+					return false;
+				}
+			}
+		}
+
+		const newState = {
 			id: nextId,
 			name: stateName,
-			tMachine: {
-				id: tMachine.id,
-				description: tMachine.description,
-			},
-		});
+			initialState: false,
+			incomingTransitions: [],
+			exitTransitions: []
+		}
 
-		tmStates.push(newState);
-		storedTM.states = tmStates;
-		await daoState.save(newState);
+		stateArray.push(newState);
 
 		nextId++;
 		counter.count = nextId;
 		await this.stateCounter.update({ name: "state" }, counter);
 
-		return await this.dao.update({ id: storedTM.id }, storedTM);
+		return stateArray;
 	}
 
 	async setStartState(tMachine, idState) {
