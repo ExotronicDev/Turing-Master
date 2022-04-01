@@ -407,6 +407,24 @@ exports.updateState = (req, res, next) => {
 	res.json({ success: true, data: modifiedStates });
 };
 
+//  @desc       Set TMachine State as Initial State
+//  @route      PUT /api/v1/tmachines/states/initial
+//  @access     Public
+exports.setInitialState = (req, res, next) => {
+	const { states, stateName } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.setInitialState(states, stateName);
+	if (!modifiedStates) {
+		return next(
+			new ErrorResponse(
+				`State named "${stateName}" does not exist in the current TMachine.`,
+				304
+			)
+		);
+	}
+	res.json({ success: true, data: modifiedStates });
+};
+
 //  @desc       Delete TMachine States
 //  @route      DELETE /api/v1/tmachines/states
 //  @access     Public

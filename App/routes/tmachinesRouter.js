@@ -8,6 +8,7 @@ const {
 	deleteTMachine,
 	createState,
 	updateState,
+	setInitialState,
 	deleteState,
 	createTransition,
 	updateTransition,
@@ -31,6 +32,7 @@ tmachinesRouter
 	.post(createState)
 	.put(updateState)
 	.delete(deleteState);
+tmachinesRouter.route("/states/initial").put(setInitialState);
 
 // Transitions routes
 tmachinesRouter
