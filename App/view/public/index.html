@@ -45,5 +45,69 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+  
   </body>
-</html>
+
+  <body>
+  <div id="header" class="text">Turing Machine Simulator</div><hr>
+
+  <div class="text">Starting String</div>
+  <input type="text" id="startString" autocomplete="off">
+  <hr>
+  <div id="turingMarkdown">
+    <div class="text">Turing Machine Markdown</div>
+    <textarea id="markdown" 
+  placeholder="! Type in your Turing Machine Markdown here:
+  ! CurrentState Read NextState Write Move                          
+  ! EXAMPLE 1
+  ! starting string: 0101010101
+  ! this is a comment
+  i 0 i 0 r
+  i 1 q2 0 l
+  q2 0 q2 0 l ! you can write whatever you want here
+  q2 1 i 0 r
+  
+  ! final states
+  q1 _ accept  _ s
+  q2 _ accept  _ s ! with a comment in the line"></textarea>
+    <button type="button" onclick="addMachine1()">Sample Machine #1</button>
+    <button type="button" onclick="addMachine2()">Sample Machine #2</button>
+    <button type="button" onclick="addMachine3()">Sample Machine #3</button>
+  </div>
+  <hr>
+  
+  <div id="topWrapper">
+    <div id="stateWrapper">
+      <div id="statelabel">State</div>
+      <div id="state"></div>
+    </div>
+  
+    <button id="stepbutton" type="button" class="button" onclick="step()">Step</button>
+    <button type="button" class="button" onclick="setup()">Setup TM</button>
+    <button type="button" class="button" onclick="cleartm()">Clear TM</button>
+  </div>
+  
+  <div id='machine'>
+    <div id="1000" class="cell"></div>
+    <div id="1001" class="cell head"></div>
+    <div id="1002" class="cell"></div>
+    <div id="1003" class="cell"></div>
+    <div id="1004" class="cell"></div>
+  </div>
+  
+  <hr>
+  
+  
+  <div class="text">Fuel Level: <div style="display: inline;" id="remainingFuel"></div></div>
+  <input type="text" id="fuelLevel" autocomplete="off">
+  <button type="button" onclick="run()">Run</button>
+  <div class="text">This is a textfield to enter the desired number of iterations.<br/>
+    You can control the delay between actions with adding a number below, higher number means it waits longer.</div>
+  <div class="text" id="speedBox">Delay <input type="text" id="autoSpeed" autocomplete="off" value="100" size="7"></div>
+  <hr>
+  
+  
+  <hr>
+</body>
+  
+  

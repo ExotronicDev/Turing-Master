@@ -10,6 +10,7 @@ import MainView from "./Views/MainView";
 import MachinesList from "./Views/MachinesList";
 import EditProfile from "./Views/EditProfile";
 import TuringIO from "./Views/TuringIO";
+import TuringMachine from "./Views/TuringMachine";
 
 
 class App extends Component {
@@ -51,6 +52,11 @@ class App extends Component {
 							exact
 							path="/TuringMachineSimulator/TuringIO"
 							element={<TuringIO/>}
+						></Route>
+						<Route
+							exact
+							path="/TuringMachineSimulator/TuringMachine"
+							element={<TuringMachine/>}
 						></Route>
 					</Routes>
 				</Router>
