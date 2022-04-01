@@ -9,7 +9,7 @@ import Login from "./Views/Login";
 import MainView from "./Views/MainView";
 import MachinesList from "./Views/MachinesList";
 import EditProfile from "./Views/EditProfile";
-
+import TMSimulator from "./Views/TMSimulator";
 
 class App extends Component {
 	render() {
@@ -44,6 +44,11 @@ class App extends Component {
 						<Route
 							exact
 							path="/TuringMachineSimulator/EditProfile"
+							element={<EditProfile/>}
+						></Route>
+						<Route
+							exact
+							path="/TuringMachineSimulator/TMSimulator"
 							element={<EditProfile/>}
 						></Route>
 					</Routes>
