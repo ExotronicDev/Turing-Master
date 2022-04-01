@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Simulador de Máquinas de Turing",
   "main": "server.js",
+  "homepage": "https://turingmaster.herokuapp.com/",
   "scripts": {
     "first-install": "npm install && cd view && npm install && cd ..",
     "install-view": "cd view && npm install",
@@ -28,7 +29,6 @@
   "bugs": {
     "url": "https://github.com/ExotronicDev/Turing-Master/issues"
   },
-  "homepage": "https://github.com/ExotronicDev/Turing-Master#readme",
   "dependencies": {
     "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
