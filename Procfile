@@ -1,1 +1,1 @@
-web: cd App && npm run app
+web: cd App && npm run heroku-postbuild
