@@ -1,8 +1,6 @@
-const StudentDao = require("../daos/StudentDao");
 const TMachineDao = require("../daos/TMachineDao");
 const StateDao = require("../daos/StateDao");
 const CounterDao = require("../daos/CounterDao");
-const State = require("../../model/state");
 
 module.exports = class TMachineController {
 	constructor() {
@@ -74,7 +72,7 @@ module.exports = class TMachineController {
 			}
 		}
 
-		if (index > -1) {
+		if (index < -1) {
 			return false;
 		}
 

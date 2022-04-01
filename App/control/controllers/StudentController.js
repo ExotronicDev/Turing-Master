@@ -72,9 +72,6 @@ module.exports = class StudentController {
 		return await this.dao.delete({ id: idStudent });
 	}
 
-	//
-	// Requiere cambio
-	//
 	// Funcionalidades de Turing Machines
 	async createTMachine(student, description) {
 		const daoTMachine = new TMachineDao();
@@ -144,18 +141,5 @@ module.exports = class StudentController {
 		const daoTMachine = new TMachineDao();
 
 		return await daoTMachine.find({ owner: { id: student.id } });
-	}
-
-	//Ese student es completamente innecesario lmao. -Edu
-	async addCollaborator(student, idCollaborator, idTMachine) {
-		const daoTMachine = new TMachineDao();
-
-		var storedTM = daoTMachine.find({ id: idTMachine });
-
-		var collabArray = storedTM.collaborators;
-		collabArray.push({ id: idCollaborator });
-		storedTM.collaborators = collabArray;
-
-		return await daoTMachine.update({ id: storedTM.id }, storedTM);
 	}
 };
