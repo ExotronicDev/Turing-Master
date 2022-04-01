@@ -76,7 +76,7 @@ const sendTokenResponse = (student, statusCode, res) => {
 
 	if (process.env.NODE_ENV === "production") {
 		options.secure = true;
-		options.httpOnly = true;
+		// options.httpOnly = true;
 	}
 
 	res.cookie("token", token, options).json({
