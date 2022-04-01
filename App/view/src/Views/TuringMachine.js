@@ -135,7 +135,7 @@
 // 	if (e.charAt(0) !== "!") {
 // 		// ignore comments
 // 		e = e.replace(/ +(?= )/g, ""); // ignore duplicate spaces
-// 		var parts = e.split(" ");
+// 		var parts = e.split("");
 // 		var commentPosition = parts.findIndex(findComment); // finding more comments
 // 		if (commentPosition >= 0) {
 // 			parts.length = commentPosition;
@@ -169,7 +169,7 @@
 // }
 
 // function same(ele, read) {
-// 	if (ele === "_" && read === "") {
+// 	if (ele === "_"&& read === "") {
 // 		return true;
 // 	} else if (ele === read) {
 // 		return true;
@@ -282,38 +282,17 @@
 // }
 
 import React, { Component } from "react";
+import Logo from './Simulator/MachinePicture.png';
 
 class TuringMachine extends Component {
 	render() {
+    const newLocal = <button type="button" class="button" onclick="cleartm()">See Details</button>;
 		return (
   <div>
 
-  <div id="header" class="text">Turing Machine Simulator</div>
+  <div id="header"class="text">Turing Machine Simulator</div>
 
   <div class="text">Starting String</div>
-  <input type="text" id="startString" autocomplete="off"></input>
-  <div id="turingMarkdown">
-    <div class="text">Turing Machine Markdown</div>
-    <textarea id="markdown" 
-  placeholder="! Type in your Turing Machine Markdown here:
-  ! CurrentState Read NextState Write Move                          
-  ! EXAMPLE 1
-  ! starting string: 0101010101
-  ! this is a comment
-  i 0 i 0 r
-  i 1 q2 0 l
-  q2 0 q2 0 l ! you can write whatever you want here
-  q2 1 i 0 r
-  
-  ! final states
-  q1 _ accept  _ s
-  q2 _ accept  _ s ! with a comment in the line"></textarea>
-    <button type="button" onclick="addMachine1()">Sample Machine #1</button>
-    <button type="button" onclick="addMachine2()">Sample Machine #2</button>
-    <button type="button" onclick="addMachine3()">Sample Machine #3</button>
-  </div>
-  <hr>
-  
   
   <div id="topWrapper">
     <div id="stateWrapper">
@@ -321,28 +300,32 @@ class TuringMachine extends Component {
       <div id="state"></div>
     </div>
   
-    <button id="stepbutton" type="button" class="button" onclick="step()">Step</button>
-    <button type="button" class="button" onclick="setup()">Setup TM</button>
-    <button type="button" class="button" onclick="cleartm()">Clear TM</button>
+    <button id="button"type="roundbutton"class="button"onclick="step()">Step</button>
+    <button type="button"class="button"onclick="setup()">Setup TM</button>
+    <button type="button"class="button"onclick="cleartm()">Clear TM</button>
+    {newLocal}
   </div>
   
   <div id='machine'>
-    <div id="1000" class="cell"></div>
-    <div id="1001" class="cell head"></div>
-    <div id="1002" class="cell"></div>
-    <div id="1003" class="cell"></div>
-    <div id="1004" class="cell"></div>
+    <div id="1000"class="cell"></div>
+    <div id="1001"class="cell head"value="1"></div>
+    <div id="1002"class="cell"></div>
+    <div id="1003"class="cell"></div>
+    <div id="1004"class="cell"></div>
   </div>
   
-  </hr>
   
-  
-  <div class="text">Fuel Level: <div style="display: inline;" id="remainingFuel"></div></div> 
-  <input type="text" id="fuelLevel" autocomplete="off"></input>
-  <button type="button" onclick="run()">Run</button>
-  <div class="text">This is a textfield to enter the desired number of iterations.<br/>
-    You can control the delay between actions with adding a number below, higher number means it waits longer.</div>
-  <div class="text" id="speedBox">Delay <input type="text" id="autoSpeed" autocomplete="off" value="100" size="7"></input>
+  <div class="text">TM input: <div style={{ marginTop: "20px", width: "200px"}} id="remainingFuel"></div></div> 
+  <div class="text">This is a textfield to enter the desired number of iterations.</div>
+  <input type="text"id="fuelLevel"autocomplete="off"></input>
+  <button type="button"onclick="run()">Run</button>
+  <button type="button"onclick="run()">Save</button>
+  <div class="text">You can control the delay between actions with adding a number below, higher number means it waits longer.</div>
+  <div class="text"id="speedBox">Delay <input type="text"id="autoSpeed"autocomplete="off"size="7"></input>
+
+<br></br>
+<br></br>
+  <img src={Logo}  height={300} width={500}/>
 
   </div>
   </div>
