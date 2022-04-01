@@ -270,8 +270,13 @@
 	height: 15px;
 }
 
+.EditProfile #check4 {
+	width: 15px;
+	height: 15px;
+}
+
 .EditProfile #edit {
-	width: 50px;
+	width: 33px;
 	height: 30px;
 	text-align: left;
 }
@@ -281,7 +286,16 @@
 }
 
 .EditProfile label {
-  color: white;
-  width: 100px;
-  height: 30px;
+	text-align: left;
+  	color: white;
+  	width: 110px;
+  	height: 30px;
+}
+
+.TuringIO {
+	width: 100wh;
+	height: 100vh;
+	background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+	opacity: 0.9;
+	background-size: 400% 400%;
 }

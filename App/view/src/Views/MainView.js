@@ -14,7 +14,7 @@ class MainView extends Component {
 		return (
 			<div className="MainView">
 				<p>Turing Machine Simulator</p>
-				<form action="">
+				<form action="/TuringMachineSimulator/TuringIO">
 					<button
 						id="newmachine"
 						type="submit"
