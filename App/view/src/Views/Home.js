@@ -35,9 +35,9 @@ class Home extends Component {
 						Register{" "}
 					</button>
 				</form>
-				<form action="/TuringMachineSimulator/TMSimulator">
+				<form action="/TuringMachineSimulator/TuringMachine">
 					<button
-						id="Simulator"
+						id="TMachine"
 						type="submit"
 						className="btn btn-primary btn-lg"
 						style={{ marginTop: "400px", width: "400px" }}
