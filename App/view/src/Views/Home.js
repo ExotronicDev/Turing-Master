@@ -35,6 +35,17 @@ class Home extends Component {
 						Register{" "}
 					</button>
 				</form>
+				<form action="App/view/src/Views/Simulator/TMSimulator">
+					<button
+						id="Simulator"
+						type="submit"
+						className="btn btn-primary btn-lg"
+						style={{ marginTop: "400px", width: "400px" }}
+					>
+						{" "}
+						Simulator{" "}
+					</button>
+				</form>
 			</div>
 		);
 	}

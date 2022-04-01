@@ -141,9 +141,6 @@ function parseRule(e) {
 }
 
 function cleartm() {
-  // document.location.reload(true);
-  // document.getElementById("markdown").value = "";
-  // document.getElementById("startString").value = "";
   document.getElementById("state").innerHTML = "";
   document.getElementById("machine").innerHTML = "";
 
@@ -205,7 +202,7 @@ function step() {
       }
     }
     updateState();
-  } // if you've halted then clicking "step" does nothing.
+  } 
 }
 
 function run() {
