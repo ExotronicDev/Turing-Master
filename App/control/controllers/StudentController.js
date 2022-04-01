@@ -39,17 +39,8 @@ module.exports = class StudentController {
 	}
 
 	// Funcionalidades propias de estudiante
-	async updateStudent(student) {
-		var storedStudent = this.dao.find({ id: student.id });
-
-		//Parece innecesario hacer esto, pero eh, quiero estar seguro. -Edu
-		storedStudent.firstName = student.firstName;
-		storedStudent.lastName = student.lastName;
-		storedStudent.email = student.email;
-		storedStudent.password = student.password;
-		storedStudent.tMachines = student.tMachines;
-
-		return await this.dao.update({ id: student.id }, storedStudent);
+	async updateStudent(idStudent, studentChanges) {
+		return await this.dao.update({ id: idStudent }, studentChanges);
 	}
 
 	async getStudent(filter) {
@@ -81,9 +72,6 @@ module.exports = class StudentController {
 		return await this.dao.delete({ id: idStudent });
 	}
 
-	//
-	// Requiere cambio
-	//
 	// Funcionalidades de Turing Machines
 	async createTMachine(student, description) {
 		const daoTMachine = new TMachineDao();
@@ -116,10 +104,12 @@ module.exports = class StudentController {
 		let index = -1;
 		var tMachines = student.tMachines;
 
-		for (let i = 0; i < tMachines.length; i++) {
-			let tmId = tMachines[i].id;
-			if (tmId == idTMachine) {
-				index = i;
+		if (tMachines.length > 0) {
+			for (let i = 0; i < tMachines.length; i++) {
+				let tmId = tMachines[i].id;
+				if (tmId == idTMachine) {
+					index = i;
+				}
 			}
 		}
 
@@ -132,22 +122,24 @@ module.exports = class StudentController {
 		return await this.dao.update({ id: student.id }, student);
 	}
 
+	async updateTMachine(student, tMachine) {
+		var tMachines = student.tMachines;
+
+		if (tMachines.length > 0) {
+			for (let i = 0; i < tMachines.length; i++) {
+				if (tMachines[i].id == tMachine.id) {
+					tMachines[i].description = tMachine.description;
+				}
+			}
+		}
+
+		student.tMachines = tMachines;
+		return await this.dao.update({ id: student.id }, student);
+	}
+
 	async getTMachines(student) {
 		const daoTMachine = new TMachineDao();
 
 		return await daoTMachine.find({ owner: { id: student.id } });
-	}
-
-	//Ese student es completamente innecesario lmao. -Edu
-	async addCollaborator(student, idCollaborator, idTMachine) {
-		const daoTMachine = new TMachineDao();
-
-		var storedTM = daoTMachine.find({ id: idTMachine });
-
-		var collabArray = storedTM.collaborators;
-		collabArray.push({ id: idCollaborator });
-		storedTM.collaborators = collabArray;
-
-		return await daoTMachine.update({ id: storedTM.id }, storedTM);
 	}
 };

@@ -1,8 +1,6 @@
-const StudentDao = require("../daos/StudentDao");
 const TMachineDao = require("../daos/TMachineDao");
 const StateDao = require("../daos/StateDao");
 const CounterDao = require("../daos/CounterDao");
-const State = require("../../model/state");
 
 module.exports = class TMachineController {
 	constructor() {
@@ -22,20 +20,14 @@ module.exports = class TMachineController {
 
 	//Create TMachine esta implementado en StudentController
 
-	async updateTMachine(tMachine) {
-		//Esto no actualiza los arrays porque eso se hace en otro lado.
-		const storedTMQuery = await this.dao.find({ id: tMachine.id });
-		const storedTM = storedTMQuery[0];
-		storedTM.description = tMachine.description;
-		//storedTM.initialState = tMachine.initialState;
-
-		return await this.dao.update({ id: storedTM.id }, storedTM);
+	async updateTMachine(idTMachine, updatesTMachine) {
+		return await this.dao.update({ id: idTMachine }, updatesTMachine);
 	}
 
 	//Delete TMachine esta implementado en StudentController (pero aca hay otro)
 	async deleteTMachine(idTMachine) {
 		const daoState = new StateDao();
-		
+
 		await daoState.deleteMany({ tMachine: { id: idTMachine } });
 
 		//TODO: Borrar los estados.
@@ -44,121 +36,290 @@ module.exports = class TMachineController {
 
 	//Funcionalidades de estados
 
-	async createState(tMachine, stateName) {
-		const daoState = new StateDao();
+	createState(stateArray, stateName) {
+		const stateArrayLength = stateArray.length;
 
-		const query = await this.stateCounter.find({ name: "state" });
-		const counter = query[0];
-		let nextId = counter.count;
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === stateName) {
+					return false;
+				}
+			}
+		}
 
-		const storedTMQuery = await this.dao.find({ id: tMachine.id });
-		const storedTM = storedTMQuery[0];
-		var tmStates = storedTM.states;
-
-		const newState = new State({
-			id: nextId,
+		const newState = {
 			name: stateName,
-			tMachine: {
-				id: tMachine.id,
-				description: tMachine.description,
+			initialState: false,
+			incomingTransitions: [],
+			exitTransitions: [],
+		};
+
+		stateArray.push(newState);
+		return stateArray;
+	}
+
+	updateState(stateArray, oldName, newName) {
+		const stateArrayLength = stateArray.length;
+		var index = -1;
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === oldName) {
+					index = i;
+				}
+				if (stateArray[i].name === newName) {
+					return false;
+				}
+			}
+		}
+
+		if (index < -1) {
+			return false;
+		}
+
+		stateArray[index].name = newName;
+		return stateArray;
+	}
+
+	setInitialState(stateArray, stateName) {
+		const stateArrayLength = stateArray.length;
+		var index = -1;
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === stateName) {
+					stateArray[i].initialState = true;
+					index = i;
+				}
+			}
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (
+					stateArray[i].initialState &&
+					stateArray[i].name !== stateName
+				) {
+					stateArray[i].initialState = false;
+				}
+			}
+		}
+
+		if (index < 0) {
+			if (otherIndex > 0) {
+				stateArray[otherIndex].initialState = true;
+			}
+			return false;
+		}
+
+		return stateArray;
+	}
+
+	deleteState(stateArray, stateName) {
+		const stateArrayLength = stateArray.length;
+		var index = -1;
+
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === stateName) {
+					index = i;
+				}
+			}
+		}
+
+		if (index < 0) {
+			return false;
+		}
+
+		stateArray.splice(index, 1);
+		return stateArray;
+	}
+
+	createTransition(stateArray, transition) {
+		/*
+		Transition: {
+			readValue
+			writeValue
+			moveValue
+			originState: {
+				name
+			}
+			targetState: {
+				name
+			}
+		} 
+		*/
+		const stateArrayLength = stateArray.length;
+		var originIndex = -1;
+		var targetIndex = -1;
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === transition.originState.name) {
+					originIndex = i;
+				}
+				if (stateArray[i].name === transition.targetState.name) {
+					targetIndex = i;
+				}
+			}
+		}
+
+		if (originIndex < 0 || targetIndex < 0) {
+			return false;
+		}
+
+		const storedOrigin = stateArray[originIndex];
+		const storedTarget = stateArray[targetIndex];
+
+		const exitTransitionsLength = storedOrigin.exitTransitions.length;
+		const incomingTransitionsLength =
+			storedTarget.incomingTransitions.length;
+
+		var exitFlag = true;
+		var incomingFlag = true;
+
+		if (exitTransitionsLength > 0 && incomingTransitionsLength > 0) {
+			for (let i = 0; i < exitTransitionsLength; i++) {
+				if (
+					storedOrigin.exitTransitions[i].readValue ===
+						transition.readValue &&
+					storedOrigin.exitTransitions[i].writeValue ===
+						transition.writeValue &&
+					storedOrigin.exitTransitions[i].moveValue ==
+						transition.moveValue &&
+					storedOrigin.exitTransitions[i].targetState.name ===
+						transition.targetState.name
+				) {
+					//Oh god...
+					exitFlag = false;
+				}
+			}
+
+			for (let i = 0; i < incomingTransitionsLength; i++) {
+				if (
+					storedTarget.incomingTransitions[i].readValue ===
+						transition.readValue &&
+					storedTarget.incomingTransitions[i].writeValue ===
+						transition.writeValue &&
+					storedTarget.incomingTransitions[i].moveValue ==
+						transition.moveValue &&
+					storedTarget.incomingTransitions[i].originState.name ===
+						transition.originState.name
+				) {
+					//Oh no...
+					incomingFlag = false;
+				}
+			}
+		}
+
+		if (!exitFlag && !incomingFlag) {
+			return false;
+		}
+
+		storedOrigin.exitTransitions.push({
+			readValue: transition.readValue,
+			writeValue: transition.writeValue,
+			moveValue: transition.moveValue,
+			targetState: {
+				name: transition.targetState.name,
 			},
 		});
 
-		tmStates.push(newState);
-		storedTM.states = tmStates;
-		await daoState.save(newState);
+		storedTarget.incomingTransitions.push({
+			readValue: transition.readValue,
+			writeValue: transition.writeValue,
+			moveValue: transition.moveValue,
+			originState: {
+				name: transition.originState.name,
+			},
+		});
 
-		nextId++;
-		counter.count = nextId;
-		await this.stateCounter.update({ name: "state" }, counter);
+		stateArray[originIndex] = storedOrigin;
+		stateArray[targetIndex] = storedTarget;
 
-		return await this.dao.update({ id: storedTM.id }, storedTM);
+		return stateArray;
 	}
 
-	async setStartState(tMachine, idState) {
-		const daoState = new StateDao();
-
-		const storedTMQuery = await this.dao.find({ id: tMachine.id });
-		const storedTM = storedTMQuery[0];
-		const storedStateQuery = await daoState.find({ id: idState });
-		const storedState = storedStateQuery[0];
-
-		storedTM.initialState.id = storedState.id;
-		storedTM.initialState.name = storedState.name;
-
-		return await this.dao.update({ id: storedTM.id }, storedTM);
-	}
-
-	async updateState(tMachine, updatedState) {
-		const daoState = new StateDao();
-
-		const storedTMQuery = await this.dao.find({ id: tMachine.id });
-		const storedTM = storedTMQuery[0];
-		const storedStateQuery = await daoState.find({ id: updatedState.id });
-		const storedState = storedStateQuery[0];
-
-		storedState.name = updatedState.name;
-		storedState.incomingTransitions = updatedState.incomingTransitions;
-		storedState.exitTransitions = updatedState.exitTransitions;
-
-		//Si el estado modificado es el inicial, cambiele el nombre.
-		if (storedTM.initialState.id === updatedState.id) {
-			storedTM.initialState.name = updatedState.name;
-		}
-
-		const stateArray = storedTM.states;
-
-		//Buscar el estado a actualizar en la lista de estados de la TM.
-		for (let i = 0; i < stateArray.length; i++) {
-			if (stateArray[i].id === updatedState.id) {
-				stateArray[i].name = updatedState.name;
+	deleteTransition(stateArray, transition) {
+		/*
+		Transition: {
+			readValue
+			writeValue
+			moveValue
+			originState: {
+				name
+			}
+			targetState: {
+				name
+			}
+		} 
+		*/
+		const stateArrayLength = stateArray.length;
+		var originIndex = -1;
+		var targetIndex = -1;
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === transition.originState.name) {
+					originIndex = i;
+				}
+				if (stateArray[i].name === transition.targetState.name) {
+					targetIndex = i;
+				}
 			}
 		}
 
-		storedTM.states = stateArray;
-		await daoState.update({ id: storedState.id }, storedState);
-		return await this.dao.update({ id: storedTM.id }, storedTM);
-	}
+		if (originIndex < 0 || targetIndex < 0) {
+			return false;
+		}
 
-	async getState(tMachine, stateName) {
-		const daoState = new StateDao();
+		const storedOrigin = stateArray[originIndex];
+		const storedTarget = stateArray[targetIndex];
 
-		return await daoState.find({
-			name: stateName,
-			tMachine: { id: tMachine.id },
-		});
-	}
+		const exitTransitionsLength = storedOrigin.exitTransitions.length;
+		const incomingTransitionsLength =
+			storedTarget.incomingTransitions.length;
 
-	async getStates(tMachine) {
-		const daoState = new StateDao();
+		if (exitTransitionsLength <= 0 || incomingTransitionsLength <= 0) {
+			return false;
+		}
 
-		return await daoState.find({ tMachine: { id: tMachine.id } });
-	}
+		var exitIndex = -1;
+		var incomingIndex = -1;
 
-	async deleteState(tMachine, stateName) {
-		const daoState = new StateDao();
-
-		const storedTMQuery = await this.dao.find({ id: tMachine.id });
-		const storedTM = storedTMQuery[0];
-		const stateArray = storedTM.states;
-
-		let index = -1;
-
-		for (let i = 0; i < stateArray.length; i++) {
-			if (stateArray[i].name === stateName) {
-				index = i;
+		for (let i = 0; i < exitTransitionsLength; i++) {
+			if (
+				storedOrigin.exitTransitions[i].readValue ===
+					transition.readValue &&
+				storedOrigin.exitTransitions[i].writeValue ===
+					transition.writeValue &&
+				storedOrigin.exitTransitions[i].moveValue ==
+					transition.moveValue &&
+				storedOrigin.exitTransitions[i].targetState.name ===
+					transition.targetState.name
+			) {
+				exitIndex = i;
 			}
 		}
 
-		if (index > -1) {
-			stateArray.splice(index, 1);
+		for (let i = 0; i < incomingTransitionsLength; i++) {
+			if (
+				storedTarget.incomingTransitions[i].readValue ===
+					transition.readValue &&
+				storedTarget.incomingTransitions[i].writeValue ===
+					transition.writeValue &&
+				storedTarget.incomingTransitions[i].moveValue ==
+					transition.moveValue &&
+				storedTarget.incomingTransitions[i].originState.name ===
+					transition.originState.name
+			) {
+				incomingIndex = i;
+			}
 		}
 
-		storedTM.states = stateArray;
-		await this.dao.update({ id: storedTM.id }, storedTM);
-		return await daoState.delete({
-			name: stateName,
-			tMachine: { id: tMachine.id },
-		});
+		if (exitIndex == -1 && incomingIndex == -1) {
+			return false;
+		}
+
+		storedOrigin.exitTransitions.splice(exitIndex, 1);
+		storedTarget.incomingTransitions.splice(incomingIndex, 1);
+
+		stateArray[originIndex] = storedOrigin;
+		stateArray[targetIndex] = storedTarget;
+
+		return stateArray;
 	}
 };

@@ -119,9 +119,9 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
 //  @route      PUT /api/v1/students/:id
 //  @access     Private
 exports.updateStudent = asyncHandler(async (req, res, next) => {
-	const student = req.body;
-	if (!student.id) {
-		student.id = req.params.id;
+	const studentChanges = req.body;
+	if (!studentChanges.id) {
+		studentChanges.id = req.params.id;
 	}
 	const control = new StudentController();
 	const foundStudent = await control.getStudent({ id: req.params.id });
@@ -133,7 +133,10 @@ exports.updateStudent = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-	const updateResponse = await control.updateStudent(student);
+	const updateResponse = await control.updateStudent(
+		studentChanges.id,
+		studentChanges
+	);
 	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
 		return next(
 			new ErrorResponse(
@@ -301,7 +304,10 @@ exports.updateTMachine = asyncHandler(async (req, res, next) => {
 		);
 	}
 
-	const updateResponse = await controlTMachine.updateTMachine(tMachine);
+	const updateResponse = await controlTMachine.updateTMachine(
+		req.params.id,
+		tMachine
+	);
 	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
 		return next(
 			new ErrorResponse(
@@ -309,6 +315,24 @@ exports.updateTMachine = asyncHandler(async (req, res, next) => {
 				304
 			)
 		);
+	}
+	if (tMachine.description) {
+		const updateResponseStudent = await controlStudent.updateTMachine(
+			loggedStudent,
+			tMachine
+		);
+		if (
+			updateResponseStudent.modifiedCount == 0 ||
+			!updateResponseStudent.acknowledged
+		) {
+			return next(
+				new ErrorResponse(
+					`Error updating the TMachine with id: ${req.params.id} from the current user.`,
+					304
+				)
+			);
+		}
+		res.json({ success: true, data: updateResponseStudent });
 	}
 	res.json({ success: true, data: updateResponse });
 });
@@ -349,7 +373,6 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-	console.log(loggedStudent);
 	const updateResponse = await controlStudent.deleteTMachine(
 		loggedStudent,
 		req.params.id
@@ -362,5 +385,126 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-	res.json({ success: true, data: modifiedStudent });
+	res.json({ success: true, data: updateResponse });
 });
+
+//-----------------States-----------------//
+//	***			No Database interactions
+
+//  @desc       Create TMachine State
+//  @route      POST /api/v1/tmachines/states
+//  @access     Public
+exports.createState = (req, res, next) => {
+	const { states, stateName } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.createState(states, stateName);
+	if (!modifiedStates) {
+		return next(
+			new ErrorResponse(
+				`State named "${stateName}" already exists in the current TMachine.`,
+				304
+			)
+		);
+	}
+	res.json({ success: true, states: modifiedStates });
+};
+
+//  @desc       Update TMachine States
+//  @route      PUT /api/v1/tmachines/states
+//  @access     Public
+exports.updateState = (req, res, next) => {
+	const { states, oldName, newName } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.updateState(states, oldName, newName);
+	if (!modifiedStates) {
+		return next(
+			new ErrorResponse(
+				`Could not rename the state "${oldName}" to "${newName}".`,
+				304
+			)
+		);
+	}
+	res.json({ success: true, states: modifiedStates });
+};
+
+//  @desc       Set TMachine State as Initial State
+//  @route      PUT /api/v1/tmachines/states/initial
+//  @access     Public
+exports.setInitialState = (req, res, next) => {
+	const { states, stateName } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.setInitialState(states, stateName);
+	if (!modifiedStates) {
+		return next(
+			new ErrorResponse(
+				`State named "${stateName}" does not exist in the current TMachine.`,
+				304
+			)
+		);
+	}
+	res.json({ success: true, states: modifiedStates });
+};
+
+//  @desc       Delete TMachine States
+//  @route      DELETE /api/v1/tmachines/states
+//  @access     Public
+exports.deleteState = (req, res, next) => {
+	const { states, stateName } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.deleteState(states, stateName);
+	if (!modifiedStates) {
+		return next(
+			new ErrorResponse(
+				`State named "${stateName}" does not exist in the current TMachine.`,
+				304
+			)
+		);
+	}
+	res.json({ success: true, states: modifiedStates });
+};
+
+//-----------------Transitions-----------------//
+//	***			No Database interactions
+
+//  @desc       Create State Transition
+//  @route      POST /api/v1/tmachines/states/transitions
+//  @access     Public
+exports.createTransition = (req, res, next) => {
+	const { states, transition } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.createTransition(states, transition);
+	if (!modifiedStates) {
+		return next(new ErrorResponse(`Could not create transition.`, 304));
+	}
+	res.json({ success: true, states: modifiedStates });
+};
+
+//  @desc       Update State Transition
+//  @route      PUT /api/v1/tmachines/states/transitions
+//  @access     Public
+exports.updateTransition = (req, res, next) => {
+	const { states, oldTransition, newTransition } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.deleteTransition(states, oldTransition);
+	if (!modifiedStates) {
+		return next(new ErrorResponse(`Could not delete old transition.`, 304));
+	}
+	const finalStates = control.createTransition(states, newTransition);
+	if (!finalStates) {
+		return next(new ErrorResponse(`Could not create new transition.`, 304));
+	}
+	res.json({ success: true, states: finalStates });
+};
+
+//  @desc       Delete State Transition
+//  @route      DELETE /api/v1/tmachines/states/transitions
+//  @access     Public
+exports.deleteTransition = (req, res, next) => {
+	const { states, transition } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.deleteTransition(states, transition);
+	if (!modifiedStates) {
+		return next(new ErrorResponse(`Could not delete transition.`, 304));
+	}
+	res.json({ success: true, states: modifiedStates });
+};
