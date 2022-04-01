@@ -84,7 +84,7 @@ module.exports = class TMachineController {
 		return await this.dao.update({ id: storedTM.id }, storedTM);
 	}
 
-	async updateState(stateArray, oldName, newName) {
+	updateState(stateArray, oldName, newName) {
 		const stateArrayLength = stateArray.length;
 		var index = -1;
 		if (stateArrayLength > 0) {
@@ -106,6 +106,31 @@ module.exports = class TMachineController {
 		return stateArray;
 	}
 
+	setInitialState(stateArray, stateName) {
+		const stateArrayLength = stateArray.length;
+		var index = -1;
+		var otherIndex = -1
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === stateName) {
+					stateArray[i].initialState = true;
+					index = i;
+				}
+				if ((stateArray[i].initialState) && stateArray[i].name !== stateName) {
+					stateArray[i].initialState = false;
+					otherIndex = i;
+				}
+			}
+		}
+
+		if (index < 0) {
+			if (otherIndex > 0) {
+				stateArray[otherIndex].initialState = true;
+			}
+			return false;
+		}
+	}
+
 	async getState(tMachine, stateName) {
 		const daoState = new StateDao();
 
@@ -121,7 +146,7 @@ module.exports = class TMachineController {
 		return await daoState.find({ tMachine: { id: tMachine.id } });
 	}
 
-	async deleteState(stateArray, stateName) {
+	deleteState(stateArray, stateName) {
 		const stateArrayLength = stateArray.length;
 		var index = -1;
 		
@@ -138,6 +163,173 @@ module.exports = class TMachineController {
 		}
 
 		stateArray.splice(index, 1);
+		return stateArray;
+	}
+
+	createTransition(stateArray, transition) {
+		/*
+		Transition: {
+			readValue
+			writeValue
+			moveValue
+			originState: {
+				name
+			}
+			targetState: {
+				name
+			}
+		} 
+		*/
+		const stateArrayLength = stateArray.length;
+		var originIndex = -1;
+		var targetIndex = -1;
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === transition.originState.name) {
+					originIndex = i;
+				}
+				if (stateArray[i].name === transition.targetState.name) {
+					targetIndex = i;
+				}
+			}
+		}
+
+		if (originIndex < 0 || targetIndex < 0) {
+			return false;
+		}
+
+		const storedOrigin = stateArray[originIndex];
+		const storedTarget = stateArray[targetIndex];
+
+		const exitTransitionsLength = storedOrigin.exitTransitions.length;
+		const incomingTransitionsLength = storedTarget.incomingTransitions.length;
+
+		var exitFlag = true;
+		var incomingFlag = true;
+
+		if (exitTransitionsLength > 0 && incomingTransitionsLength > 0) {
+			for (let i = 0; i < exitTransitionsLength; i++) {
+				if (storedOrigin.exitTransitions[i].readValue === transition.readValue && 
+					storedOrigin.exitTransitions[i].writeValue === transition.writeValue && 
+					storedOrigin.exitTransitions[i].moveValue == transition.moveValue && 
+					storedOrigin.exitTransitions[i].targetState.name === transition.targetState.name) {
+					//Oh god...
+					exitFlag = false;
+				}
+			}
+
+			for (let i = 0; i < incomingTransitionsLength; i++) {
+				if (storedTarget.incomingTransitions[i].readValue === transition.readValue &&
+					storedTarget.incomingTransitions[i].writeValue === transition.writeValue &&
+					storedTarget.incomingTransitions[i].moveValue == transition.moveValue &&
+					storedTarget.incomingTransitions[i].originState.name === transition.originState.name) {
+					//Oh no...
+					incomingFlag = false;
+				}
+			}
+		}
+
+		if (!exitFlag && !incomingFlag) {
+			return false;
+		}
+		
+		storedOrigin.exitTransitions.push({
+			readValue: transition.readValue,
+			writeValue: transition.writeValue,
+			moveValue: transition.moveValue,
+			targetState: {
+				name: transition.targetState.name
+			}
+		});
+
+		storedTarget.incomingTransitions.push({
+			readValue: transition.readValue,
+			writeValue: transition.writeValue,
+			moveValue: transition.moveValue,
+			originState: {
+				name: transition.originState.name
+			}
+		});
+
+		stateArray[originIndex] = storedOrigin;
+		stateArray[targetIndex] = storedTarget;
+
+		return stateArray;
+	}
+
+	deleteTransition(stateArray, transition) {
+		/*
+		Transition: {
+			readValue
+			writeValue
+			moveValue
+			originState: {
+				name
+			}
+			targetState: {
+				name
+			}
+		} 
+		*/
+		const stateArrayLength = stateArray.length;
+		var originIndex = -1;
+		var targetIndex = -1;
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === transition.originState.name) {
+					originIndex = i;
+				}
+				if (stateArray[i].name === transition.targetState.name) {
+					targetIndex = i;
+				}
+			}
+		}
+
+		if (originIndex < 0 || targetIndex < 0) {
+			return false;
+		}
+
+		const storedOrigin = stateArray[originIndex];
+		const storedTarget = stateArray[targetIndex];
+
+		const exitTransitionsLength = storedOrigin.exitTransitions.length;
+		const incomingTransitionsLength = storedTarget.incomingTransitions.length;
+
+		if (exitTransitionsLength <= 0 || incomingTransitionsLength <= 0) {
+			return false;
+		}
+		
+		var exitIndex = -1;
+		var incomingIndex = -1;
+
+		for (let i = 0; i < exitTransitionsLength; i++) {
+			if (storedOrigin.exitTransitions[i].readValue === transition.readValue &&
+				storedOrigin.exitTransitions[i].writeValue === transition.writeValue &&
+				storedOrigin.exitTransitions[i].moveValue == transition.moveValue &&
+				storedOrigin.exitTransitions[i].targetState.name === transition.targetState.name) {
+				exitIndex = i;
+			}
+		}
+
+		for (let i = 0; i < incomingTransitionsLength; i++) {
+			if (storedTarget.incomingTransitions[i].readValue === transition.readValue &&
+				storedTarget.incomingTransitions[i].writeValue === transition.writeValue &&
+				storedTarget.incomingTransitions[i].moveValue == transition.moveValue &&
+				storedTarget.incomingTransitions[i].originState.name === transition.originState.name) {
+				incomingIndex = i;
+			}
+		}
+
+		if (exitIndex == -1 && incomingIndex == -1) {
+			return false;
+		}
+
+		storedOrigin.exitTransitions.splice(exitIndex, 1);
+		storedTarget.incomingTransitions.splice(incomingIndex, 1);
+
+		stateArray[originIndex] = storedOrigin;
+		stateArray[targetIndex] = storedTarget;
+
 		return stateArray;
 	}
 };
