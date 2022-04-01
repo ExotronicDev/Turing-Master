@@ -46,4 +46,78 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+
+  <div id="header" class="text">Turing Machine Simulator</div><hr>
+
+<div class="text">Starting String</div>
+<input type="text" id="startString" autocomplete="off">
+<hr>
+<div id="turingMarkdown">
+  <div class="text">Turing Machine Markdown</div>
+  <textarea id="markdown" 
+placeholder="! Type in your Turing Machine Markdown here:
+! CurrentState Read NextState Write Move                          
+! EXAMPLE 1
+! starting string: 0101010101
+! this is a comment
+i 0 i 0 r
+i 1 q2 0 l
+q2 0 q2 0 l ! you can write whatever you want here
+q2 1 i 0 r
+
+! final states
+q1 _ accept  _ s
+q2 _ accept  _ s ! with a comment in the line
+
+
+! EXAMPLE 2
+! starting string: 00001
+i 0 i 1 r
+i 1 back 0 l
+
+back 1 back 1 l
+back _ i _ r
+
+i _ accept _ s"></textarea>
+  <button type="button" onclick="addMachine1()">Sample Machine #1</button>
+  <button type="button" onclick="addMachine2()">Sample Machine #2</button>
+  <button type="button" onclick="addMachine3()">Sample Machine #3</button>
+</div>
+<hr>
+
+<div id="topWrapper">
+  <div id="stateWrapper">
+    <div id="statelabel">State</div>
+    <div id="state"></div>
+  </div>
+
+  <button id="stepbutton" type="button" class="button" onclick="step()">Step</button>
+  <button type="button" class="button" onclick="setup()">Setup TM</button>
+  <button type="button" class="button" onclick="cleartm()">Clear TM</button>
+</div>
+
+<div id='machine'>
+  <div id="1000" class="cell"></div>
+  <div id="1001" class="cell head"></div>
+  <div id="1002" class="cell"></div>
+  <div id="1003" class="cell"></div>
+  <div id="1004" class="cell"></div>
+</div>
+
+<hr>
+
+
+<div class="text">Fuel Level: <div style="display: inline;" id="remainingFuel"></div></div>
+<input type="text" id="fuelLevel" autocomplete="off">
+<button type="button" onclick="run()">Run</button>
+<div class="text">Enter a number and run your TM for that many iterations or until it halts.<br/>You can control the delay between actions below, higher number means it waits longer.</div>
+<div class="text" id="speedBox">Delay <input type="text" id="autoSpeed" autocomplete="off" value="100" size="7"></div>
+<hr>
+
+<div class="text">Syntax specifics:<br/>- case is ignored<br/>- duplicate spaces and newlines are ignored<br/>- any line that starts with a bang ("!") is ignored<br/>- text after a bang ("!") is ignored (useful for comments)<br/>- "ACCEPT" is the only accept state, other states can be halt states<br/>- "I" is the initial state</div>
+
+<hr>
+
+
+
 </html>
