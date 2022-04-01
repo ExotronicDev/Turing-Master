@@ -46,6 +46,7 @@ const server = app.listen(
 );
 
 if (process.env.NODE_ENV === "production") {
+	// Build react for Heroku
 	const reactBuild = path.join(__dirname, "view", "build");
 	app.use(express.static(reactBuild));
 	app.get("*", async (req, res) => {
