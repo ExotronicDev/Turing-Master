@@ -116,6 +116,8 @@ module.exports = class TMachineController {
 					stateArray[i].initialState = true;
 					index = i;
 				}
+			}
+			for (let i = 0; i < stateArrayLength; i++) {
 				if ((stateArray[i].initialState) && stateArray[i].name !== stateName) {
 					stateArray[i].initialState = false;
 					otherIndex = i;
