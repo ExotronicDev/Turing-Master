@@ -424,3 +424,45 @@ exports.deleteState = (req, res, next) => {
 	}
 	res.json({ success: true, data: modifiedStates });
 };
+
+//-----------------Transitions-----------------//
+//	***			No Database interactions
+
+//  @desc       Create State Transition
+//  @route      POST /api/v1/tmachines/states/transitions
+//  @access     Public
+exports.createTransition = (req, res, next) => {
+	const { states, transition } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.createTransition(states, transition);
+	if (!modifiedStates) {
+		return next(new ErrorResponse(`Could not create transition.`, 304));
+	}
+	res.json({ success: true, data: modifiedStates });
+};
+
+//  @desc       Update State Transition
+//  @route      PUT /api/v1/tmachines/states/transitions
+//  @access     Public
+exports.updateTransition = (req, res, next) => {
+	const { states, transition } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.updateTransition(states, transition);
+	if (!modifiedStates) {
+		return next(new ErrorResponse(`Could not update transition.`, 304));
+	}
+	res.json({ success: true, data: modifiedStates });
+};
+
+//  @desc       Delete State Transition
+//  @route      DELETE /api/v1/tmachines/states/transitions
+//  @access     Public
+exports.deleteTransition = (req, res, next) => {
+	const { states, transition } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.deleteTransition(states, transition);
+	if (!modifiedStates) {
+		return next(new ErrorResponse(`Could not delete transition.`, 304));
+	}
+	res.json({ success: true, data: modifiedStates });
+};

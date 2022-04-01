@@ -7,6 +7,11 @@ const {
 	updateTMachine,
 	deleteTMachine,
 	createState,
+	updateState,
+	deleteState,
+	createTransition,
+	updateTransition,
+	deleteTransition,
 } = require("../control/controllers/Controller");
 
 // Create router
@@ -21,6 +26,17 @@ tmachinesRouter
 	.delete(protect, deleteTMachine);
 
 // States routes
-tmachinesRouter.route("/states").post(createState);
+tmachinesRouter
+	.route("/states")
+	.post(createState)
+	.put(updateState)
+	.delete(deleteState);
+
+// Transitions routes
+tmachinesRouter
+	.route("/states/transitions")
+	.post(createTransition)
+	.put(updateTransition)
+	.delete(deleteTransition);
 
 module.exports = tmachinesRouter;
