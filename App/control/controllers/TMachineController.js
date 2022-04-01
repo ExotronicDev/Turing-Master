@@ -109,7 +109,6 @@ module.exports = class TMachineController {
 	setInitialState(stateArray, stateName) {
 		const stateArrayLength = stateArray.length;
 		var index = -1;
-		var otherIndex = -1
 		if (stateArrayLength > 0) {
 			for (let i = 0; i < stateArrayLength; i++) {
 				if (stateArray[i].name === stateName) {
@@ -120,7 +119,6 @@ module.exports = class TMachineController {
 			for (let i = 0; i < stateArrayLength; i++) {
 				if ((stateArray[i].initialState) && stateArray[i].name !== stateName) {
 					stateArray[i].initialState = false;
-					otherIndex = i;
 				}
 			}
 		}
@@ -131,6 +129,8 @@ module.exports = class TMachineController {
 			}
 			return false;
 		}
+
+		return stateArray;
 	}
 
 	async getState(tMachine, stateName) {
