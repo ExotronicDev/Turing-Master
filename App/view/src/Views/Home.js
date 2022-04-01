@@ -35,7 +35,7 @@ class Home extends Component {
 						Register{" "}
 					</button>
 				</form>
-				<form action="/TuringMachineSimulator/TMSimulator">
+				<form action="App/view/src/Views/Simulator/uimanager3.js">
 					<button
 						id="Simulator"
 						type="submit"
