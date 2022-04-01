@@ -46,7 +46,11 @@ const server = app.listen(
 );
 
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static("view/build"));
+	const reactBuild = path.join(__dirname, "view", "build");
+	app.use(express.static(reactBuild));
+	app.get("*", async (req, res) => {
+		res.sendFile(path.join(reactBuild, "index.html"));
+	});
 }
 
 // Handle unhandled promise rejections
