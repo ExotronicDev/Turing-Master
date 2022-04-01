@@ -41,7 +41,7 @@ app.use(errorHandler);
 
 // Start server
 const server = app.listen(
-	process.env.PORT || 5000,
+	process.env.PORT || 8080,
 	console.log(`Server initialized on port: ${process.env.PORT}.`.yellow.bold)
 );
 
