@@ -45,6 +45,10 @@ const server = app.listen(
 	console.log(`Server initialized on port: ${process.env.PORT}.`.yellow.bold)
 );
 
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static("view/build"));
+}
+
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, res, next) => {
 	console.log(`Unhandled Error: ${err}`.red.bold);

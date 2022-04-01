@@ -5,10 +5,12 @@
   "main": "server.js",
   "scripts": {
     "first-install": "npm install && cd view && npm install && cd ..",
-    "heroku-postbuild": "npm first-install && npm start",
+    "install-view": "cd view && npm install",
+    "heroku-postbuild": "npm run install-view && npm run build",
     "start": "npm run app",
     "backend": "nodemon server.js",
     "frontend": "cd view && npm start",
+    "build": "cd view && npm run build",
     "app": "concurrently -n 'Back-end,Front-end' -c 'red,blue' \"npm run backend\" \"npm run frontend\""
   },
   "repository": {
