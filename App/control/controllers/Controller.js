@@ -367,3 +367,43 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 	}
 	res.json({ success: true, data: updateResponse });
 });
+
+//-----------------States-----------------//
+//	***			No Database interactions
+
+//  @desc       Create TMachine State
+//  @route      POST /api/v1/tmachines/states
+//  @access     Public
+exports.createState = (req, res, next) => {
+	const { states, stateName } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.createState(states, stateName);
+	if (!modifiedStates) {
+		return next(
+			new ErrorResponse(
+				`State named "${stateName}" already exists in the current TMachine.`,
+				304
+			)
+		);
+	}
+	res.json({ success: true, data: modifiedStates });
+};
+
+//  @desc       Update TMachine States
+//  @route      PUT /api/v1/tmachines/states
+//  @access     Public
+exports.updateState = (req, res, next) => {
+	const { states, stateName } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.createState(states, stateName);
+	if (!modifiedStates) {
+		return next(
+			// MOD
+			new ErrorResponse(
+				`Error deleting the TMachine with id: ${req.params.id} from the current user.`,
+				304
+			)
+		);
+	}
+	res.json({ success: true, data: modifiedStates });
+};

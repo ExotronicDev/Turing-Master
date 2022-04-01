@@ -38,10 +38,10 @@ module.exports = class TMachineController {
 
 	//Funcionalidades de estados
 
-	async createState(stateArray, stateName) {
-		const query = await this.stateCounter.find({ name: "state" });
-		const counter = query[0];
-		let nextId = counter.count;
+	createState(stateArray, stateName) {
+		// const query = await this.stateCounter.find({ name: "state" });
+		// const counter = query[0];
+		// let nextId = counter.count;
 
 		const stateArrayLength = stateArray.length;
 
@@ -54,18 +54,18 @@ module.exports = class TMachineController {
 		}
 
 		const newState = {
-			id: nextId,
+			// id: nextId,
 			name: stateName,
 			initialState: false,
 			incomingTransitions: [],
-			exitTransitions: []
-		}
+			exitTransitions: [],
+		};
 
 		stateArray.push(newState);
 
-		nextId++;
-		counter.count = nextId;
-		await this.stateCounter.update({ name: "state" }, counter);
+		// nextId++;
+		// counter.count = nextId;
+		// await this.stateCounter.update({ name: "state" }, counter);
 
 		return stateArray;
 	}
