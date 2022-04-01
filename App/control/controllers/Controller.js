@@ -373,7 +373,6 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-	console.log(loggedStudent);
 	const updateResponse = await controlStudent.deleteTMachine(
 		loggedStudent,
 		req.params.id
@@ -414,10 +413,8 @@ exports.createState = (req, res, next) => {
 //  @route      PUT /api/v1/tmachines/states
 //  @access     Public
 exports.updateState = (req, res, next) => {
-	console.log(req.body);
 	const { states, oldName, newName } = req.body;
 	const control = new TMachineController();
-	console.log(states);
 	const modifiedStates = control.updateState(states, oldName, newName);
 	if (!modifiedStates) {
 		return next(
@@ -452,7 +449,6 @@ exports.setInitialState = (req, res, next) => {
 //  @route      DELETE /api/v1/tmachines/states
 //  @access     Public
 exports.deleteState = (req, res, next) => {
-	console.log(req.body);
 	const { states, stateName } = req.body;
 	const control = new TMachineController();
 	const modifiedStates = control.deleteState(states, stateName);
@@ -487,13 +483,17 @@ exports.createTransition = (req, res, next) => {
 //  @route      PUT /api/v1/tmachines/states/transitions
 //  @access     Public
 exports.updateTransition = (req, res, next) => {
-	const { states, transition } = req.body;
+	const { states, oldTransition, newTransition } = req.body;
 	const control = new TMachineController();
-	const modifiedStates = control.updateTransition(states, transition);
+	const modifiedStates = control.deleteTransition(states, oldTransition);
 	if (!modifiedStates) {
-		return next(new ErrorResponse(`Could not update transition.`, 304));
+		return next(new ErrorResponse(`Could not delete old transition.`, 304));
 	}
-	res.json({ success: true, states: modifiedStates });
+	const finalStates = control.createTransition(states, newTransition);
+	if (!finalStates) {
+		return next(new ErrorResponse(`Could not create new transition.`, 304));
+	}
+	res.json({ success: true, states: finalStates });
 };
 
 //  @desc       Delete State Transition

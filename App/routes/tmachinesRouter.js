@@ -27,18 +27,14 @@ tmachinesRouter
 	.delete(protect, deleteTMachine);
 
 // States routes
-tmachinesRouter
-	.route("/states")
-	.post(createState)
-	.put(updateState)
-	.delete(deleteState);
+tmachinesRouter.route("/states/post").post(createState);
+tmachinesRouter.route("/states/put").put(updateState);
+tmachinesRouter.route("/states/delete").delete(deleteState);
 tmachinesRouter.route("/states/initial").put(setInitialState);
 
 // Transitions routes
-tmachinesRouter
-	.route("/states/transitions")
-	.post(createTransition)
-	.put(updateTransition)
-	.delete(deleteTransition);
+tmachinesRouter.route("/states/transitions/post").post(createTransition);
+tmachinesRouter.route("/states/transitions/put").put(updateTransition);
+tmachinesRouter.route("/states/transitions/delete").delete(deleteTransition);
 
 module.exports = tmachinesRouter;
