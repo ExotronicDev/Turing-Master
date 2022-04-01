@@ -393,14 +393,31 @@ exports.createState = (req, res, next) => {
 //  @route      PUT /api/v1/tmachines/states
 //  @access     Public
 exports.updateState = (req, res, next) => {
-	const { states, stateName } = req.body;
+	const { states, oldName, newName } = req.body;
 	const control = new TMachineController();
-	const modifiedStates = control.createState(states, stateName);
+	const modifiedStates = control.updateState(states, oldName, newName);
 	if (!modifiedStates) {
 		return next(
-			// MOD
 			new ErrorResponse(
-				`Error deleting the TMachine with id: ${req.params.id} from the current user.`,
+				`Could not rename the state "${oldName}" to "${newName}".`,
+				304
+			)
+		);
+	}
+	res.json({ success: true, data: modifiedStates });
+};
+
+//  @desc       Delete TMachine States
+//  @route      DELETE /api/v1/tmachines/states
+//  @access     Public
+exports.deleteState = (req, res, next) => {
+	const { states, stateName } = req.body;
+	const control = new TMachineController();
+	const modifiedStates = control.deleteState(states, stateName);
+	if (!modifiedStates) {
+		return next(
+			new ErrorResponse(
+				`State named "${stateName}" does not exist in the current TMachine.`,
 				304
 			)
 		);
