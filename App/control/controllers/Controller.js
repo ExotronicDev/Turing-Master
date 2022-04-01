@@ -119,9 +119,9 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
 //  @route      PUT /api/v1/students/:id
 //  @access     Private
 exports.updateStudent = asyncHandler(async (req, res, next) => {
-	const student = req.body;
-	if (!student.id) {
-		student.id = req.params.id;
+	const studentChanges = req.body;
+	if (!studentChanges.id) {
+		studentChanges.id = req.params.id;
 	}
 	const control = new StudentController();
 	const foundStudent = await control.getStudent({ id: req.params.id });
@@ -133,7 +133,10 @@ exports.updateStudent = asyncHandler(async (req, res, next) => {
 			)
 		);
 	}
-	const updateResponse = await control.updateStudent(student);
+	const updateResponse = await control.updateStudent(
+		studentChanges.id,
+		studentChanges
+	);
 	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
 		return next(
 			new ErrorResponse(
@@ -312,6 +315,24 @@ exports.updateTMachine = asyncHandler(async (req, res, next) => {
 				304
 			)
 		);
+	}
+	if (tMachine.description) {
+		const updateResponseStudent = await controlStudent.updateTMachine(
+			loggedStudent,
+			tMachine
+		);
+		if (
+			updateResponseStudent.modifiedCount == 0 ||
+			!updateResponseStudent.acknowledged
+		) {
+			return next(
+				new ErrorResponse(
+					`Error updating the TMachine with id: ${req.params.id} from the current user.`,
+					304
+				)
+			);
+		}
+		res.json({ success: true, data: updateResponseStudent });
 	}
 	res.json({ success: true, data: updateResponse });
 });
