@@ -407,15 +407,17 @@ exports.createState = (req, res, next) => {
 			)
 		);
 	}
-	res.json({ success: true, data: modifiedStates });
+	res.json({ success: true, states: modifiedStates });
 };
 
 //  @desc       Update TMachine States
 //  @route      PUT /api/v1/tmachines/states
 //  @access     Public
 exports.updateState = (req, res, next) => {
+	console.log(req.body);
 	const { states, oldName, newName } = req.body;
 	const control = new TMachineController();
+	console.log(states);
 	const modifiedStates = control.updateState(states, oldName, newName);
 	if (!modifiedStates) {
 		return next(
@@ -425,7 +427,7 @@ exports.updateState = (req, res, next) => {
 			)
 		);
 	}
-	res.json({ success: true, data: modifiedStates });
+	res.json({ success: true, states: modifiedStates });
 };
 
 //  @desc       Set TMachine State as Initial State
@@ -443,13 +445,14 @@ exports.setInitialState = (req, res, next) => {
 			)
 		);
 	}
-	res.json({ success: true, data: modifiedStates });
+	res.json({ success: true, states: modifiedStates });
 };
 
 //  @desc       Delete TMachine States
 //  @route      DELETE /api/v1/tmachines/states
 //  @access     Public
 exports.deleteState = (req, res, next) => {
+	console.log(req.body);
 	const { states, stateName } = req.body;
 	const control = new TMachineController();
 	const modifiedStates = control.deleteState(states, stateName);
@@ -461,7 +464,7 @@ exports.deleteState = (req, res, next) => {
 			)
 		);
 	}
-	res.json({ success: true, data: modifiedStates });
+	res.json({ success: true, states: modifiedStates });
 };
 
 //-----------------Transitions-----------------//
@@ -477,7 +480,7 @@ exports.createTransition = (req, res, next) => {
 	if (!modifiedStates) {
 		return next(new ErrorResponse(`Could not create transition.`, 304));
 	}
-	res.json({ success: true, data: modifiedStates });
+	res.json({ success: true, states: modifiedStates });
 };
 
 //  @desc       Update State Transition
@@ -490,7 +493,7 @@ exports.updateTransition = (req, res, next) => {
 	if (!modifiedStates) {
 		return next(new ErrorResponse(`Could not update transition.`, 304));
 	}
-	res.json({ success: true, data: modifiedStates });
+	res.json({ success: true, states: modifiedStates });
 };
 
 //  @desc       Delete State Transition
@@ -503,5 +506,5 @@ exports.deleteTransition = (req, res, next) => {
 	if (!modifiedStates) {
 		return next(new ErrorResponse(`Could not delete transition.`, 304));
 	}
-	res.json({ success: true, data: modifiedStates });
+	res.json({ success: true, states: modifiedStates });
 };
