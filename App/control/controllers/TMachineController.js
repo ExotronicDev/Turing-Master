@@ -84,35 +84,26 @@ module.exports = class TMachineController {
 		return await this.dao.update({ id: storedTM.id }, storedTM);
 	}
 
-	async updateState(tMachine, updatedState) {
-		const daoState = new StateDao();
-
-		const storedTMQuery = await this.dao.find({ id: tMachine.id });
-		const storedTM = storedTMQuery[0];
-		const storedStateQuery = await daoState.find({ id: updatedState.id });
-		const storedState = storedStateQuery[0];
-
-		storedState.name = updatedState.name;
-		storedState.incomingTransitions = updatedState.incomingTransitions;
-		storedState.exitTransitions = updatedState.exitTransitions;
-
-		//Si el estado modificado es el inicial, cambiele el nombre.
-		if (storedTM.initialState.id === updatedState.id) {
-			storedTM.initialState.name = updatedState.name;
-		}
-
-		const stateArray = storedTM.states;
-
-		//Buscar el estado a actualizar en la lista de estados de la TM.
-		for (let i = 0; i < stateArray.length; i++) {
-			if (stateArray[i].id === updatedState.id) {
-				stateArray[i].name = updatedState.name;
+	async updateState(stateArray, oldName, newName) {
+		const stateArrayLength = stateArray.length;
+		var index = -1;
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === oldName) {
+					index = i;
+				}
+				if (stateArray[i].name === newName) {
+					return false;
+				}
 			}
 		}
 
-		storedTM.states = stateArray;
-		await daoState.update({ id: storedState.id }, storedState);
-		return await this.dao.update({ id: storedTM.id }, storedTM);
+		if (index > -1) {
+			return false;
+		}
+
+		stateArray[index].name = newName;
+		return stateArray;
 	}
 
 	async getState(tMachine, stateName) {
@@ -130,30 +121,23 @@ module.exports = class TMachineController {
 		return await daoState.find({ tMachine: { id: tMachine.id } });
 	}
 
-	async deleteState(tMachine, stateName) {
-		const daoState = new StateDao();
-
-		const storedTMQuery = await this.dao.find({ id: tMachine.id });
-		const storedTM = storedTMQuery[0];
-		const stateArray = storedTM.states;
-
-		let index = -1;
-
-		for (let i = 0; i < stateArray.length; i++) {
-			if (stateArray[i].name === stateName) {
-				index = i;
+	async deleteState(stateArray, stateName) {
+		const stateArrayLength = stateArray.length;
+		var index = -1;
+		
+		if (stateArrayLength > 0) {
+			for (let i = 0; i < stateArrayLength; i++) {
+				if (stateArray[i].name === stateName) {
+					index = i;
+				}
 			}
 		}
 
-		if (index > -1) {
-			stateArray.splice(index, 1);
+		if (index < 0) {
+			return false;
 		}
 
-		storedTM.states = stateArray;
-		await this.dao.update({ id: storedTM.id }, storedTM);
-		return await daoState.delete({
-			name: stateName,
-			tMachine: { id: tMachine.id },
-		});
+		stateArray.splice(index, 1);
+		return stateArray;
 	}
 };
