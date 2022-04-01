@@ -12,51 +12,47 @@ import EditProfile from "./Views/EditProfile";
 import TuringIO from "./Views/TuringIO";
 import TuringMachine from "./Views/TuringMachine";
 
-
 class App extends Component {
 	render() {
 		return (
 			<div className="App">
 				<Router>
 					<Routes>
-						<Route 
-							exact 
-							path="/" 
-							element={<Home/>}></Route>
+						<Route exact path="/" element={<Home />}></Route>
 						<Route
 							exact
 							path="/TuringMachineSimulator/Register"
-							element={<Register/>}
+							element={<Register />}
 						></Route>
 						<Route
 							exact
 							path="/TuringMachineSimulator/Login/:user"
-							element={<Login/>}
+							element={<Login />}
 						></Route>
 						<Route
 							exact
 							path="/TuringMachineSimulator/MainView"
-							element={<MainView/>}
+							element={<MainView />}
 						></Route>
 						<Route
 							exact
 							path="/TuringMachineSimulator/MachinesList"
-							element={<MachinesList/>}
+							element={<MachinesList />}
 						></Route>
 						<Route
 							exact
 							path="/TuringMachineSimulator/EditProfile"
-							element={<EditProfile/>}
+							element={<EditProfile />}
 						></Route>
 						<Route
 							exact
 							path="/TuringMachineSimulator/TuringIO"
-							element={<TuringIO/>}
+							element={<TuringIO />}
 						></Route>
 						<Route
 							exact
 							path="/TuringMachineSimulator/TuringMachine"
-							element={<TuringMachine/>}
+							element={<TuringMachine />}
 						></Route>
 					</Routes>
 				</Router>
