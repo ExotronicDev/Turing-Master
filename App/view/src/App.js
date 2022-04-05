@@ -21,37 +21,37 @@ class App extends Component {
 						<Route exact path="/" element={<Home />}></Route>
 						<Route
 							exact
-							path="/TuringMachineSimulator/Register"
+							path="/register"
 							element={<Register />}
 						></Route>
 						<Route
 							exact
-							path="/TuringMachineSimulator/Login/:user"
+							path="/login/:user"
 							element={<Login />}
 						></Route>
 						<Route
 							exact
-							path="/TuringMachineSimulator/MainView"
+							path="/MainView"
 							element={<MainView />}
 						></Route>
 						<Route
 							exact
-							path="/TuringMachineSimulator/MachinesList"
+							path="/MachinesList"
 							element={<MachinesList />}
 						></Route>
 						<Route
 							exact
-							path="/TuringMachineSimulator/EditProfile"
+							path="/EditProfile"
 							element={<EditProfile />}
 						></Route>
 						<Route
 							exact
-							path="/TuringMachineSimulator/TuringIO"
+							path="/TuringIO"
 							element={<TuringIO />}
 						></Route>
 						<Route
 							exact
-							path="/TuringMachineSimulator/TuringMachine"
+							path="/TuringMachine"
 							element={<TuringMachine />}
 						></Route>
 					</Routes>

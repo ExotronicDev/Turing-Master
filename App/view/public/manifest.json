@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Turing Master",
+  "name": "Turing Master: Turing Machine Simulator",
   "icons": [
     {
       "src": "favicon.ico",

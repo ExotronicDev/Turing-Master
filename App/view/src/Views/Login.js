@@ -1,60 +1,79 @@
 import axios from "axios";
 import React, { Component } from "react";
-const swal = require('sweetalert2')
+const swal = require("sweetalert2");
 
 class Login extends Component {
 	state = {
 		email: "",
-		password: ""
-	}
+		password: "",
+	};
 
 	//Función que actualiza los states
-    handleChange = (event) => {
-        const target = event.target;
-        const name = target.name;
-        const value = target.value;
+	handleChange = (event) => {
+		const target = event.target;
+		const name = target.name;
+		const value = target.value;
 
-        this.setState({
-            [name] : value
-        });
-    }
+		this.setState({
+			[name]: value,
+		});
+	};
 
 	submit = (event) => {
 		event.preventDefault();
 
-		axios({
-            url: "/api/v1/students/login",
-            method: "POST",
-            data: {
-				email: this.state.email,
-				password: this.state.password
-			}
-        })
-        .then( (res) => {
-			if (res.data.success) {
-				localStorage.setItem("id", res.data.data.id);
-				window.location = "/TuringMachineSimulator/MainView"
-			} else {
-				swal.fire({
-					title: 'Error!',
-					text: res.data.error,
-					icon: 'warning',
-					background: "black",
-					color: "white"
-				})
-			}
-        })
-        .catch( () => {
-            swal.fire({
-                title: 'Oops !',
-                text: "Unexpected error, Try Again",
-                icon: 'error',
+		if (this.state.email === "" || this.state.password === "") {
+			swal.fire({
+				title: "You must fill all fields",
+				icon: "warning",
+				iconColor: "red",
 				background: "black",
-				color: "white"
-            });
-        })
-	}
-  
+				color: "white",
+			});
+			return;
+		}
+
+		axios({
+			url: "/api/v1/students/login",
+			method: "POST",
+			data: {
+				email: this.state.email,
+				password: this.state.password,
+			},
+		})
+			.then((res) => {
+				if (res.data.success) {
+					localStorage.setItem("id", res.data.data.id);
+					window.location = "/MainView";
+				} else {
+					swal.fire({
+						title: "Error!",
+						text: res.data.error,
+						icon: "warning",
+						background: "black",
+						color: "white",
+					});
+				}
+			})
+			.catch((err) => {
+				console.log(err.response);
+				swal.fire({
+					title: "Error!",
+					text: err.response.data.error,
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+				// swal.fire({
+				// 	title: "Oops !",
+				// 	text: "Unexpected error, Try Again",
+				// 	icon: "error",
+				// 	background: "black",
+				// 	color: "white",
+				// });
+			});
+	};
+
 	render() {
 		return (
 			<div className="Login">

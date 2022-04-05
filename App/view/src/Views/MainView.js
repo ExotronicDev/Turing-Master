@@ -3,18 +3,17 @@ import Cookies from "js-cookie";
 
 class MainView extends Component {
 	componentDidMount = () => {
-		const token = Cookies.get('token')
-        if (token === undefined) {
-            window.location=("/TuringMachineSimulator/Login/student");
-        }
-	}
-	
+		const token = Cookies.get("token");
+		if (token === undefined) {
+			window.location = "/login/student";
+		}
+	};
 
 	render() {
 		return (
 			<div className="MainView">
 				<p>Turing Machine Simulator</p>
-				<form action="/TuringMachineSimulator/TuringIO">
+				<form action="/TuringIO">
 					<button
 						id="newmachine"
 						type="submit"
@@ -24,7 +23,7 @@ class MainView extends Component {
 						New Machine{" "}
 					</button>
 				</form>
-				<form action="/TuringMachineSimulator/MachinesList">
+				<form action="/MachinesList">
 					<button
 						id="mymachines"
 						type="submit"
@@ -34,7 +33,7 @@ class MainView extends Component {
 						View My Machines{" "}
 					</button>
 				</form>
-				<form action="/TuringMachineSimulator/EditProfile">
+				<form action="/EditProfile">
 					<button
 						id="edit"
 						type="submit"
