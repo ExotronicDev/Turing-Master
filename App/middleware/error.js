@@ -23,9 +23,13 @@ const errorHandler = (err, req, res, next) => {
 		error = new ErrorResponse(message, 400);
 	}
 
-	console.log(`Error: ${err}`.red.bold);
+	console.log(`${err}`.red.bold);
 
-	res.json({
+	// res.json({
+	// 	success: false,
+	// 	error: err.message || "Server Error",
+	// });
+	res.status(err.statusCode || 500).json({
 		success: false,
 		error: err.message || "Server Error",
 	});

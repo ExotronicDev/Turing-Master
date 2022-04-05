@@ -18,7 +18,7 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`Student is alreday registered. Please login with the existing account or create a new one.`,
-				500
+				409
 			)
 		);
 	}
@@ -61,6 +61,9 @@ exports.logout = asyncHandler(async (req, res, next) => {
 exports.getMe = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
 	const student = await control.getStudent({ id: req.user.id });
+	if (student.length == 0) {
+		return next(new ErrorResponse(`Student not logged in.`, 401));
+	}
 	res.json({ success: true, data: student[0] });
 });
 
@@ -168,7 +171,7 @@ exports.deleteStudent = asyncHandler(async (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`Could not delete the Student with id: ${req.params.id}.`,
-				304
+				409
 			)
 		);
 	}
@@ -184,7 +187,7 @@ exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`Current user does not have access to the requested TMachines.`,
-				401
+				403
 			)
 		);
 	}
@@ -249,7 +252,7 @@ exports.getTMachine = asyncHandler(async (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`Current user does not have access to the requested TMachine with id: ${req.params.id}.`,
-				401
+				403
 			)
 		);
 	}
@@ -299,7 +302,7 @@ exports.updateTMachine = asyncHandler(async (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`Current user does not have permission to update the current TMachine with id: ${req.params.id}.`,
-				401
+				403
 			)
 		);
 	}
@@ -328,7 +331,7 @@ exports.updateTMachine = asyncHandler(async (req, res, next) => {
 			return next(
 				new ErrorResponse(
 					`Error updating the TMachine with id: ${req.params.id} from the current user.`,
-					304
+					409
 				)
 			);
 		}
@@ -359,7 +362,7 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`Current user does not have permission to delete the current TMachine with id: ${req.params.id}.`,
-				401
+				403
 			)
 		);
 	}
@@ -369,7 +372,7 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`Could not delete the TMachine with id: ${req.params.id}.`,
-				304
+				409
 			)
 		);
 	}
@@ -381,7 +384,7 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`Error deleting the TMachine with id: ${req.params.id} from the current user.`,
-				304
+				409
 			)
 		);
 	}
@@ -402,7 +405,7 @@ exports.createState = (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`State named "${stateName}" already exists in the current TMachine.`,
-				304
+				409
 			)
 		);
 	}
@@ -438,7 +441,7 @@ exports.setInitialState = (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`State named "${stateName}" does not exist in the current TMachine.`,
-				304
+				404
 			)
 		);
 	}
@@ -456,7 +459,7 @@ exports.deleteState = (req, res, next) => {
 		return next(
 			new ErrorResponse(
 				`State named "${stateName}" does not exist in the current TMachine.`,
-				304
+				404
 			)
 		);
 	}
@@ -474,7 +477,7 @@ exports.createTransition = (req, res, next) => {
 	const control = new TMachineController();
 	const modifiedStates = control.createTransition(states, transition);
 	if (!modifiedStates) {
-		return next(new ErrorResponse(`Could not create transition.`, 304));
+		return next(new ErrorResponse(`Could not create transition.`, 409));
 	}
 	res.json({ success: true, states: modifiedStates });
 };
@@ -487,11 +490,11 @@ exports.updateTransition = (req, res, next) => {
 	const control = new TMachineController();
 	const modifiedStates = control.deleteTransition(states, oldTransition);
 	if (!modifiedStates) {
-		return next(new ErrorResponse(`Could not delete old transition.`, 304));
+		return next(new ErrorResponse(`Could not delete old transition.`, 409));
 	}
 	const finalStates = control.createTransition(states, newTransition);
 	if (!finalStates) {
-		return next(new ErrorResponse(`Could not create new transition.`, 304));
+		return next(new ErrorResponse(`Could not create new transition.`, 409));
 	}
 	res.json({ success: true, states: finalStates });
 };
@@ -504,7 +507,7 @@ exports.deleteTransition = (req, res, next) => {
 	const control = new TMachineController();
 	const modifiedStates = control.deleteTransition(states, transition);
 	if (!modifiedStates) {
-		return next(new ErrorResponse(`Could not delete transition.`, 304));
+		return next(new ErrorResponse(`Could not delete transition.`, 409));
 	}
 	res.json({ success: true, states: modifiedStates });
 };
