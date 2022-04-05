@@ -4,7 +4,7 @@ class Home extends Component {
 	render() {
 		return (
 			<div className="Home">
-				<p className="titulo">Turing Machine Simulator</p>
+				<p className="titulo">Turing Master</p>
 				<form action="/login/teacher">
 					<button
 						id="teacher"
@@ -40,7 +40,6 @@ class Home extends Component {
 						id="TMachine"
 						type="submit"
 						className="btn btn-primary btn-lg"
-						style={{ marginTop: "400px", width: "400px" }}
 					>
 						{" "}
 						Simulator{" "}

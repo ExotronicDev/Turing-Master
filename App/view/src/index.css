@@ -1,6 +1,4 @@
 .Home {
-    width: 100wh;
-    height: 100vh;
     background: linear-gradient(
         69.9deg,
         rgb(76, 79, 106) 3.2%,
@@ -10,12 +8,12 @@
     margin: auto;
     text-align: center;
 	background-attachment: fixed;
-    overflow-x: scroll;
 }
 
 .Home button {
-	width: 10wh;
+	width: 25%;
 	background-color: #87b1b7;
+	position: relative;
 }
 
 .Home p {
@@ -45,26 +43,22 @@
 }
 
 .Home #teacher {
-	position: relative;
 	top: 250px;
-	width: 400px;
 }
 
 .Home #student {
-	position: relative;
 	top: 300px;
-	width: 400px;
 }
 
 .Home #register {
-	position: relative;
 	top: 350px;
-	width: 400px;
+}
+
+.Home #TMachine {
+	margin-top: 400px; 
 }
 
 .Register {
-	width: 100wh;
-	height: 100vh;
 	background: linear-gradient(to top, #09203f 0%, #537895 100%);
 	opacity: 0.9;
 	background-size: 400% 400%;
@@ -74,7 +68,6 @@
 	align-items: center;
 	justify-content: center;
 	background-attachment: fixed;
-    overflow-x: scroll;
 }
 
 .Register #title {
@@ -101,7 +94,7 @@
 }
 
 .Login {
-	width: 100wh;
+	width: 100%;
 	height: 100vh;
 	background: linear-gradient(
 		89.5deg,
@@ -118,7 +111,34 @@
 	justify-content: center;
 	display: flex;
 	flex-direction: column;
-	overflow-x: scroll;
+}
+
+.Login label {
+	color: black;
+	font-weight: 500;
+}
+
+.Login input {
+	width: 100%;
+}
+
+.Login button {
+	width: 85%;
+	margin: 20px;
+}
+
+.Login .input-group {
+    padding: 0 20px 5px;
+}
+
+.Login .input-group-text {
+	height: 100%;
+}
+
+.Login #container {
+    top: 0;
+    position: absolute;
+    margin-top: 20px;
 }
 
 .Login #title {
@@ -136,22 +156,27 @@
 	color: white;
 }
 
-.Login label {
-	color: white;
+.Login #loginbox {
+    background: #cde;
+    box-shadow: 0 0 4px #000000;
+    border-radius: 4px;
+    overflow: hidden !important;
+    position: relative;
 }
 
-.Login input {
-	width: 350px;
+.Login #loginbox #loginform {
+    z-index: 200;
+	width: 100%;
+	margin-top: 5px;
 }
 
 .MainView {
-	width: 100wh;
+	width: 100%;
 	height: 100vh;
 	background: linear-gradient(179.2deg, rgb(21, 21, 212) 0.9%, rgb(53, 220, 243) 95.5%) no-repeat center center fixed;
 	background-size: 400% 400% cover;
 	margin: auto;
 	text-align: center;
-	overflow-x: scroll;
 }
 
 .MainView p {
@@ -206,7 +231,6 @@
 	background-size: 400% 400% cover;
 	margin: auto;
 	text-align: center;
-	overflow-x: scroll;
 }
 
 .MachinesList h4 {
@@ -237,7 +261,6 @@
 	align-items: center;
 	justify-content: center;
 	background-attachment: fixed;
-    overflow-x: scroll;
 }
 
 .EditProfile #title {
@@ -300,37 +323,9 @@
 	background-size: 400% 400%;
 }
 
-
-
-.text {
-  font-family: 'Roboto Mono', monospace;
-}
-
 #header {
   font-size: 80px;
   font-family: 'Georgia', cursive;
-}
-
-.button {
-  min-width: 60px;
-  padding-right: 8px;
-  padding-left: 8px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-  font-weight: bold;
-  font-size: 30px;
-  color: #012;
-  background: #cde;
-  border-top: 2px solid #def;
-  border-left: 2px solid #def;
-  border-bottom: 2px solid #789;
-  border-right: 2px solid #789;
-  font-family: 'Georgia', cursive; 
-  display: inline;
-}
-
-button {
-  font-family: 'Roboto Mono', monospace;
 }
 
 #topWrapper {
@@ -367,45 +362,6 @@ font-family: 'Roboto Mono', monospace;
   height: 50px;
   background: ebedee;
   display: flex;
-}
-
-.cell {
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-  border-right: 1px solid black;
-  border-left: 1px solid black;
-  width: 46px;
-  height: 46px;
-  text-align: center;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-weight: bold;
-  font-size: 30px;
-font-family: 'Roboto Mono', monospace;
-}
-
-.head {
-  border: 3px solid #00aaee;
-  width: 44px;
-  height: 44px;
-  position: fixed;
-}
-
-input {
-  margin: 10px;
-  margin-top: 0px;
-  position: relative;
-font-family: 'Roboto Mono', monospace;
-}
-
-textarea {
-  display: block;
-  margin: 10px;
-  height: 250px;
-  width: 1000px;
-  position: relative;
-font-family: 'Roboto Mono', monospace;
 }
 
 #startString {

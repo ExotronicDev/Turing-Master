@@ -77,43 +77,51 @@ class Login extends Component {
 	render() {
 		return (
 			<div className="Login">
-				<p id="title">User info</p>
-				<form id="form" onSubmit={this.submit}>
-					<div className="form-group">
-						<label for="email">Email</label>
-						<div className="form-group">
-							<input
-								type="email"
-								className="form-control"
-								id="email"
-								placeholder="email@example.com"
-								name="email"
-								onChange={this.handleChange}
-								value={this.state.email}
-							/>
-						</div>
+				<div id="container">
+					<p id="title">User info</p>
+					<div id="loginbox">
+						<form id="loginform" onSubmit={this.submit}>
+							<label for="email">Email</label>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text">
+										<i class="fa fa-user" />
+									</span>
+								</div>
+								<input
+									type="email"
+									class="form-control"
+									id="email"
+									placeholder="email@example.com"
+									name="email"
+									aria-label="Username (email)"
+									onChange={this.handleChange}
+									value={this.state.email}
+								/>
+							</div>
+							<label for="password">Password</label>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text">
+										<i class="fa fa-lock"></i>
+									</span>
+								</div>
+								<input
+									type="password"
+									class="form-control"
+									id="password"
+									name="password"
+									aria-label="User Password"
+									onChange={this.handleChange}
+									value={this.state.password}
+								/>
+							</div>
+							<button type="submit" className="btn btn-primary">
+								Login
+							</button>
+						</form>
 					</div>
-					<div className="form-group">
-						<label>Password</label>
-						<div className="form-group">
-							<input
-								type="password"
-								className="form-control"
-								id="password"
-								name="password"
-								onChange={this.handleChange}
-								value={this.state.password}
-							/>
-						</div>
-					</div>
-					<button
-						type="submit"
-						className="btn btn-primary"
-						style={{ marginTop: "20px", width: "200px" }}
-					>
-						Login
-					</button>
-				</form>
+				</div>
 			</div>
 		);
 	}
