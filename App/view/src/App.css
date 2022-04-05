@@ -1,6 +1,6 @@
 .App{
 	background: #cde no-repeat center center fixed;
-	width: 100%;
+	width: 100%; /* 100vw */
 	height: 100vh;
 }
 

@@ -24,11 +24,7 @@ class App extends Component {
 							path="/register"
 							element={<Register />}
 						></Route>
-						<Route
-							exact
-							path="/login/:user"
-							element={<Login />}
-						></Route>
+						<Route exact path="/login/" element={<Login />}></Route>
 						<Route
 							exact
 							path="/MainView"

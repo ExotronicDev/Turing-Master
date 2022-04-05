@@ -42,20 +42,16 @@
 	color: #ffffff;
 }
 
-.Home #teacher {
+.Home #login {
 	top: 250px;
 }
 
-.Home #student {
+.Home #register {
 	top: 300px;
 }
 
-.Home #register {
-	top: 350px;
-}
-
 .Home #TMachine {
-	margin-top: 400px; 
+	margin-top: 350px; 
 }
 
 .Register {
@@ -133,6 +129,23 @@
 
 .Login .input-group-text {
 	height: 100%;
+}
+
+.Login .form-check {
+	margin-left: 20px;
+	margin-top: 5px;
+	width: 80%;
+}
+
+.Login .form-check-input {
+	margin-left: -2.25em;
+	align-items: center;
+}
+
+.Login #teacher-label {
+	font-weight: 100;
+	float: left;
+	padding-left: 6.5%;
 }
 
 .Login #container {

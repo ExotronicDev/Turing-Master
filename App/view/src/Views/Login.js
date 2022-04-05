@@ -2,10 +2,13 @@ import axios from "axios";
 import React, { Component } from "react";
 const swal = require("sweetalert2");
 
+const apiVersion = "v1";
+
 class Login extends Component {
 	state = {
 		email: "",
 		password: "",
+		isTeacher: false,
 	};
 
 	//Función que actualiza los states
@@ -16,6 +19,12 @@ class Login extends Component {
 
 		this.setState({
 			[name]: value,
+		});
+	};
+
+	handleSwitchChange = () => {
+		this.setState({
+			isTeacher: !this.state.isTeacher,
 		});
 	};
 
@@ -33,8 +42,11 @@ class Login extends Component {
 			return;
 		}
 
+		let isTeacher = this.state.isTeacher ? "/teachers" : "/students";
+		const apiUrl = "/api/" + apiVersion + isTeacher + "/login";
+
 		axios({
-			url: "/api/v1/students/login",
+			url: apiUrl,
 			method: "POST",
 			data: {
 				email: this.state.email,
@@ -115,6 +127,23 @@ class Login extends Component {
 									onChange={this.handleChange}
 									value={this.state.password}
 								/>
+							</div>
+							<div class="form-check form-switch">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									id="isTeacher"
+									aria-label="Teacher Switch"
+									onChange={this.handleSwitchChange}
+									value={this.state.isTeacher}
+								/>
+								<label
+									class="form-check-label"
+									id="teacher-label"
+									for="isTeacher"
+								>
+									I'm a teacher!
+								</label>
 							</div>
 							<button type="submit" className="btn btn-primary">
 								Login

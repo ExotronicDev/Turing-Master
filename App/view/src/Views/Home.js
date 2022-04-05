@@ -5,24 +5,14 @@ class Home extends Component {
 		return (
 			<div className="Home">
 				<p className="titulo">Turing Master</p>
-				<form action="/login/teacher">
+				<form action="/login">
 					<button
-						id="teacher"
+						id="login"
 						type="submit"
 						className="btn btn-primary btn-lg"
 					>
 						{" "}
-						Teacher{" "}
-					</button>
-				</form>
-				<form action="/login/student">
-					<button
-						id="student"
-						type="submit"
-						className="btn btn-primary btn-lg"
-					>
-						{" "}
-						Student{" "}
+						Login{" "}
 					</button>
 				</form>
 				<form action="/register">
