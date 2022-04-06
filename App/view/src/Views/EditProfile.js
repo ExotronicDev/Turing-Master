@@ -20,7 +20,7 @@ class EditProfile extends Component {
 
 	getInfo = () => {
 		axios({
-			url: "/api/v1/students/" + localStorage.getItem("id"),
+			url: "/api/students/" + localStorage.getItem("id"),
 			method: "GET",
 		})
 			.then((res) => {

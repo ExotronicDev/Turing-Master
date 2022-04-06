@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-const swal = require('sweetalert2')
+const swal = require("sweetalert2");
 
 class Register extends Component {
 	state = {
@@ -9,44 +9,50 @@ class Register extends Component {
 		id: "",
 		email: "",
 		password: "",
-		confirm: ""
-	}
+		confirm: "",
+	};
 
 	//Función que actualiza los states
-    handleChange = (event) => {
-        const target = event.target;
-        const name = target.name;
-        const value = target.value;
+	handleChange = (event) => {
+		const target = event.target;
+		const name = target.name;
+		const value = target.value;
 
-        this.setState({
-            [name] : value
-        });
-    }
+		this.setState({
+			[name]: value,
+		});
+	};
 
 	submit = (event) => {
 		event.preventDefault();
-		
-        if (this.state.firstName === "" || this.state.lastName === "" || this.state.email === "" || this.state.password === "" || this.state.confirm === "" ){
-            swal.fire({
-                title: 'You must fill all fields',
-                icon: 'warning',
-				iconColor: "red",
-				background: "black",
-				color: "white"
-            })
-            return;
-        }
 
-        if (this.state.password !== this.state.confirm){
-            swal.fire({
-                title: "Password doesn't match",
-                icon: 'warning',
+		if (
+			this.state.firstName === "" ||
+			this.state.lastName === "" ||
+			this.state.email === "" ||
+			this.state.password === "" ||
+			this.state.confirm === ""
+		) {
+			swal.fire({
+				title: "You must fill all fields",
+				icon: "warning",
 				iconColor: "red",
 				background: "black",
-				color: "white"
-            })
-            return;
-        }
+				color: "white",
+			});
+			return;
+		}
+
+		if (this.state.password !== this.state.confirm) {
+			swal.fire({
+				title: "Password doesn't match",
+				icon: "warning",
+				iconColor: "red",
+				background: "black",
+				color: "white",
+			});
+			return;
+		}
 
 		var user = {
 			firstName: this.state.firstName,
@@ -54,45 +60,52 @@ class Register extends Component {
 			id: this.state.id,
 			email: this.state.email,
 			password: this.state.password,
-		}
+		};
 
 		axios({
-            url: "/api/v1/students/register",
-            method: "POST",
-            data: user
-        })
-        .then( (res) => {
-			if (res.data.success){
+			url: "/api/students/register",
+			method: "POST",
+			data: user,
+		})
+			.then((res) => {
+				if (res.data.success) {
+					swal.fire({
+						title: "Success!",
+						text: "Your Student account has been created successfully!",
+						icon: "success",
+						background: "black",
+						color: "white",
+					}).then(() => {
+						window.location = "/";
+					});
+				} else {
+					swal.fire({
+						title: "Error!",
+						text: res.data.error,
+						icon: "warning",
+						background: "black",
+						color: "white",
+					});
+				}
+			})
+			.catch((err) => {
+				console.log(err.response);
 				swal.fire({
-					title: 'Success!',
-					text: 'Your Student account has been created successfully!',
-					icon: 'success',
+					title: "Error!",
+					text: err.response.data.error,
+					icon: "warning",
 					background: "black",
-					color: "white"
-				}).then(() => {
-					window.location = "/";
+					color: "white",
 				});
-			} else {
-				swal.fire({
-					title: 'Error!',
-					text: res.data.error,
-					icon: 'warning',
-					background: "black",
-					color: "white"
-				})
-			}
-        })
-        .catch( () => {
-            swal.fire({
-                title: 'Oops !',
-                text: "Unexpected error, Try Again",
-                icon: 'error',
-				background: "black",
-				color: "white"
-            });
-        })
-
-	}
+				// swal.fire({
+				// 	title: "Oops !",
+				// 	text: "Unexpected error, Try Again",
+				// 	icon: "error",
+				// 	background: "black",
+				// 	color: "white",
+				// });
+			});
+	};
 
 	render() {
 		return (
