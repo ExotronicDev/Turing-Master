@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
 const swal = require("sweetalert2");
-const apiVersion = require("../api");
 
 class Login extends Component {
 	state = {
@@ -42,7 +41,7 @@ class Login extends Component {
 		}
 
 		let isTeacher = this.state.isTeacher ? "/teachers" : "/students";
-		const apiUrl = "/api/" + apiVersion + isTeacher + "/login";
+		const apiUrl = "/api/" + isTeacher + "/login";
 
 		axios({
 			url: apiUrl,
