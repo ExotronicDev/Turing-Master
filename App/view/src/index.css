@@ -1,58 +1,46 @@
+/*-----------------Home----------------- */
+
 .Home {
-    background: linear-gradient(
-        69.9deg,
-        rgb(76, 79, 106) 3.2%,
-        rgb(118, 124, 163) 97.6%
-    ) no-repeat center center fixed;
-    background-size: 400% 400% cover;
-    margin: auto;
-    text-align: center;
-	background-attachment: fixed;
-}
-
-.Home button {
-	width: 25%;
-	background-color: #87b1b7;
-	position: relative;
-}
-
-.Home p {
-	position: relative;
-	width: 471wh;
-	height: 7vh;
-	top: 200px;
-
-	font-family: "Lucida Handwriting"; /*Papyrus, Lucida Handwriting, Courier New */
-	font-style: normal;
-	font-weight: 500;
-	font-size: 40px;
-	line-height: 41px;
+    margin: auto;	
 	text-align: center;
-
-	color: #000000;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
 }
 
 .Home button {
+	width: 75%;
+	position: relative;
+	flex-direction: row;
+	margin: 6vh;
 	font-family: "Arial";
 	font-style: normal;
 	font-weight: 400;
-	font-size: 36px;
-	text-align: center;
-
-	color: #ffffff;
+	font-size: 30px;
 }
 
-.Home #login {
-	top: 250px;
+.Home .title {
+	position: relative;
+	margin-top: 20vh;
+
+	font-family: "Lucida Handwriting"; /*Papyrus, Lucida Handwriting, Courier New */
+	font-style: normal;
+	font-weight: 600;
+	font-size: 4em;
+
+	color: white;
 }
 
-.Home #register {
-	top: 300px;
+.Home #options {
+	display: flex;
 }
 
-.Home #TMachine {
-	margin-top: 350px; 
+.Home #options form {
+	width: 50%;
 }
+
+/*-----------------Register----------------- */
 
 .Register {
 	background: linear-gradient(to top, #09203f 0%, #537895 100%);
@@ -89,19 +77,9 @@
   color: white;
 }
 
+/*-----------------Login----------------- */
+
 .Login {
-	width: 100%;
-	height: 100vh;
-	background: linear-gradient(
-		89.5deg,
-		rgb(4, 29, 55) -0.1%,
-		rgb(2, 67, 135) 25.1%,
-		rgb(28, 133, 243) 49.6%,
-		rgb(115, 181, 250) 74.5%,
-		rgb(214, 239, 253) 99.3%
-	);
-	opacity: 0.9;
-	background-size: 400% 400%;
 	text-align: center;
 	align-items: center;
 	justify-content: center;
@@ -110,7 +88,7 @@
 }
 
 .Login label {
-	color: black;
+	color: white;
 	font-weight: 500;
 }
 
@@ -142,21 +120,22 @@
 	align-items: center;
 }
 
+.Login .form-check-input:checked {
+    background-color: #08ADA2;
+}
+
 .Login #teacher-label {
-	font-weight: 100;
+	font-weight: 400;
 	float: left;
 	padding-left: 6.5%;
 }
 
 .Login #container {
-    top: 0;
-    position: absolute;
-    margin-top: 20px;
+	margin-top: 20vh;
 }
 
 .Login #title {
 	position: relative;
-	width: 471wh;
 	height: 7vh;
 
 	font-family: "Times New Roman";
@@ -170,7 +149,7 @@
 }
 
 .Login #loginbox {
-    background: #cde;
+    background: rgb(90, 101, 111);
     box-shadow: 0 0 4px #000000;
     border-radius: 4px;
     overflow: hidden !important;
@@ -183,40 +162,35 @@
 	margin-top: 5px;
 }
 
+/*-----------------MainView----------------- */
+
 .MainView {
-	width: 100%;
-	height: 100vh;
-	background: linear-gradient(179.2deg, rgb(21, 21, 212) 0.9%, rgb(53, 220, 243) 95.5%) no-repeat center center fixed;
-	background-size: 400% 400% cover;
 	margin: auto;
 	text-align: center;
 }
 
 .MainView p {
 	position: relative;
-	width: 471wh;
+	margin-top: 10vh;
 	height: 7vh;
-	top: 200px;
 
 	font-family: "Lucida Handwriting"; /*Papyrus, Lucida Handwriting, Courier New */
 	font-style: normal;
 	font-weight: 500;
-	font-size: 40px;
-	line-height: 41px;
-	text-align: center;
+	font-size: 2em;
 
-	color: #000000;
+	color: white;
 }
 
 .MainView button {
+	width: 50%;
+	position: relative;
+	flex-direction: row;
+	margin: 3vh;
 	font-family: "Arial";
 	font-style: normal;
 	font-weight: 400;
 	font-size: 36px;
-	text-align: center;
-	background-color: #6c16bd;
-
-	color: #ffffff;
 }
 
 .MainView #newmachine {

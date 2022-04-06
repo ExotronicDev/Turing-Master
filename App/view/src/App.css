@@ -1,7 +1,21 @@
-.App{
-	background: #cde no-repeat center center fixed;
+.App {	
 	width: 100%; /* 100vw */
 	height: 100vh;
+	background: #152028 no-repeat center center fixed;
+	background-size: 400% 400% cover;
+}
+
+.App button {	
+	color: #ffffff;
+	background-color: #08ADA2;
+	font-weight: 500;
+	border-radius: 0.7em;
+}
+
+#container {
+    top: 0;
+    position: absolute;
+    margin-top: 20px;
 }
 
 /*
