@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 const swal = require("sweetalert2");
-
-const apiVersion = "v1";
+const apiVersion = require("../api");
 
 class Login extends Component {
 	state = {
@@ -30,7 +29,7 @@ class Login extends Component {
 
 	submit = (event) => {
 		event.preventDefault();
-
+		console.log(process.env);
 		if (this.state.email === "" || this.state.password === "") {
 			swal.fire({
 				title: "You must fill all fields",

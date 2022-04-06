@@ -33,8 +33,8 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 // Mount routers
-app.use("/api/v1/students", studentsRouter);
-app.use("/api/v1/tmachines", tmachinesRouter);
+app.use("/api/" + process.env.API_VERSION + "/students", studentsRouter);
+app.use("/api/" + process.env.API_VERSION + "/tmachines", tmachinesRouter);
 
 // Custom error messages
 app.use(errorHandler);
