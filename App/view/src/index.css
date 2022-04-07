@@ -162,14 +162,14 @@
 	margin-top: 5px;
 }
 
-/*-----------------MainView----------------- */
+/*-----------------StudentMenu----------------- */
 
-.MainView {
+.StudentMenu {
 	margin: auto;
 	text-align: center;
 }
 
-.MainView p {
+.StudentMenu p {
 	position: relative;
 	margin-top: 10vh;
 	height: 7vh;
@@ -182,7 +182,7 @@
 	color: white;
 }
 
-.MainView button {
+.StudentMenu button {
 	width: 50%;
 	position: relative;
 	flex-direction: row;
@@ -193,19 +193,19 @@
 	font-size: 36px;
 }
 
-.MainView #newmachine {
+.StudentMenu #newmachine {
 	position: relative;
 	top: 250px;
 	width: 400px;
 }
 
-.MainView #mymachines {
+.StudentMenu #mymachines {
 	position: relative;
 	top: 300px;
 	width: 400px;
 }
 
-.MainView #edit {
+.StudentMenu #edit {
 	position: relative;
 	top: 350px;
 	width: 400px;

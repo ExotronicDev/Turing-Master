@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Cookies from "js-cookie";
 
-class MainView extends Component {
+class StudentMenu extends Component {
 	componentDidMount = () => {
 		const token = Cookies.get("token");
 		if (token === undefined) {
@@ -11,7 +11,7 @@ class MainView extends Component {
 
 	render() {
 		return (
-			<div className="MainView">
+			<div className="StudentMenu">
 				<p>Turing Machine Simulator</p>
 				<form action="/TuringIO">
 					<button
@@ -48,4 +48,4 @@ class MainView extends Component {
 	}
 }
 
-export default MainView;
+export default StudentMenu;

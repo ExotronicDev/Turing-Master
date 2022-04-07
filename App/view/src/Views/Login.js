@@ -40,8 +40,8 @@ class Login extends Component {
 			return;
 		}
 
-		let isTeacher = this.state.isTeacher ? "teachers" : "students";
-		const apiUrl = "/api/" + isTeacher + "/login";
+		let isTeacher = this.state.isTeacher ? "/teachers" : "/students";
+		const apiUrl = "/api" + isTeacher + "/login";
 
 		axios({
 			url: apiUrl,
@@ -54,7 +54,7 @@ class Login extends Component {
 			.then((res) => {
 				if (res.data.success) {
 					localStorage.setItem("id", res.data.data.id);
-					window.location = "/MainView";
+					window.location = isTeacher + "/menu";
 				} else {
 					swal.fire({
 						title: "Error!",

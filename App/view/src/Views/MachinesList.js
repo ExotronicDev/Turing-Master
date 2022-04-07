@@ -32,7 +32,9 @@ class MachinesList extends Component {
 						<div className="card-footer text-center">
 							<button
 								className="btn btn-dark button"
-								onClick={() => (window.location = "/MainView")}
+								onClick={() =>
+									(window.location = "/students/menu")
+								}
 							>
 								Regresar
 							</button>

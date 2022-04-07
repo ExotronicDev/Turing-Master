@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Views/Home";
 import Register from "./Views/Register";
 import Login from "./Views/Login";
-import MainView from "./Views/MainView";
+import StudentMenu from "./Views/StudentMenu";
 import MachinesList from "./Views/MachinesList";
 import EditProfile from "./Views/EditProfile";
 import TuringIO from "./Views/TuringIO";
@@ -27,8 +27,8 @@ class App extends Component {
 						<Route exact path="/login/" element={<Login />}></Route>
 						<Route
 							exact
-							path="/MainView"
-							element={<MainView />}
+							path="/students/menu"
+							element={<StudentMenu />}
 						></Route>
 						<Route
 							exact
