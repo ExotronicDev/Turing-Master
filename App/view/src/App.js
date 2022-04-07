@@ -2,14 +2,14 @@ import { React, Component, Router, Routes, Route } from "./dependencies";
 import "./App.css";
 
 //Views
-import Home from "./Views/Home";
-import Register from "./Views/Register";
-import Login from "./Views/Login";
-import StudentMenu from "./Views/StudentMenu";
-import MachinesList from "./Views/MachinesList";
-import EditProfile from "./Views/EditProfile";
-import TuringIO from "./Views/TuringIO";
-import TuringMachine from "./Views/TuringMachine";
+import Home from "./components/Home";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import StudentMenu from "./components/StudentMenu";
+import MachinesList from "./components/MachinesList";
+import EditProfile from "./components/EditProfile";
+import TuringIO from "./components/TuringIO";
+import TuringMachine from "./components/TuringMachine";
 
 class App extends Component {
 	render() {
