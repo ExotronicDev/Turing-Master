@@ -1,6 +1,4 @@
-import axios from "axios";
-import React, { Component } from "react";
-import swal from "sweetalert2";
+import { React, Component, axios, swal } from "../dependencies";
 
 class EditProfile extends Component {
 	state = {

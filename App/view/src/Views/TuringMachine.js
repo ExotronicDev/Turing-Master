@@ -281,56 +281,91 @@
 // 	startStringBox.value = "00001";
 // }
 
-import React, { Component } from "react";
-import Logo from './Simulator/MachinePicture.png';
+import { React, Component } from "../dependencies";
+import Logo from "./Simulator/MachinePicture.png";
 
 class TuringMachine extends Component {
 	render() {
-    const newLocal = <button type="button" class="button" onclick="cleartm()">See Details</button>;
+		const newLocal = (
+			<button type="button" class="button" onclick="cleartm()">
+				See Details
+			</button>
+		);
 		return (
-  <div>
+			<div>
+				<div id="header" class="text">
+					Turing Machine Simulator
+				</div>
 
-  <div id="header"class="text">Turing Machine Simulator</div>
+				<div class="text">Starting String</div>
 
-  <div class="text">Starting String</div>
-  
-  <div id="topWrapper">
-    <div id="stateWrapper">
-      <div id="statelabel">State</div>
-      <div id="state"></div>
-    </div>
-  
-    <button id="button"type="roundbutton"class="button"onclick="step()">Step</button>
-    <button type="button"class="button"onclick="setup()">Setup TM</button>
-    <button type="button"class="button"onclick="cleartm()">Clear TM</button>
-    {newLocal}
-  </div>
-  
-  <div id='machine'>
-    <div id="1000"class="cell"></div>
-    <div id="1001"class="cell head"value="1"></div>
-    <div id="1002"class="cell"></div>
-    <div id="1003"class="cell"></div>
-    <div id="1004"class="cell"></div>
-  </div>
-  
-  
-  <div class="text">TM input: <div style={{ marginTop: "20px", width: "200px"}} id="remainingFuel"></div></div> 
-  <div class="text">This is a textfield to enter the desired number of iterations.</div>
-  <input type="text"id="fuelLevel"autocomplete="off"></input>
-  <button type="button"onclick="run()">Run</button>
-  <button type="button"onclick="run()">Save</button>
-  <div class="text">You can control the delay between actions with adding a number below, higher number means it waits longer.</div>
-  <div class="text"id="speedBox">Delay <input type="text"id="autoSpeed"autocomplete="off"size="7"></input>
+				<div id="topWrapper">
+					<div id="stateWrapper">
+						<div id="statelabel">State</div>
+						<div id="state"></div>
+					</div>
 
-<br></br>
-<br></br>
-  <img src={Logo}  height={300} width={500}/>
+					<button
+						id="button"
+						type="roundbutton"
+						class="button"
+						onclick="step()"
+					>
+						Step
+					</button>
+					<button type="button" class="button" onclick="setup()">
+						Setup TM
+					</button>
+					<button type="button" class="button" onclick="cleartm()">
+						Clear TM
+					</button>
+					{newLocal}
+				</div>
 
-  </div>
-  </div>
-  );
-    }
+				<div id="machine">
+					<div id="1000" class="cell"></div>
+					<div id="1001" class="cell head" value="1"></div>
+					<div id="1002" class="cell"></div>
+					<div id="1003" class="cell"></div>
+					<div id="1004" class="cell"></div>
+				</div>
+
+				<div class="text">
+					TM input:{" "}
+					<div
+						style={{ marginTop: "20px", width: "200px" }}
+						id="remainingFuel"
+					></div>
+				</div>
+				<div class="text">
+					This is a textfield to enter the desired number of
+					iterations.
+				</div>
+				<input type="text" id="fuelLevel" autocomplete="off"></input>
+				<button type="button" onclick="run()">
+					Run
+				</button>
+				<button type="button" onclick="run()">
+					Save
+				</button>
+				<div class="text">
+					You can control the delay between actions with adding a
+					number below, higher number means it waits longer.
+				</div>
+				<div class="text" id="speedBox">
+					Delay{" "}
+					<input
+						type="text"
+						id="autoSpeed"
+						autocomplete="off"
+						size="7"
+					></input>
+					<br></br>
+					<br></br>
+					<img src={Logo} height={300} width={500} />
+				</div>
+			</div>
+		);
+	}
 }
 export default TuringMachine;
-

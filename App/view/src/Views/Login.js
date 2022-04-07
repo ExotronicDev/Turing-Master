@@ -1,6 +1,4 @@
-import axios from "axios";
-import React, { Component } from "react";
-const swal = require("sweetalert2");
+import { React, Component, axios, swal } from "../dependencies";
 
 class Login extends Component {
 	state = {

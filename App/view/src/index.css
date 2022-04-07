@@ -43,30 +43,12 @@
 /*-----------------Register----------------- */
 
 .Register {
-	background: linear-gradient(to top, #09203f 0%, #537895 100%);
-	opacity: 0.9;
-	background-size: 400% 400%;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	background-attachment: fixed;
-}
-
-.Register #title {
-	position: relative;
-	width: 471wh;
-	height: 7vh;
-
-	font-family: "Times New Roman";
-	font-style: normal;
-	font-weight: 500;
-	font-size: 40px;
-	line-height: 41px;
-	text-align: center;
-
-	color: #000000;
 }
 
 .Register input {
@@ -134,20 +116,6 @@
 	margin-top: 20vh;
 }
 
-.Login #title {
-	position: relative;
-	height: 7vh;
-
-	font-family: "Times New Roman";
-	font-style: normal;
-	font-weight: 500;
-	font-size: 40px;
-	line-height: 41px;
-	text-align: center;
-
-	color: white;
-}
-
 .Login #loginbox {
     background: rgb(90, 101, 111);
     box-shadow: 0 0 4px #000000;
@@ -211,6 +179,8 @@
 	width: 400px;
 }
 
+/*-----------------MachinesList----------------- */
+
 .MachinesList {
 	width: 100wh;
 	height: 100vh;
@@ -236,33 +206,15 @@
 	color: #000000;
 }
 
+/*-----------------EditProfile----------------- */
+
 .EditProfile {
-	width: 100wh;
-	height: 100vh;
-	background: linear-gradient(to top, #09203f 0%, #537895 100%);
-	opacity: 0.9;
-	background-size: 400% 400%;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	background-attachment: fixed;
-}
-
-.EditProfile #title {
-	position: relative;
-	width: 471wh;
-	height: 7vh;
-
-	font-family: "Times New Roman";
-	font-style: normal;
-	font-weight: 500;
-	font-size: 40px;
-	line-height: 41px;
-	text-align: center;
-
-	color: #000000;
 }
 
 .EditProfile #checkF {
@@ -302,6 +254,8 @@
   	height: 30px;
 }
 
+/*-----------------TuringIO----------------- */
+
 .TuringIO {
 	width: 100wh;
 	height: 100vh;
@@ -309,6 +263,8 @@
 	opacity: 0.9;
 	background-size: 400% 400%;
 }
+
+/*-----------------others----------------- */
 
 #header {
   font-size: 80px;

@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import { React, Component, Router, Routes, Route } from "./dependencies";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //Views
 import Home from "./Views/Home";
