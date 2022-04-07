@@ -281,7 +281,7 @@
 // 	startStringBox.value = "00001";
 // }
 
-import { React, Component } from "../dependencies";
+import React, { Component } from "react";
 import Logo from "./Simulator/MachinePicture.png";
 
 class TuringMachine extends Component {

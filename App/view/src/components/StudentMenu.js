@@ -1,4 +1,5 @@
-import { React, Component, Cookies } from "../dependencies";
+import React, { Component } from "react";
+import { Cookies } from "../dependencies";
 
 class StudentMenu extends Component {
 	componentDidMount = () => {

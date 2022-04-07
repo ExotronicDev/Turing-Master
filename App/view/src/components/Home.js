@@ -1,4 +1,4 @@
-import { React, Component } from "../dependencies";
+import React, { Component } from "react";
 
 class Home extends Component {
 	render() {

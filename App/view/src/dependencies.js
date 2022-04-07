@@ -1,13 +1,3 @@
-// React components
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	NavLink,
-} from "react-router-dom";
-
 // Dependencies
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -23,17 +13,7 @@ import {
 	CDBSidebarMenuItem,
 } from "cdbreact";
 
-// Testing components
-import { render, screen } from "@testing-library/react";
-
 export {
-	React,
-	Component,
-	ReactDOM,
-	Router,
-	Routes,
-	Route,
-	NavLink,
 	axios,
 	Cookies,
 	swal,
@@ -43,6 +23,4 @@ export {
 	CDBSidebarHeader,
 	CDBSidebarMenu,
 	CDBSidebarMenuItem,
-	render,
-	screen,
 };

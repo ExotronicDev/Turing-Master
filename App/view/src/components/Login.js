@@ -1,4 +1,5 @@
-import { React, Component, axios, swal } from "../dependencies";
+import React, { Component } from "react";
+import { axios, swal } from "../dependencies";
 
 class Login extends Component {
 	state = {

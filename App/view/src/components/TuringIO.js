@@ -1,4 +1,4 @@
-import { Component } from "../dependencies";
+import React, { Component } from "react";
 import Sidebar from "./SideBar";
 
 class TuringIO extends Component {
