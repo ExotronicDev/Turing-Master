@@ -6,10 +6,13 @@
 }
 
 .App button {	
-	color: #ffffff;
-	background-color: #08ADA2;
 	font-weight: 500;
 	border-radius: 0.7em;
+}
+
+.App .btn-primary {
+	color: #ffffff;
+	background-color: #08ADA2;
 }
 
 #container {

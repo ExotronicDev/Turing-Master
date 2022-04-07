@@ -40,7 +40,7 @@ class Login extends Component {
 			return;
 		}
 
-		let isTeacher = this.state.isTeacher ? "/teachers" : "/students";
+		let isTeacher = this.state.isTeacher ? "teachers" : "students";
 		const apiUrl = "/api/" + isTeacher + "/login";
 
 		axios({
