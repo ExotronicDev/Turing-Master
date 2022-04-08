@@ -1,0 +1,88 @@
+.Navbar {
+	background: #152028;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+}
+
+.navbarLogo {
+    color: white;
+    justify-self: start;
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    width: max-content;
+    font-size: 1.8rem;
+    font-family: "Fira Sans";
+    font-weight: bold;
+}
+
+.fa-firstdraft {
+    margin-left: 0.5rem;
+    font-size: 1.6rem;
+}
+
+.navMenu {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-gap: 10px;
+    list-style: none;
+    text-align: center;
+    width: 70vw;
+    justify-content: end;
+    margin-right: 2rem;
+    padding-top: 12px;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    height: max-content;
+    width: max-content;
+    font-weight: 600;
+    color: white;
+}
+
+.navButton {
+    display: flex;
+    align-items: center;
+    background-color: #08ADA2;
+    color: white;
+    border-radius: 20px;
+    width: max-content;
+    height: max-content;
+    font-weight: 600;
+    text-align: center;
+}
+
+.navButtonLinks {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+}
+
+.navLinks {
+    color: #08ADA2;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+}
+
+.navLinks:hover {
+    background-color: #08ADA2;
+    border-radius: 20px;
+    transition: all 0.2s ease-out;
+}
+
+.fa-bars {
+    color: white;
+}
+
+.nav-links-mobile {
+    display: none;
+}
+
+.menuIcon {
+    display: none;
+}

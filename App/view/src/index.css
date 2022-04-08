@@ -10,26 +10,39 @@
 }
 
 .Home button {
-	width: 75%;
+	width: 15vw;
 	position: relative;
 	flex-direction: row;
-	margin: 6vh;
+
 	font-family: "Arial";
 	font-style: normal;
 	font-weight: 400;
-	font-size: 30px;
+	font-size: 2em;
 }
 
 .Home .title {
 	position: relative;
-	margin-top: 20vh;
+	margin-top: 15vh;
+	margin-bottom: 5vh;
 
-	font-family: "Lucida Handwriting"; /*Papyrus, Lucida Handwriting, Courier New */
+	font-family: "Fira Sans"; /*Papyrus, Lucida Handwriting, Courier New */
 	font-style: normal;
 	font-weight: 600;
 	font-size: 4em;
 
 	color: white;
+}
+
+.Home #container {
+    width: 70%;
+}
+
+.Home #background {
+	display: flex;
+	flex-direction: column;
+	padding-top: 21vh;
+	background-image: url("./TitleBackground.png");	
+	background-size: 100% 100%;
 }
 
 .Home #options {
@@ -38,6 +51,15 @@
 
 .Home #options form {
 	width: 50%;
+	margin-top: 5vh;
+}
+
+.Home #login {
+	margin-left: 15vw;
+}
+
+.Home #register {
+	margin-right: 15vw;
 }
 
 /*-----------------Register----------------- */
