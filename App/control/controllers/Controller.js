@@ -1,10 +1,45 @@
 const asyncHandler = require("../../middleware/async");
 const ErrorResponse = require("./../../utils/errorResponse");
-const StudentController = require("./StudentController");
-const CounterDao = require("../daos/CounterDao");
-const TMachineController = require("./TMachineController");
 
-//-----------------Authentication-----------------//
+const StudentController = require("./StudentController");
+const TMachineController = require("./TMachineController");
+const TeacherController = require("./TeacherController");
+
+const CounterDao = require("../daos/CounterDao");
+
+//-----------------General Authentication-----------------//
+
+//  @desc       Logout Student and clear cookie
+//  @route      POST /api/v1/students/logout
+//  @access     Private
+exports.logout = asyncHandler(async (req, res, next) => {
+	res.cookie("token", "none", {
+		expires: new Date(Date.now() + 10 * 1000),
+		httpOnly: true,
+	});
+	res.json({ success: true, data: {} });
+});
+
+//  @desc       Get current Logged-in Student
+//  @route      POST /api/v1/students/me
+//  @access     Private
+exports.getMe = asyncHandler(async (req, res, next) => {
+	const controlStudent = new StudentController();
+	const student = await controlStudent.getStudent({ id: req.user.id });
+	if (student.length == 0) {
+		const controlTeacher = new TeacherController();
+		const teacher = await controlTeacher.getTeacher({ id: req.user.id });
+		if (teacher.length == 0) {
+			return next(new ErrorResponse(`User not logged in.`, 401));
+		} else {
+			res.json({ success: true, role: "teachers", data: teacher[0] });
+		}
+	} else {
+		res.json({ success: true, role: "students", data: student[0] });
+	}
+});
+
+//-----------------Student Authentication-----------------//
 
 //  @desc       Register new Student
 //  @route      POST /api/v1/students/register
@@ -42,29 +77,6 @@ exports.loginStudent = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse(`Invalid credentials.`, 401));
 	}
 	sendTokenResponse(loggedStudent, 200, res);
-});
-
-//  @desc       Logout Student and clear cookie
-//  @route      POST /api/v1/students/logout
-//  @access     Private
-exports.logout = asyncHandler(async (req, res, next) => {
-	res.cookie("token", "none", {
-		expires: new Date(Date.now() + 10 * 1000),
-		httpOnly: true,
-	});
-	res.json({ success: true, data: {} });
-});
-
-//  @desc       Get current Logged-in Student
-//  @route      POST /api/v1/students/me
-//  @access     Private
-exports.getMe = asyncHandler(async (req, res, next) => {
-	const control = new StudentController();
-	const student = await control.getStudent({ id: req.user.id });
-	if (student.length == 0) {
-		return next(new ErrorResponse(`Student not logged in.`, 401));
-	}
-	res.json({ success: true, data: student[0] });
 });
 
 const sendTokenResponse = (student, statusCode, res) => {

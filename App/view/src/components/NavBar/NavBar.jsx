@@ -4,8 +4,33 @@ import "./NavBar.css";
 
 function NavBar() {
 	const menu = () => {
-		const redirect = window.location;
-		console.log(redirect);
+		axios({
+			url: "/api/auth/me",
+			method: "GET",
+		})
+			.then((res) => {
+				if (res.data.success) {
+					window.location = "/" + res.data.role + "/menu";
+				} else {
+					swal.fire({
+						title: "Error!",
+						text: res.data.error,
+						icon: "warning",
+						background: "black",
+						color: "white",
+					});
+				}
+			})
+			.catch((err) => {
+				console.log(err.response);
+				swal.fire({
+					title: "Error!",
+					text: err.response.data.error,
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+			});
 	};
 
 	const profile = () => {

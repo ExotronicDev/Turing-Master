@@ -36,16 +36,6 @@ class StudentMenu extends Component {
 							View My Machines{" "}
 						</button>
 					</form>
-					<form action="/profile">
-						<button
-							id="edit"
-							type="submit"
-							class="btn btn-primary btn-lg"
-						>
-							{" "}
-							Edit my Profile{" "}
-						</button>
-					</form>
 				</div>
 			</div>
 		);

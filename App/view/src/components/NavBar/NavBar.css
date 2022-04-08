@@ -1,6 +1,7 @@
 .Navbar {
 	background: #152028;
-    height: 10vh;
+    height: 12vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,9 +11,8 @@
 .navbar-logo {
     color: white;
     justify-self: start;
-    margin-left: 2vw;
     cursor: pointer;
-    width: max-content;
+    width: 25%;
     font-size: 1.5em;
     font-family: "Fira Sans";
     font-weight: bold;
@@ -25,13 +25,12 @@
 
 .navMenu {
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(2, auto);
     grid-gap: 10px;
     list-style: none;
     text-align: center;
-    width: 70vw;
-    justify-content: end;
-    margin-right: 2rem;
+    width: 25%;
+    justify-content: center;
     padding-top: 12px;
 }
 
@@ -85,4 +84,14 @@
 
 .menuIcon {
     display: none;
+}
+
+.Navbar #background {
+    display: block;
+    width: 50%;
+    height: 100%;
+    background-position-y: center;
+    background-repeat: repeat-x;
+	background-image: url("../../TitleBackground.png");	
+	background-size: 50% 70%;
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
+import NavBar from "./NavBar/NavBar";
 
 class Profile extends Component {
 	state = {
@@ -100,149 +101,152 @@ class Profile extends Component {
 
 	render() {
 		return (
-			<div className="Profile">
-				<p id="title"> Your information</p>
-				<form onSubmit={this.submit}>
-					<div className="form-group row">
-						<label for="firstName">First Name</label>
-						<div className="col">
-							<input
-								type="text"
-								className="form-control"
-								id="firstName"
-								placeholder="First Name"
-								name="firstName"
-								onChange={this.handleChange}
-								value={this.state.firstName}
-								disabled="disabled"
-							/>
+			<div class="Profile">
+				<NavBar />
+				<div id="container">
+					<p id="title"> Your information</p>
+					<form onSubmit={this.submit}>
+						<div class="form-group row">
+							<label for="firstName">First Name</label>
+							<div class="col">
+								<input
+									type="text"
+									class="form-control"
+									id="firstName"
+									placeholder="First Name"
+									name="firstName"
+									onChange={this.handleChange}
+									value={this.state.firstName}
+									disabled="disabled"
+								/>
+							</div>
+							<div class="col" id="edit">
+								<label for="check">Edit</label>
+							</div>
+							<div class="col" id="check">
+								<input
+									id="checkF"
+									type="checkbox"
+									onChange={this.change}
+								></input>
+							</div>
 						</div>
-						<div className="col" id="edit">
-							<label for="check">Edit</label>
-						</div>
-						<div className="col" id="check">
-							<input
-								id="checkF"
-								type="checkbox"
-								onChange={this.change}
-							></input>
-						</div>
-					</div>
 
-					<div className="form-group row">
-						<label for="lastName">Last Name</label>
-						<div className="col">
-							<input
-								type="text"
-								className="form-control"
-								id="lastName"
-								placeholder="Last Name"
-								name="lastName"
-								onChange={this.handleChange}
-								value={this.state.lastName}
-								disabled="disabled"
-							/>
+						<div class="form-group row">
+							<label for="lastName">Last Name</label>
+							<div class="col">
+								<input
+									type="text"
+									class="form-control"
+									id="lastName"
+									placeholder="Last Name"
+									name="lastName"
+									onChange={this.handleChange}
+									value={this.state.lastName}
+									disabled="disabled"
+								/>
+							</div>
+							<div class="col" id="edit">
+								<label for="check">Edit</label>
+							</div>
+							<div class="col" id="check">
+								<input
+									id="check2"
+									type="checkbox"
+									onChange={this.change}
+								></input>
+							</div>
 						</div>
-						<div className="col" id="edit">
-							<label for="check">Edit</label>
-						</div>
-						<div className="col" id="check">
-							<input
-								id="check2"
-								type="checkbox"
-								onChange={this.change}
-							></input>
-						</div>
-					</div>
 
-					<div className="form-group row">
-						<label for="email">Email</label>
-						<div className="col">
-							<input
-								type="email"
-								className="form-control"
-								id="email"
-								placeholder="email@example.com"
-								name="email"
-								onChange={this.handleChange}
-								value={this.state.email}
-								disabled="disabled"
-							/>
+						<div class="form-group row">
+							<label for="email">Email</label>
+							<div class="col">
+								<input
+									type="email"
+									class="form-control"
+									id="email"
+									placeholder="email@example.com"
+									name="email"
+									onChange={this.handleChange}
+									value={this.state.email}
+									disabled="disabled"
+								/>
+							</div>
+							<div class="col" id="edit">
+								<label for="check">Edit</label>
+							</div>
+							<div class="col" id="check">
+								<input
+									id="check3"
+									type="checkbox"
+									onChange={this.change}
+								></input>
+							</div>
 						</div>
-						<div className="col" id="edit">
-							<label for="check">Edit</label>
+						<div class="form-group row">
+							<label for="email">Password</label>
+							<div class="col">
+								<input
+									type="password"
+									class="form-control"
+									id="password"
+									placeholder="Old Password"
+									name="password"
+									onChange={this.handleChange}
+									value={this.state.password}
+									disabled="disabled"
+								/>
+							</div>
+							<div class="col" id="edit">
+								<label for="check">Edit</label>
+							</div>
+							<div class="col" id="check">
+								<input
+									id="check4"
+									type="checkbox"
+									onChange={this.change}
+								></input>
+							</div>
 						</div>
-						<div className="col" id="check">
-							<input
-								id="check3"
-								type="checkbox"
-								onChange={this.change}
-							></input>
+						<div class="form-group row">
+							<label for="email">New Password</label>
+							<div class="col">
+								<input
+									type="password"
+									class="form-control"
+									id="newpassword"
+									placeholder="New Password"
+									name="newpassword"
+									onChange={this.handleChange}
+									value={this.state.newPassword}
+									disabled="disabled"
+								/>
+							</div>
 						</div>
-					</div>
-					<div className="form-group row">
-						<label for="email">Password</label>
-						<div className="col">
-							<input
-								type="password"
-								className="form-control"
-								id="password"
-								placeholder="Old Password"
-								name="password"
-								onChange={this.handleChange}
-								value={this.state.password}
-								disabled="disabled"
-							/>
+						<div class="form-group row">
+							<label for="email">Confirm</label>
+							<div class="col">
+								<input
+									type="password"
+									class="form-control"
+									id="confirm"
+									placeholder="Confirm Password"
+									name="confirm"
+									onChange={this.handleChange}
+									value={this.state.confirm}
+									disabled="disabled"
+								/>
+							</div>
 						</div>
-						<div className="col" id="edit">
-							<label for="check">Edit</label>
-						</div>
-						<div className="col" id="check">
-							<input
-								id="check4"
-								type="checkbox"
-								onChange={this.change}
-							></input>
-						</div>
-					</div>
-					<div className="form-group row">
-						<label for="email">New Password</label>
-						<div className="col">
-							<input
-								type="password"
-								className="form-control"
-								id="newpassword"
-								placeholder="New Password"
-								name="newpassword"
-								onChange={this.handleChange}
-								value={this.state.newPassword}
-								disabled="disabled"
-							/>
-						</div>
-					</div>
-					<div className="form-group row">
-						<label for="email">Confirm</label>
-						<div className="col">
-							<input
-								type="password"
-								className="form-control"
-								id="confirm"
-								placeholder="Confirm Password"
-								name="confirm"
-								onChange={this.handleChange}
-								value={this.state.confirm}
-								disabled="disabled"
-							/>
-						</div>
-					</div>
-					<button
-						type="submit"
-						className="btn btn-primary"
-						style={{ marginTop: "20px", width: "200px" }}
-					>
-						Save Changes
-					</button>
-				</form>
+						<button
+							type="submit"
+							class="btn btn-primary"
+							style={{ marginTop: "20px", width: "200px" }}
+						>
+							Save Changes
+						</button>
+					</form>
+				</div>
 			</div>
 		);
 	}
