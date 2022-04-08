@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Cookies } from "../dependencies";
+import NavBar from "./NavBar/NavBar";
 
 class StudentMenu extends Component {
 	componentDidMount = () => {
@@ -11,38 +12,41 @@ class StudentMenu extends Component {
 
 	render() {
 		return (
-			<div className="StudentMenu">
-				<p>Turing Machine Simulator</p>
-				<form action="/TuringIO">
-					<button
-						id="newmachine"
-						type="submit"
-						className="btn btn-primary btn-lg"
-					>
-						{" "}
-						New Machine{" "}
-					</button>
-				</form>
-				<form action="/MachinesList">
-					<button
-						id="mymachines"
-						type="submit"
-						className="btn btn-primary btn-lg"
-					>
-						{" "}
-						View My Machines{" "}
-					</button>
-				</form>
-				<form action="/EditProfile">
-					<button
-						id="edit"
-						type="submit"
-						className="btn btn-primary btn-lg"
-					>
-						{" "}
-						Edit my Profile{" "}
-					</button>
-				</form>
+			<div class="StudentMenu">
+				<NavBar />
+				<div id="container">
+					<h1 id="title">Student Menu</h1>
+					<form action="/TuringIO">
+						<button
+							id="newmachine"
+							type="submit"
+							class="btn btn-primary btn-lg"
+						>
+							{" "}
+							New Machine{" "}
+						</button>
+					</form>
+					<form action="/MachinesList">
+						<button
+							id="mymachines"
+							type="submit"
+							class="btn btn-primary btn-lg"
+						>
+							{" "}
+							View My Machines{" "}
+						</button>
+					</form>
+					<form action="/profile">
+						<button
+							id="edit"
+							type="submit"
+							class="btn btn-primary btn-lg"
+						>
+							{" "}
+							Edit my Profile{" "}
+						</button>
+					</form>
+				</div>
 			</div>
 		);
 	}

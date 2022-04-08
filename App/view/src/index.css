@@ -114,24 +114,28 @@
 /*-----------------StudentMenu----------------- */
 
 .StudentMenu {
-	margin: auto;
+    margin: auto;	
 	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
 }
 
-.StudentMenu p {
+.StudentMenu #container {
+	margin-top: 10vh;
+    width: 70%;
+}
+
+/* .StudentMenu p {
 	position: relative;
 	margin-top: 10vh;
 	height: 7vh;
 
-	font-family: "Lucida Handwriting"; /*Papyrus, Lucida Handwriting, Courier New */
-	font-style: normal;
-	font-weight: 500;
-	font-size: 2em;
-
 	color: white;
-}
+} */
 
-.StudentMenu button {
+/* .StudentMenu button {
 	width: 50%;
 	position: relative;
 	flex-direction: row;
@@ -140,24 +144,24 @@
 	font-style: normal;
 	font-weight: 400;
 	font-size: 36px;
-}
+} */
 
 .StudentMenu #newmachine {
 	position: relative;
-	top: 250px;
-	width: 400px;
+	/* top: 250px;
+	width: 400px; */
 }
 
 .StudentMenu #mymachines {
 	position: relative;
-	top: 300px;
-	width: 400px;
+	/* top: 300px;
+	width: 400px; */
 }
 
 .StudentMenu #edit {
 	position: relative;
-	top: 350px;
-	width: 400px;
+	/* top: 350px;
+	width: 400px; */
 }
 
 /*-----------------MachinesList----------------- */
@@ -187,9 +191,9 @@
 	color: #000000;
 }
 
-/*-----------------EditProfile----------------- */
+/*-----------------Profile----------------- */
 
-.EditProfile {
+.Profile {
 	text-align: center;
 	display: flex;
 	flex-direction: column;
@@ -198,37 +202,37 @@
 	background-attachment: fixed;
 }
 
-.EditProfile #checkF {
+.Profile #checkF {
 	width: 15px;
 	height: 15px;
 }
 
-.EditProfile #check2 {
+.Profile #check2 {
 	width: 15px;
 	height: 15px;
 }
 
-.EditProfile #check3 {
+.Profile #check3 {
 	width: 15px;
 	height: 15px;
 }
 
-.EditProfile #check4 {
+.Profile #check4 {
 	width: 15px;
 	height: 15px;
 }
 
-.EditProfile #edit {
+.Profile #edit {
 	width: 33px;
 	height: 30px;
 	text-align: left;
 }
 
-.EditProfile input {
+.Profile input {
 	width: 350px;
 }
 
-.EditProfile label {
+.Profile label {
 	text-align: left;
   	color: white;
   	width: 110px;

@@ -7,14 +7,13 @@
     font-size: 1.3rem;
 }
 
-.navbarLogo {
+.navbar-logo {
     color: white;
     justify-self: start;
-    margin-left: 20px;
+    margin-left: 2vw;
     cursor: pointer;
-    text-decoration: none;
     width: max-content;
-    font-size: 1.8rem;
+    font-size: 1.5em;
     font-family: "Fira Sans";
     font-weight: bold;
 }
@@ -63,15 +62,16 @@
     padding: 0.5rem 1rem;
 }
 
-.navLinks {
-    color: #08ADA2;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
+.nav-link {
+	color: #ffffff;
+	background-color: #08ADA2;
+	height: 2em;
+    margin-top: 1.5vh;
+    padding: 0em 0.8em;
 }
 
-.navLinks:hover {
-    background-color: #08ADA2;
-    border-radius: 20px;
+.nav-link:hover {
+    border-radius: 2em;
     transition: all 0.2s ease-out;
 }
 

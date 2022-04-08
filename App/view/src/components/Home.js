@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Cookies } from "../dependencies";
-import NavBar from "./NavBar/NavBar";
 
 class Home extends Component {
 	componentDidMount = () => {
@@ -10,7 +9,6 @@ class Home extends Component {
 	render() {
 		return (
 			<div class="Home">
-				<NavBar />
 				<div id="container">
 					<h1 class="title">Turing Master</h1>
 					{/* {<img

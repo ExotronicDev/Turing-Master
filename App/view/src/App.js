@@ -8,7 +8,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import StudentMenu from "./components/StudentMenu";
 import MachinesList from "./components/MachinesList";
-import EditProfile from "./components/EditProfile";
+import Profile from "./components/Profile";
 import TuringIO from "./components/TuringIO";
 import TuringMachine from "./components/TuringMachine";
 
@@ -37,8 +37,8 @@ class App extends Component {
 						></Route>
 						<Route
 							exact
-							path="/EditProfile"
-							element={<EditProfile />}
+							path="/profile"
+							element={<Profile />}
 						></Route>
 						<Route
 							exact

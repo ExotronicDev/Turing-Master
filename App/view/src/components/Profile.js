@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 
-class EditProfile extends Component {
+class Profile extends Component {
 	state = {
 		firstName: "",
 		lastName: "",
@@ -100,7 +100,7 @@ class EditProfile extends Component {
 
 	render() {
 		return (
-			<div className="EditProfile">
+			<div className="Profile">
 				<p id="title"> Your information</p>
 				<form onSubmit={this.submit}>
 					<div className="form-group row">
@@ -248,4 +248,4 @@ class EditProfile extends Component {
 	}
 }
 
-export default EditProfile;
+export default Profile;
