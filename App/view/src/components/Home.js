@@ -1,6 +1,11 @@
 import React, { Component } from "react";
+import { Cookies } from "../dependencies";
 
 class Home extends Component {
+	componentDidMount = () => {
+		Cookies.remove("token");
+	};
+
 	render() {
 		return (
 			<div className="Home">

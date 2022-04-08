@@ -1,3 +1,5 @@
+/*-----------------General----------------- */
+
 .App {	
 	width: 100%; /* 100vw */
 	height: 100vh;
@@ -13,6 +15,14 @@
 .App .btn-primary {
 	color: #ffffff;
 	background-color: #08ADA2;
+}
+
+.App .form-check {
+	margin-left: 2vw;
+}
+
+.App .form-check-input:checked {
+    background-color: #08ADA2;
 }
 
 #title {
@@ -32,7 +42,54 @@
 #container {
     top: 0;
     position: absolute;
-    margin-top: 20px;
+    margin-top: 2vh;
+}
+
+/*-----------------Windows with form box----------------- */
+
+#form-view {
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+#form-view label {
+	color: white;
+	font-weight: 500;
+}
+
+#form-view button {
+	width: 85%;
+	margin: 1.5vw;
+}
+
+#form-view .input-group {
+    padding: 0 20px 5px;
+}
+
+#form-view .input-group-text {
+	height: 100%;
+}
+
+#form-view #teacher-label {
+	font-weight: 400;
+	float: left;
+}
+
+#form-view #box {
+    background: rgb(90, 101, 111);
+    box-shadow: 0 0 4px #000000;
+    border-radius: 4px;
+    overflow: hidden !important;
+    position: relative;
+}
+
+#form-view #box #loginform {
+    z-index: 200;
+	width: 100%;
+	margin-top: 5px;
 }
 
 /*

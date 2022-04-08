@@ -9,6 +9,7 @@ class Register extends Component {
 		email: "",
 		password: "",
 		confirm: "",
+		isTeacher: false,
 	};
 
 	//Función que actualiza los states
@@ -19,6 +20,12 @@ class Register extends Component {
 
 		this.setState({
 			[name]: value,
+		});
+	};
+
+	handleSwitchChange = () => {
+		this.setState({
+			isTeacher: !this.state.isTeacher,
 		});
 	};
 
@@ -61,16 +68,24 @@ class Register extends Component {
 			password: this.state.password,
 		};
 
+		let isTeacher = this.state.isTeacher ? "/teachers" : "/students";
+		const apiUrl = "/api" + isTeacher + "/register";
+
 		axios({
-			url: "/api/students/register",
+			url: apiUrl,
 			method: "POST",
 			data: user,
 		})
 			.then((res) => {
 				if (res.data.success) {
+					// Should not have ! (not), but works this way
+					const accountType = !isTeacher ? "Teacher" : "Student";
 					swal.fire({
 						title: "Success!",
-						text: "Your Student account has been created successfully!",
+						text:
+							"Your " +
+							accountType +
+							" account has been created successfully!",
 						icon: "success",
 						background: "black",
 						color: "white",
@@ -96,111 +111,125 @@ class Register extends Component {
 					background: "black",
 					color: "white",
 				});
-				// swal.fire({
-				// 	title: "Oops !",
-				// 	text: "Unexpected error, Try Again",
-				// 	icon: "error",
-				// 	background: "black",
-				// 	color: "white",
-				// });
 			});
 	};
 
 	render() {
 		return (
-			<div className="Register">
-				<p id="title"> Fill in the following information</p>
-				<form onSubmit={this.submit}>
-					<div className="form-group">
-						<label for="firstName">First Name</label>
-						<input
-							type="text"
-							className="form-control"
-							id="firstName"
-							placeholder="First Name"
-							name="firstName"
-							onChange={this.handleChange}
-							value={this.state.firstName}
-						/>
-					</div>
+			<div id="form-view" class="Register">
+				<div id="container">
+					<p id="title">Fill in your account information</p>
+					<div id="box">
+						<form id="loginform" onSubmit={this.submit}>
+							<label for="firstName">First Name</label>
+							<div class="form-group">
+								<input
+									type="text"
+									class="form-control"
+									id="firstName"
+									placeholder="First Name"
+									name="firstName"
+									aria-label="Your first name"
+									onChange={this.handleChange}
+									value={this.state.firstName}
+								/>
+							</div>
 
-					<div className="form-group">
-						<label for="lastName">Last Name</label>
-						<input
-							type="text"
-							className="form-control"
-							id="lastName"
-							placeholder="Last Name"
-							name="lastName"
-							onChange={this.handleChange}
-							value={this.state.lastName}
-						/>
-					</div>
+							<label for="lastName">Last Name</label>
+							<div class="form-group">
+								<input
+									type="text"
+									class="form-control"
+									id="lastName"
+									placeholder="Last Name"
+									name="lastName"
+									aria-label="Your last name"
+									onChange={this.handleChange}
+									value={this.state.lastName}
+								/>
+							</div>
 
-					<div className="form-group">
-						<label for="id">ID</label>
-						<input
-							type="text"
-							className="form-control"
-							id="id"
-							placeholder="Student ID"
-							name="id"
-							onChange={this.handleChange}
-							value={this.state.id}
-						/>
-					</div>
+							<label for="id">ID</label>
+							<div class="form-group">
+								<input
+									type="text"
+									class="form-control"
+									id="id"
+									placeholder="Identification"
+									name="id"
+									aria-label="Your identification"
+									onChange={this.handleChange}
+									value={this.state.id}
+								/>
+							</div>
 
-					<div className="form-group">
-						<label for="email">Email</label>
-						<input
-							type="email"
-							className="form-control"
-							id="email"
-							placeholder="email@example.com"
-							name="email"
-							onChange={this.handleChange}
-							value={this.state.email}
-						/>
-					</div>
+							<label for="email">Email</label>
+							<div class="form-group">
+								<input
+									type="email"
+									class="form-control"
+									id="email"
+									placeholder="email@example.com"
+									name="email"
+									aria-label="Your username (email)"
+									onChange={this.handleChange}
+									value={this.state.email}
+								/>
+							</div>
 
-					<div className="form-group">
-						<label for="password">Password</label>
-						<input
-							type="password"
-							className="form-control"
-							id="password"
-							name="password"
-							onChange={this.handleChange}
-							value={this.state.password}
-						/>
-						<small
-							id="passwordHelpInline"
-							style={{ color: "#FFFFFF" }}
-						>
-							Must be 8-20 characters long.
-						</small>
-					</div>
+							<label for="password">Password</label>
+							<div class="form-group">
+								<input
+									type="password"
+									class="form-control"
+									id="password"
+									name="password"
+									aria-label="Your user password"
+									onChange={this.handleChange}
+									value={this.state.password}
+								/>
+								<small id="passwordHelpInline">
+									Must be at least 8 characters long.
+								</small>
+							</div>
 
-					<div className="form-group">
-						<label for="confirm">Confirm Password</label>
-						<input
-							type="password"
-							className="form-control"
-							id="confirm"
-							name="confirm"
-							onChange={this.handleChange}
-							value={this.state.confirm}
-						/>
-					</div>
+							<label for="confirm">Confirm Password</label>
+							<div class="form-group">
+								<input
+									type="password"
+									class="form-control"
+									id="confirm"
+									name="confirm"
+									aria-label="Confirm your user password"
+									onChange={this.handleChange}
+									value={this.state.confirm}
+								/>
+							</div>
 
-					<button
-						type="submit"
-						className="btn btn-primary"
-						style={{ marginTop: "20px", width: "200px" }}
-					>
-						Register
-					</button>
-				</form>
+							<div class="form-check form-switch">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									id="isTeacher"
+									aria-label="Teacher Switch"
+									onChange={this.handleSwitchChange}
+									value={this.state.isTeacher}
+								/>
+								<label
+									class="form-check-label"
+									id="teacher-label"
+									for="isTeacher"
+								>
+									I'm a teacher!
+								</label>
+							</div>
+
+							<button type="submit" class="btn btn-primary">
+								Register
+							</button>
+						</form>
+					</div>
+				</div>
 			</div>
 		);
 	}

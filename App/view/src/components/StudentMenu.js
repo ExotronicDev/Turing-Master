@@ -5,7 +5,7 @@ class StudentMenu extends Component {
 	componentDidMount = () => {
 		const token = Cookies.get("token");
 		if (token === undefined) {
-			window.location = "/login/student";
+			window.location = "/login";
 		}
 	};
 

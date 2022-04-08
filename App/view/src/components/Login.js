@@ -73,22 +73,15 @@ class Login extends Component {
 					background: "black",
 					color: "white",
 				});
-				// swal.fire({
-				// 	title: "Oops !",
-				// 	text: "Unexpected error, Try Again",
-				// 	icon: "error",
-				// 	background: "black",
-				// 	color: "white",
-				// });
 			});
 	};
 
 	render() {
 		return (
-			<div className="Login">
+			<div id="form-view" class="Login">
 				<div id="container">
 					<p id="title">User info</p>
-					<div id="loginbox">
+					<div id="box">
 						<form id="loginform" onSubmit={this.submit}>
 							<label for="email">Email</label>
 							<div class="input-group">
@@ -103,11 +96,12 @@ class Login extends Component {
 									id="email"
 									placeholder="email@example.com"
 									name="email"
-									aria-label="Username (email)"
+									aria-label="Your username (email)"
 									onChange={this.handleChange}
 									value={this.state.email}
 								/>
 							</div>
+
 							<label for="password">Password</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -120,11 +114,12 @@ class Login extends Component {
 									class="form-control"
 									id="password"
 									name="password"
-									aria-label="User Password"
+									aria-label="Your user password"
 									onChange={this.handleChange}
 									value={this.state.password}
 								/>
 							</div>
+
 							<div class="form-check form-switch">
 								<input
 									class="form-check-input"
@@ -142,7 +137,8 @@ class Login extends Component {
 									I'm a teacher!
 								</label>
 							</div>
-							<button type="submit" className="btn btn-primary">
+
+							<button type="submit" class="btn btn-primary">
 								Login
 							</button>
 						</form>

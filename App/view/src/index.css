@@ -42,54 +42,33 @@
 
 /*-----------------Register----------------- */
 
-.Register {
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background-attachment: fixed;
-}
-
 .Register input {
-	width: 350px;
+	margin-left: 2vw;
+	margin-right: 2vw;
+	width: 90%;
 }
 
-.Register label {
-  color: white;
+.Register .form-check {
+	margin-left: 1.5vw;
+	margin-top: 1vw;
+	width: 80%;
+}
+
+.Register .form-check-input {
+	margin-left: -2em;
+	align-items: center;
+}
+
+.Register #teacher-label {
+	margin-left: -0.7vw;
+}
+
+.Register #passwordHelpInline {
+	color: white;
+	font-style: italic;
 }
 
 /*-----------------Login----------------- */
-
-.Login {
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
-}
-
-.Login label {
-	color: white;
-	font-weight: 500;
-}
-
-.Login input {
-	width: 100%;
-}
-
-.Login button {
-	width: 85%;
-	margin: 20px;
-}
-
-.Login .input-group {
-    padding: 0 20px 5px;
-}
-
-.Login .input-group-text {
-	height: 100%;
-}
 
 .Login .form-check {
 	margin-left: 20px;
@@ -102,32 +81,12 @@
 	align-items: center;
 }
 
-.Login .form-check-input:checked {
-    background-color: #08ADA2;
-}
-
-.Login #teacher-label {
-	font-weight: 400;
-	float: left;
-	padding-left: 6.5%;
-}
-
 .Login #container {
 	margin-top: 20vh;
 }
 
-.Login #loginbox {
-    background: rgb(90, 101, 111);
-    box-shadow: 0 0 4px #000000;
-    border-radius: 4px;
-    overflow: hidden !important;
-    position: relative;
-}
-
-.Login #loginbox #loginform {
-    z-index: 200;
-	width: 100%;
-	margin-top: 5px;
+.Login #teacher-label {
+	padding-left: 6.5%;
 }
 
 /*-----------------StudentMenu----------------- */
