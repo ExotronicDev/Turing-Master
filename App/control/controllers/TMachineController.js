@@ -2,6 +2,8 @@ const TMachineDao = require("../daos/TMachineDao");
 const StateDao = require("../daos/StateDao");
 const CounterDao = require("../daos/CounterDao");
 
+const TapeSymbol = require("../../model/symbol");
+
 module.exports = class TMachineController {
 	constructor() {
 		this.dao = new TMachineDao();
@@ -321,5 +323,57 @@ module.exports = class TMachineController {
 		stateArray[targetIndex] = storedTarget;
 
 		return stateArray;
+	}
+
+	//Aquí abajo están las funciones de simulación.
+	//Send dudes
+
+	//Returns:
+	//False: hay un error de lógica en la TMachine.
+	//-2: No hay estados que simular.
+	//-1: No hay estado inicial.
+	//output: {finalState: state, output: cinta}
+	simulate(tMachine, input) {
+		//Primero, revisar si el array de estados tiene algo.
+		let stateArray = tMachine.states;
+		if (stateArray.length <= 0) {
+			//No hay estados, tiro un código de error. El controller.js maneja esto.
+			return -2;
+		}
+
+		//Segundo, revisar si hay un estado inicial.
+		let foundInitialState = false;
+		for (let i = 0; i < stateArray.length; i++) {
+			if (stateArray[i].initialState == true) {
+				foundInitialState = stateArray[i];
+			}
+		}
+
+		if (!foundInitialState) {
+			//No hay estado inicial, tiro código de error. El controller.js maneja esto.
+			return -1;
+		}
+	
+		//Creo que ahora debo cargar la cinta con el input xd. Se me olvidó programar
+		//tape es mi cabecera, siempre es el primer elemento de la cinta.
+		let tape = new TapeSymbol(input.charAt(0));
+		let current = tape;
+		for (let i = 1; i < input.length; i++) {
+			let newSymbol = new TapeSymbol(input.charAt(i));
+			current.setNext(newSymbol);
+			newSymbol.setPrevious(current);
+
+			current = newSymbol;
+		}
+		//Pongo el current de vuelta al inicio. Esto debería de funcionar, debería.
+		current = tape;
+
+		while (hasNextState(stateArray, current.getValue())) {
+
+		}
+	}
+
+	hasNextState(stateArray, symbol) {
+
 	}
 };
