@@ -329,10 +329,9 @@ module.exports = class TMachineController {
 	//Send dudes
 
 	//Returns:
-	//False: hay un error de lógica en la TMachine.
 	//-2: No hay estados que simular.
 	//-1: No hay estado inicial.
-	//output: {finalState: state, output: cinta}
+	//output: {status: "failed"/"finished", finalState: state, output: cinta}
 	simulate(tMachine, input, blank) {
 		//Primero, revisar si el array de estados tiene algo.
 		let stateArray = tMachine.states;
@@ -416,24 +415,44 @@ module.exports = class TMachineController {
 			//Voy a verificar que el estado encontrado tenga la transición bien.
 			if (foundNextState == -1) {
 				//Error de lógica.
-				return false;
+				let currentOutput = getOutputString(outputTape);
+				let finalOutput = {
+					status: "failed",
+					finalState: currentState,
+					output: currentOutput
+				}
+				return finalOutput;
 			} else if (!checkStateLogic(foundNextState, currentState, transition)) {
-				return false;
+				//Otro error de lógica.
+				let currentOutput = getOutputString(outputTape);
+				let finalOutput = {
+					status: "failed",
+					finalState: currentState,
+					output: currentOutput
+				}
+				return finalOutput;
 			}
 			//Aaand, that should be it for this loop. Creo.
 		}
 
 		//Ahora tengo que armar el output.
-		let outputString = "";
-		while (outputTape.getNext() !== null) {
-			outputString += outputTape.getValue();
-		}
+		let outputString = getOutputString(outputTape);
 
 		let finalOutput = {
+			status: "finished",
 			finalState: currentState,
 			output: outputString
 		}
 		return finalOutput;
+	}
+
+	getOutputString(tape) {
+		let outputString = "";
+		while (tape.getNext() !== null) {
+			outputString += tape.getValue();
+		}
+
+		return outputString;
 	}
 
 	hasNextState(currentState, symbol) {
