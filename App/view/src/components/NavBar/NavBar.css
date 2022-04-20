@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.3rem;
+    font-size: 1.5vw;
 }
 
 .navbar-logo {
@@ -26,12 +26,12 @@
 .navMenu {
     display: grid;
     grid-template-columns: repeat(2, auto);
-    grid-gap: 10px;
+    grid-gap: 1vw;
     list-style: none;
     text-align: center;
     width: 25%;
     justify-content: center;
-    padding-top: 12px;
+    padding-top: 1.5vh;
 }
 
 .navItem {
@@ -43,23 +43,23 @@
     color: white;
 }
 
-.navButton {
+/* .navButton {
     display: flex;
     align-items: center;
     background-color: #08ADA2;
     color: white;
-    border-radius: 20px;
+    border-radius: 1.5em;
     width: max-content;
     height: max-content;
     font-weight: 600;
     text-align: center;
-}
+} */
 
-.navButtonLinks {
+/* .navButtonLinks {
     color: white;
     text-decoration: none;
     padding: 0.5rem 1rem;
-}
+} */
 
 .nav-link {
 	color: #ffffff;

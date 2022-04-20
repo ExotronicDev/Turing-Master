@@ -2,7 +2,7 @@
 
 .App {	
 	width: 100%; /* 100vw */
-	height: 100vh;
+	height: 130vh;
 	background: #152028 no-repeat center center fixed;
 }
 
@@ -31,9 +31,9 @@
 	font-family: sans-serif;
     font-style: normal;
 	font-weight: 500;
-	font-size: 40px;
+	font-size: 130%;
 	
-	line-height: 41px;
+	line-height: 4vh;
 	text-align: center;
 
 	color: white;
@@ -42,7 +42,9 @@
 #container {
     top: 0;
     position: absolute;
-    margin-top: 2vh;
+    margin-top: 1%;
+	width: 100%;
+	font-size: 2vw;
 }
 
 /*-----------------Windows with form box----------------- */
@@ -58,36 +60,35 @@
 #form-view label {
 	color: white;
 	font-weight: 500;
+	font-size: 50%;
 }
 
 #form-view button {
 	width: 85%;
-	margin: 1.5vw;
+	margin: 2% 7.5% 5% 7.5%;
+	font-size: 50%;
 }
 
-#form-view .input-group {
-    padding: 0 20px 5px;
-}
+/* #form-view .input-group {
+    padding: 0 20vw 5vh 0;
+} */
 
 #form-view .input-group-text {
 	height: 100%;
 }
 
-#form-view #teacher-label {
-	font-weight: 400;
-	float: left;
-}
-
 #form-view #box {
     background: rgb(90, 101, 111);
-    box-shadow: 0 0 4px #000000;
-    border-radius: 4px;
+    box-shadow: 0 0 1vh #000000;
+    border-radius: 0.2em;
     overflow: hidden !important;
     position: relative;
+	width: 40%;
+	margin: 0% 30% 0% 30%;
 }
 
-#form-view #box #loginform {
+#form-view #box #boxform {
     z-index: 200;
 	width: 100%;
-	margin-top: 5px;
+	margin-top: 0.5%;
 }

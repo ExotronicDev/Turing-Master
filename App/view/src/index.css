@@ -65,29 +65,33 @@
 /*-----------------Register----------------- */
 
 .Register input {
-	margin-left: 2vw;
-	margin-right: 2vw;
-	width: 90%;
+	width: 85%;
+	margin: 0% 7.5% 0% 7.5%;
 }
 
 .Register .form-check {
 	margin-left: 1.5vw;
-	margin-top: 1vw;
+	margin-top: 3%;
 	width: 80%;
 }
 
 .Register .form-check-input {
-	margin-left: -2em;
+	margin-left: -13%;
 	align-items: center;
+	height: 3vh;
+	width: 3vw;
 }
 
 .Register #teacher-label {
 	margin-left: -0.7vw;
+	font-weight: 400;
+	float: left;
 }
 
 .Register #passwordHelpInline {
 	color: white;
 	font-style: italic;
+	font-size: 40%;
 }
 
 /*-----------------Login----------------- */

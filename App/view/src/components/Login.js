@@ -82,7 +82,7 @@ class Login extends Component {
 				<div id="container">
 					<p id="title">User info</p>
 					<div id="box">
-						<form id="loginform" onSubmit={this.submit}>
+						<form id="boxform" onSubmit={this.submit}>
 							<label for="email">Email</label>
 							<div class="input-group">
 								<div class="input-group-prepend">

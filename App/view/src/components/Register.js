@@ -120,7 +120,7 @@ class Register extends Component {
 				<div id="container">
 					<p id="title">Fill in your account information</p>
 					<div id="box">
-						<form id="loginform" onSubmit={this.submit}>
+						<form id="boxform" onSubmit={this.submit}>
 							<label for="firstName">First Name</label>
 							<div class="form-group">
 								<input
