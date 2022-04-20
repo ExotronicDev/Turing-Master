@@ -405,11 +405,20 @@ module.exports = class TMachineController {
 				current = current.getPrevious();
 			}
 
+			let foundNextState = -1;
 			//Ahora tengo que sacar el siguiente estado.
 			for (let i = 0; i < stateArray.length; i++) {
 				if (stateArray[i].name === nextStateName) {
-					currentState = stateArray[i];
+					foundNextState = stateArray[i];
 				}
+			}
+
+			//Voy a verificar que el estado encontrado tenga la transición bien.
+			if (foundNextState == -1) {
+				//Error de lógica.
+				return false;
+			} else if (!checkStateLogic(foundNextState, currentState, transition)) {
+				return false;
 			}
 			//Aaand, that should be it for this loop. Creo.
 		}
@@ -464,6 +473,30 @@ module.exports = class TMachineController {
 			return -1;
 		} else {
 			return foundTransition;
+		}
+	}
+
+	checkStateLogic(nextState, currentState, transition) {
+		let incomingStateName = currentState.name;
+		const nextStateIncomingTransitions = nextState.incomingTransitions
+		if (nextStateIncomingTransitions.length <= 0) {
+			return false;
+		}
+
+		let foundIncomingTransition = -1;
+		for (let i = 0; i < nextStateIncomingTransitions.length; i++) {
+			if (nextStateIncomingTransitions[i].readValue === transition.readValue &&
+				nextStateIncomingTransitions[i].writeValue === transition.writeValue &&
+				nextStateIncomingTransitions[i].moveValue == transition.moveValue &&
+				nextStateIncomingTransitions[i].originState.name === incomingStateName) {
+				foundIncomingTransition = nextStateIncomingTransitions[i];
+			}
+		}
+
+		if (foundIncomingTransition == -1) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 };
