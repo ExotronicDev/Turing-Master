@@ -18,6 +18,12 @@
 
 .App .form-check {
 	margin-left: 2vw;
+	width: 80%;
+}
+
+.App .form-check-input {
+	align-items: center;
+	height: 3vh;
 }
 
 .App .form-check-input:checked {
@@ -69,9 +75,11 @@
 	font-size: 50%;
 }
 
-/* #form-view .input-group {
-    padding: 0 20vw 5vh 0;
-} */
+#form-view .input-group {
+    /* padding: 0 20vw 5vh 0; */
+	width: 85%;
+	margin: 0 7.5% 0 7.5%;
+}
 
 #form-view .input-group-text {
 	height: 100%;
