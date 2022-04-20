@@ -446,6 +446,7 @@ module.exports = class TMachineController {
 		return finalOutput;
 	}
 
+	//Esto nada más convierte la cinta a un string
 	getOutputString(tape) {
 		let outputString = "";
 		while (tape.getNext() !== null) {
@@ -455,6 +456,7 @@ module.exports = class TMachineController {
 		return outputString;
 	}
 
+	//Esto revisa si hay una transición con el símbolo que se lee.
 	hasNextState(currentState, symbol) {
 		let stateExitTransitions = currentState.exitTransitions;
 		if (stateExitTransitions.length <= 0) {
@@ -475,6 +477,7 @@ module.exports = class TMachineController {
 		}
 	}
 
+	//Esto retorna la transición encontrada.
 	getProperTransition(currentState, symbol) {
 		let stateExitTransitions = currentState.exitTransitions;
 		if (stateExitTransitions.length <= 0) {
@@ -495,6 +498,8 @@ module.exports = class TMachineController {
 		}
 	}
 
+	//Esto revisa si el siguiente estado tiene la transición de llegada.
+	//Para revisar posibles errores que hayan con la lógica de crear la máquina.
 	checkStateLogic(nextState, currentState, transition) {
 		let incomingStateName = currentState.name;
 		const nextStateIncomingTransitions = nextState.incomingTransitions
