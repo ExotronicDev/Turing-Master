@@ -333,7 +333,7 @@ module.exports = class TMachineController {
 	//-2: No hay estados que simular.
 	//-1: No hay estado inicial.
 	//output: {finalState: state, output: cinta}
-	simulate(tMachine, input) {
+	simulate(tMachine, input, blank) {
 		//Primero, revisar si el array de estados tiene algo.
 		let stateArray = tMachine.states;
 		if (stateArray.length <= 0) {
@@ -366,14 +366,104 @@ module.exports = class TMachineController {
 			current = newSymbol;
 		}
 		//Pongo el current de vuelta al inicio. Esto debería de funcionar, debería.
-		current = tape;
+		let outputTape = tape;
+		current = outputTape;
+		
+		let currentState = foundInitialState;
 
-		while (hasNextState(stateArray, current.getValue())) {
+		while (hasNextState(currentState, current.getValue())) {
+			//Hay un estado al cual saltar. Hago las operaciones acá.
+			let transition = getProperTransition(currentState, current.getValue());
+			let outputChar = transition.writeValue;
+			let moveDirection = transition.moveValue;
+			let nextStateName = transition.targetState.name;
 
+			current.setValue(outputChar);
+			if (moveDirection == 1) {
+				//Derecha
+				if (current.getNext() === null) {
+					//Tengo que hacer un espacio a la derecha.
+					let newSymbol = new TapeSymbol(blank);
+					newSymbol.setPrevious(current);
+					current.setNext(newSymbol);
+				}
+
+				current = current.getNext();
+			} else if (moveDirection == -1) {
+				//Izquierda
+				if (current.getPrevious() === null) {
+					//Tengo que hacer un espacio a la izquierda.
+					let newSymbol = new TapeSymbol(blank);
+					current.setPrevious(newSymbol);
+					newSymbol.setNext(current);
+					if (current === outputTape) {
+						//Si el espacio vacío se inserta al inicio de la cinta, mueva la referencia a ese.
+						outputTape = newSymbol;
+					}
+				}
+
+				current = current.getPrevious();
+			}
+
+			//Ahora tengo que sacar el siguiente estado.
+			for (let i = 0; i < stateArray.length; i++) {
+				if (stateArray[i].name === nextStateName) {
+					currentState = stateArray[i];
+				}
+			}
+			//Aaand, that should be it for this loop. Creo.
+		}
+
+		//Ahora tengo que armar el output.
+		let outputString = "";
+		while (outputTape.getNext() !== null) {
+			outputString += outputTape.getValue();
+		}
+
+		let finalOutput = {
+			finalState: currentState,
+			output: outputString
+		}
+		return finalOutput;
+	}
+
+	hasNextState(currentState, symbol) {
+		let stateExitTransitions = currentState.exitTransitions;
+		if (stateExitTransitions.length <= 0) {
+			return false;
+		}
+
+		let foundTransition = 0;
+		for (let i = 0; i < stateExitTransitions.length; i++) {
+			if (stateExitTransitions[i].readValue === symbol) {
+				foundTransition = stateExitTransitions[i];
+			}
+		}
+
+		if (foundTransition == 0) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 
-	hasNextState(stateArray, symbol) {
+	getProperTransition(currentState, symbol) {
+		let stateExitTransitions = currentState.exitTransitions;
+		if (stateExitTransitions.length <= 0) {
+			return -1;
+		}
 
+		let foundTransition = 0;
+		for (let i = 0; i < stateExitTransitions.length; i++) {
+			if (stateExitTransitions[i].readValue === symbol) {
+				foundTransition = stateExitTransitions[i];
+			}
+		}
+
+		if (foundTransition == 0) {
+			return -1;
+		} else {
+			return foundTransition;
+		}
 	}
 };
