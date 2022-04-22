@@ -188,9 +188,9 @@
     width: 70%;
 }
 
-/*-----------------TuringIO----------------- */
+/*-----------------Simulator----------------- */
 
-.TuringIO {
+.Simulator {
 	width: 100wh;
 	height: 100vh;
 	background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
