@@ -120,86 +120,6 @@
 	float: left;
 }
 
-/*-----------------StudentMenu----------------- */
-
-.StudentMenu {
-    margin: auto;	
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
-}
-
-.StudentMenu #container {
-	margin-top: 15vh;
-    width: 70%;
-}
-
-/* .StudentMenu p {
-	position: relative;
-	margin-top: 10vh;
-	height: 7vh;
-
-	color: white;
-} */
-
-/* .StudentMenu button {
-	width: 50%;
-	position: relative;
-	flex-direction: row;
-	margin: 3vh;
-	font-family: "Arial";
-	font-style: normal;
-	font-weight: 400;
-	font-size: 36px;
-} */
-
-.StudentMenu #newmachine {
-	position: relative;
-	/* top: 250px;
-	width: 400px; */
-}
-
-.StudentMenu #mymachines {
-	position: relative;
-	/* top: 300px;
-	width: 400px; */
-}
-
-.StudentMenu #edit {
-	position: relative;
-	/* top: 350px;
-	width: 400px; */
-}
-
-/*-----------------MachinesList----------------- */
-
-/* .MachinesList {
-	width: 100wh;
-	height: 100vh;
-	background: linear-gradient(135.9deg, rgb(138, 73, 250) 16.4%, rgb(125, 31, 165) 56.1%) no-repeat center center fixed;
-	background-size: 400% 400% cover;
-	margin: auto;
-	text-align: center;
-}
-
-.MachinesList h4 {
-	position: relative;
-	width: 471wh;
-	height: 7vh;
-	top: 20px;
-
-	font-family: "Lucida Handwriting";
-	font-style: normal;
-	font-weight: 500;
-	font-size: 40px;
-	line-height: 41px;
-	text-align: center;
-
-	color: #000000;
-} */
-
 /*-----------------Profile----------------- */
 
 .Profile {
@@ -252,6 +172,22 @@
   	height: 30px;
 }
 
+/*-----------------StudentMenu----------------- */
+
+.StudentMenu {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.StudentMenu #container {
+	margin-top: 15vh;
+    width: 70%;
+}
+
 /*-----------------TuringIO----------------- */
 
 .TuringIO {
@@ -262,54 +198,18 @@
 	background-size: 400% 400%;
 }
 
-/*-----------------others----------------- */
+/*-----------------TeacherMenu----------------- */
 
-#header {
-  font-size: 80px;
-  font-family: 'Georgia', cursive;
+.TeacherMenu {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
 }
 
-#topWrapper {
-  display: flex;
-}
-
-#statelabel {
-  background: rgb(219, 209, 209);
-  height: 20px;
-  width: 104px;
-  text-align: center;
-  font-weight: bold;
-  color: #007aaa;
-  font-family: 'Georgia', cursive;
-}
-
-#state {
-  height: 50px;
-  width: 100px;
-  background: rgb(255, 255, 255);
-  margin-bottom: 10px;
-  margin-right: 10px;
-  border: 2px solid darkred;
-  text-align: center;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-weight: bold;
-  font-size: 25px;
-font-family: 'Roboto Mono', monospace;
-}
-
-#machine {
-  height: 50px;
-  background: ebedee;
-  display: flex;
-}
-
-#startString {
-  width: 500px;
-  height: 20px;
-}
-
-#speedBox {
-  margin-top: 15px;
+.TeacherMenu #container {
+	margin-top: 15vh;
+    width: 70%;
 }
