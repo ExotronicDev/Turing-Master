@@ -133,43 +133,34 @@
 
 .Profile #container {
 	margin-top: 15vh;
-}
-
-.Profile #checkF {
-	width: 15px;
-	height: 15px;
-}
-
-.Profile #check2 {
-	width: 15px;
-	height: 15px;
-}
-
-.Profile #check3 {
-	width: 15px;
-	height: 15px;
-}
-
-.Profile #check4 {
-	width: 15px;
-	height: 15px;
+	width: 50%;
 }
 
 .Profile #edit {
-	width: 33px;
-	height: 30px;
-	text-align: left;
+	text-align: right;
+	padding: 0;
 }
 
-.Profile input {
-	width: 350px;
+.Profile #save {
+	margin: 5%;
+	width: 30%;
+}
+
+.Profile .row {
+	height: 100%;
+	margin-bottom: 1%;
 }
 
 .Profile label {
-	text-align: left;
+	text-align: center;
   	color: white;
-  	width: 110px;
-  	height: 30px;
+
+    font-weight: 500;
+    font-size: 60%;
+}
+
+.Profile input {
+	width: 100%;
 }
 
 /*-----------------StudentMenu----------------- */

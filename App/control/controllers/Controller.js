@@ -10,7 +10,7 @@ const CounterDao = require("../daos/CounterDao");
 //-----------------General Authentication-----------------//
 
 //  @desc       Logout Student and clear cookie
-//  @route      POST /api/v1/students/logout
+//  @route      POST /api/students/logout
 //  @access     Private
 exports.logout = asyncHandler(async (req, res, next) => {
 	res.cookie("token", "none", {
@@ -21,7 +21,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Get current Logged-in Student
-//  @route      POST /api/v1/students/me
+//  @route      POST /api/students/me
 //  @access     Private
 exports.getMe = asyncHandler(async (req, res, next) => {
 	const controlStudent = new StudentController();
@@ -42,7 +42,7 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 //-----------------Student Authentication-----------------//
 
 //  @desc       Register new Student
-//  @route      POST /api/v1/students/register
+//  @route      POST /api/students/register
 //  @access     Public
 exports.registerStudent = asyncHandler(async (req, res, next) => {
 	const student = req.body;
@@ -62,7 +62,7 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Login Student
-//  @route      POST /api/v1/students/login
+//  @route      POST /api/students/login
 //  @access     Public
 exports.loginStudent = asyncHandler(async (req, res, next) => {
 	const { email, password } = req.body;
@@ -104,7 +104,7 @@ const sendTokenResponse = (student, statusCode, res) => {
 //-----------------Student-----------------//
 
 //  @desc       Get all Students
-//  @route      GET /api/v1/students
+//  @route      GET /api/students
 //  @access     Public
 exports.getStudents = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
@@ -114,7 +114,7 @@ exports.getStudents = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Get single Student
-//  @route      GET /api/v1/students/:id
+//  @route      GET /api/students/:id
 //  @access     Public
 exports.getStudent = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
@@ -131,7 +131,7 @@ exports.getStudent = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Update Student
-//  @route      PUT /api/v1/students/:id
+//  @route      PUT /api/students/:id
 //  @access     Private
 exports.updateStudent = asyncHandler(async (req, res, next) => {
 	const studentChanges = req.body;
@@ -164,7 +164,7 @@ exports.updateStudent = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Delete Student
-//  @route      DELETE /api/v1/students/:id
+//  @route      DELETE /api/students/:id
 //  @access     Private
 exports.deleteStudent = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
@@ -191,7 +191,7 @@ exports.deleteStudent = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Get Student TMachines
-//  @route      GET /api/v1/students/:id/tmachines
+//  @route      GET /api/students/:id/tmachines
 //  @access     Private
 exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
@@ -232,7 +232,7 @@ exports.getCounter = asyncHandler(async (req, res, next) => {
 //-----------------TMachines-----------------//
 
 //  @desc       Get all TMachines
-//  @route      GET /api/v1/tmachines
+//  @route      GET /api/tmachines
 //  @access     Public
 exports.getTMachines = asyncHandler(async (req, res, next) => {
 	const control = new TMachineController();
@@ -242,7 +242,7 @@ exports.getTMachines = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Get single TMachine
-//  @route      GET /api/v1/tmachines/:id
+//  @route      GET /api/tmachines/:id
 //  @access     Private
 exports.getTMachine = asyncHandler(async (req, res, next) => {
 	const controlStudent = new StudentController();
@@ -275,7 +275,7 @@ exports.getTMachine = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Create new TMachine
-//  @route      POST /api/v1/tmachines
+//  @route      POST /api/tmachines
 //  @access     Private
 exports.createTMachine = asyncHandler(async (req, res, next) => {
 	const control = new StudentController();
@@ -289,7 +289,7 @@ exports.createTMachine = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Update TMachine
-//  @route      PUT /api/v1/tmachines/:id
+//  @route      PUT /api/tmachines/:id
 //  @access     Private
 exports.updateTMachine = asyncHandler(async (req, res, next) => {
 	const controlTMachine = new TMachineController();
@@ -353,7 +353,7 @@ exports.updateTMachine = asyncHandler(async (req, res, next) => {
 });
 
 //  @desc       Delete TMachine
-//  @route      DELETE /api/v1/tmachines/:id
+//  @route      DELETE /api/tmachines/:id
 //  @access     Private
 exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 	const controlTMachine = new TMachineController();
@@ -407,7 +407,7 @@ exports.deleteTMachine = asyncHandler(async (req, res, next) => {
 //	***			No Database interactions
 
 //  @desc       Create TMachine State
-//  @route      POST /api/v1/tmachines/states
+//  @route      POST /api/tmachines/states
 //  @access     Public
 exports.createState = (req, res, next) => {
 	const { states, stateName } = req.body;
@@ -425,7 +425,7 @@ exports.createState = (req, res, next) => {
 };
 
 //  @desc       Update TMachine States
-//  @route      PUT /api/v1/tmachines/states
+//  @route      PUT /api/tmachines/states
 //  @access     Public
 exports.updateState = (req, res, next) => {
 	const { states, oldName, newName } = req.body;
@@ -443,7 +443,7 @@ exports.updateState = (req, res, next) => {
 };
 
 //  @desc       Set TMachine State as Initial State
-//  @route      PUT /api/v1/tmachines/states/initial
+//  @route      PUT /api/tmachines/states/initial
 //  @access     Public
 exports.setInitialState = (req, res, next) => {
 	const { states, stateName } = req.body;
@@ -461,7 +461,7 @@ exports.setInitialState = (req, res, next) => {
 };
 
 //  @desc       Delete TMachine States
-//  @route      DELETE /api/v1/tmachines/states
+//  @route      DELETE /api/tmachines/states
 //  @access     Public
 exports.deleteState = (req, res, next) => {
 	const { states, stateName } = req.body;
@@ -482,7 +482,7 @@ exports.deleteState = (req, res, next) => {
 //	***			No Database interactions
 
 //  @desc       Create State Transition
-//  @route      POST /api/v1/tmachines/states/transitions
+//  @route      POST /api/tmachines/states/transitions
 //  @access     Public
 exports.createTransition = (req, res, next) => {
 	const { states, transition } = req.body;
@@ -495,7 +495,7 @@ exports.createTransition = (req, res, next) => {
 };
 
 //  @desc       Update State Transition
-//  @route      PUT /api/v1/tmachines/states/transitions
+//  @route      PUT /api/tmachines/states/transitions
 //  @access     Public
 exports.updateTransition = (req, res, next) => {
 	const { states, oldTransition, newTransition } = req.body;
@@ -512,7 +512,7 @@ exports.updateTransition = (req, res, next) => {
 };
 
 //  @desc       Delete State Transition
-//  @route      DELETE /api/v1/tmachines/states/transitions
+//  @route      DELETE /api/tmachines/states/transitions
 //  @access     Public
 exports.deleteTransition = (req, res, next) => {
 	const { states, transition } = req.body;
@@ -525,18 +525,20 @@ exports.deleteTransition = (req, res, next) => {
 };
 
 // @desc		Simulate TMachine
-// @route		POST /api/v1/tmachines/simulate
+// @route		POST /api/tmachines/simulate
 // @access		Public
 exports.simulateTMachine = (req, res, next) => {
-	const {tMachine, input, blank} = req.body;
+	const { tMachine, input, blank } = req.body;
 	const control = new TMachineController();
 	const output = control.simulate(tMachine, input, blank);
 	if (output == -2) {
-		return next(new ErrorResponse(`TMachine has no states to simulate`, 412));
+		return next(
+			new ErrorResponse(`TMachine has no states to simulate`, 412)
+		);
 	} else if (output == -1) {
 		return next(new ErrorResponse(`TMachine has no initial state`, 412));
 	} else if (output.status === "failed") {
 		res.json({ success: false, data: output });
 	}
 	res.json({ sucess: true, data: output });
-}
+};

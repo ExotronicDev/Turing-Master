@@ -14,8 +14,8 @@ class Profile extends Component {
 		confirm: "",
 	};
 
-	componentDidMount = async () => {
-		await this.getInfo();
+	componentDidMount = () => {
+		this.getInfo();
 	};
 
 	getInfo = () => {
@@ -106,9 +106,9 @@ class Profile extends Component {
 				<div id="container">
 					<p id="title"> Your information</p>
 					<form onSubmit={this.submit}>
-						<div class="form-group row">
+						<div class="form-group row align-items-end justify-content-end">
 							<label for="firstName">First Name</label>
-							<div class="col">
+							<div class="col-8">
 								<input
 									type="text"
 									class="form-control"
@@ -120,10 +120,10 @@ class Profile extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col" id="edit">
+							<div class="col-1" id="edit">
 								<label for="check">Edit</label>
 							</div>
-							<div class="col" id="check">
+							<div class="col-1" id="check">
 								<input
 									id="checkF"
 									type="checkbox"
@@ -132,9 +132,9 @@ class Profile extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row">
+						<div class="form-group row align-items-end justify-content-end">
 							<label for="lastName">Last Name</label>
-							<div class="col">
+							<div class="col-8">
 								<input
 									type="text"
 									class="form-control"
@@ -146,10 +146,10 @@ class Profile extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col" id="edit">
+							<div class="col-1" id="edit">
 								<label for="check">Edit</label>
 							</div>
-							<div class="col" id="check">
+							<div class="col-1" id="check">
 								<input
 									id="check2"
 									type="checkbox"
@@ -158,9 +158,9 @@ class Profile extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row">
+						<div class="form-group row align-items-end justify-content-end">
 							<label for="email">Email</label>
-							<div class="col">
+							<div class="col-8">
 								<input
 									type="email"
 									class="form-control"
@@ -172,10 +172,10 @@ class Profile extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col" id="edit">
+							<div class="col-1" id="edit">
 								<label for="check">Edit</label>
 							</div>
-							<div class="col" id="check">
+							<div class="col-1" id="check">
 								<input
 									id="check3"
 									type="checkbox"
@@ -183,9 +183,9 @@ class Profile extends Component {
 								></input>
 							</div>
 						</div>
-						<div class="form-group row">
+						<div class="form-group row align-items-end justify-content-end">
 							<label for="email">Password</label>
-							<div class="col">
+							<div class="col-8">
 								<input
 									type="password"
 									class="form-control"
@@ -197,10 +197,10 @@ class Profile extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col" id="edit">
+							<div class="col-1" id="edit">
 								<label for="check">Edit</label>
 							</div>
-							<div class="col" id="check">
+							<div class="col-1" id="check">
 								<input
 									id="check4"
 									type="checkbox"
@@ -208,9 +208,9 @@ class Profile extends Component {
 								></input>
 							</div>
 						</div>
-						<div class="form-group row">
+						<div class="form-group row align-items-end justify-content-center">
 							<label for="email">New Password</label>
-							<div class="col">
+							<div class="col-8">
 								<input
 									type="password"
 									class="form-control"
@@ -223,9 +223,9 @@ class Profile extends Component {
 								/>
 							</div>
 						</div>
-						<div class="form-group row">
+						<div class="form-group row align-items-end justify-content-center">
 							<label for="email">Confirm</label>
-							<div class="col">
+							<div class="col-8">
 								<input
 									type="password"
 									class="form-control"
@@ -238,7 +238,7 @@ class Profile extends Component {
 								/>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-primary">
+						<button id="save" type="submit" class="btn btn-primary">
 							Save Changes
 						</button>
 					</form>
