@@ -1,8 +1,8 @@
 module.exports = class Symbol {
     constructor(value = null) {
         this.value = value;
-        this.previous = null;
-        this.next = null;
+        this.previous = -1;
+        this.next = -1;
     }
 
     setValue(value) {

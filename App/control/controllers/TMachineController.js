@@ -364,15 +364,36 @@ module.exports = class TMachineController {
 
 			current = newSymbol;
 		}
+		//Esto es para agregar un blank al final.
+		let blankSymbol = new TapeSymbol(blank);
+		current.setNext(blankSymbol);
+		blankSymbol.setPrevious(current);
+
+		current = blankSymbol;
+
 		//Pongo el current de vuelta al inicio. Esto debería de funcionar, debería.
 		let outputTape = tape;
 		current = outputTape;
 		
 		let currentState = foundInitialState;
 
-		while (hasNextState(currentState, current.getValue())) {
+		const timeoutFlag = +new Date;
+		while (this.hasNextState(currentState, current.getValue())) {
+			//Si han pasado 30 segundos, tiro un timeout.
+			if (+new Date > timeoutFlag + 30000) {
+				//Ha ocurrido un timeout
+				let currentOutput = this.getOutputString(outputTape);
+				let finalOutput = {
+					status: "timeout",
+					finalState: currentState,
+					output: currentOutput
+				};
+
+				return finalOutput;
+			}
+
 			//Hay un estado al cual saltar. Hago las operaciones acá.
-			let transition = getProperTransition(currentState, current.getValue());
+			let transition = this.getProperTransition(currentState, current.getValue());
 			let outputChar = transition.writeValue;
 			let moveDirection = transition.moveValue;
 			let nextStateName = transition.targetState.name;
@@ -380,7 +401,7 @@ module.exports = class TMachineController {
 			current.setValue(outputChar);
 			if (moveDirection == 1) {
 				//Derecha
-				if (current.getNext() === null) {
+				if (current.getNext() == -1) {
 					//Tengo que hacer un espacio a la derecha.
 					let newSymbol = new TapeSymbol(blank);
 					newSymbol.setPrevious(current);
@@ -390,7 +411,7 @@ module.exports = class TMachineController {
 				current = current.getNext();
 			} else if (moveDirection == -1) {
 				//Izquierda
-				if (current.getPrevious() === null) {
+				if (current.getPrevious() == -1) {
 					//Tengo que hacer un espacio a la izquierda.
 					let newSymbol = new TapeSymbol(blank);
 					current.setPrevious(newSymbol);
@@ -415,16 +436,16 @@ module.exports = class TMachineController {
 			//Voy a verificar que el estado encontrado tenga la transición bien.
 			if (foundNextState == -1) {
 				//Error de lógica.
-				let currentOutput = getOutputString(outputTape);
+				let currentOutput = this.getOutputString(outputTape);
 				let finalOutput = {
 					status: "failed",
 					finalState: currentState,
 					output: currentOutput
 				}
 				return finalOutput;
-			} else if (!checkStateLogic(foundNextState, currentState, transition)) {
+			} else if (!this.checkStateLogic(foundNextState, currentState, transition)) {
 				//Otro error de lógica.
-				let currentOutput = getOutputString(outputTape);
+				let currentOutput = this.getOutputString(outputTape);
 				let finalOutput = {
 					status: "failed",
 					finalState: currentState,
@@ -433,10 +454,11 @@ module.exports = class TMachineController {
 				return finalOutput;
 			}
 			//Aaand, that should be it for this loop. Creo.
+			currentState = foundNextState;
 		}
 
 		//Ahora tengo que armar el output.
-		let outputString = getOutputString(outputTape);
+		let outputString = this.getOutputString(outputTape);
 
 		let finalOutput = {
 			status: "finished",
@@ -449,8 +471,9 @@ module.exports = class TMachineController {
 	//Esto nada más convierte la cinta a un string
 	getOutputString(tape) {
 		let outputString = "";
-		while (tape.getNext() !== null) {
+		while (tape.getNext() != -1) {
 			outputString += tape.getValue();
+			tape = tape.getNext();
 		}
 
 		return outputString;
