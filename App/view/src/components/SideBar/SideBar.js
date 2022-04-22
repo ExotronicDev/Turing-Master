@@ -7,7 +7,7 @@ import {
 	CDBSidebarHeader,
 	CDBSidebarMenu,
 	CDBSidebarMenuItem,
-} from "../dependencies";
+} from "../../dependencies";
 
 class Sidebar extends Component {
 	render() {

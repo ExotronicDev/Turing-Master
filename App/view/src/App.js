@@ -10,7 +10,6 @@ import StudentMenu from "./components/StudentMenu";
 import MachinesList from "./components/MachinesList";
 import Profile from "./components/Profile";
 import TuringIO from "./components/TuringIO";
-import TuringMachine from "./components/TuringMachine";
 
 class App extends Component {
 	render() {
@@ -24,7 +23,7 @@ class App extends Component {
 							path="/register"
 							element={<Register />}
 						></Route>
-						<Route exact path="/login/" element={<Login />}></Route>
+						<Route exact path="/login" element={<Login />}></Route>
 						<Route
 							exact
 							path="/students/menu"
@@ -44,11 +43,6 @@ class App extends Component {
 							exact
 							path="/TuringIO"
 							element={<TuringIO />}
-						></Route>
-						<Route
-							exact
-							path="/TuringMachine"
-							element={<TuringMachine />}
 						></Route>
 					</Routes>
 				</Router>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Sidebar from "./SideBar";
+import Sidebar from "./SideBar/SideBar";
 
 class TuringIO extends Component {
 	render() {

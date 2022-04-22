@@ -91,7 +91,7 @@ class Profile extends Component {
 		if (this.state.password !== this.state.oldPassword) {
 			swal.fire({
 				title: "Warning!",
-				text: "Old Password doesn´t match !",
+				text: "Old Password doesn't match !",
 				icon: "warning",
 				background: "black",
 				color: "white",
@@ -238,11 +238,7 @@ class Profile extends Component {
 								/>
 							</div>
 						</div>
-						<button
-							type="submit"
-							class="btn btn-primary"
-							style={{ marginTop: "20px", width: "200px" }}
-						>
+						<button type="submit" class="btn btn-primary">
 							Save Changes
 						</button>
 					</form>

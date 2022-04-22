@@ -11,12 +11,6 @@ class Home extends Component {
 			<div class="Home">
 				<div id="container">
 					<h1 class="title">Turing Master</h1>
-					{/* {<img
-							src="../TitleBackground.png"
-							alt="Turing Machine tape"
-							width="2100"
-							height="295"
-						></img>} */}
 					<div id="background"></div>
 					<div id="options">
 						<form action="/login">
