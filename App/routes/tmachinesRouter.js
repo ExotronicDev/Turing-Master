@@ -13,6 +13,7 @@ const {
 	createTransition,
 	updateTransition,
 	deleteTransition,
+	simulateTMachine
 } = require("../control/controllers/Controller");
 
 // Create router
@@ -25,6 +26,9 @@ tmachinesRouter
 	.get(protect, getTMachine)
 	.put(protect, updateTMachine)
 	.delete(protect, deleteTMachine);
+
+// Simulation route
+tmachinesRouter.route("/simulate").post(simulateTMachine);
 
 // States routes
 tmachinesRouter.route("/states/post").post(createState);

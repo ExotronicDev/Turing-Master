@@ -523,3 +523,20 @@ exports.deleteTransition = (req, res, next) => {
 	}
 	res.json({ success: true, states: modifiedStates });
 };
+
+// @desc		Simulate TMachine
+// @route		POST /api/v1/tmachines/simulate
+// @access		Public
+exports.simulateTMachine = (req, res, next) => {
+	const {tMachine, input, blank} = req.body;
+	const control = new TMachineController();
+	const output = control.simulate(tMachine, input, blank);
+	if (output == -2) {
+		return next(new ErrorResponse(`TMachine has no states to simulate`, 412));
+	} else if (output == -1) {
+		return next(new ErrorResponse(`TMachine has no initial state`, 412));
+	} else if (output.status === "failed") {
+		res.json({ success: false, data: output });
+	}
+	res.json({ sucess: true, data: output });
+}
