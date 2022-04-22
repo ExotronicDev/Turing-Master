@@ -9,7 +9,7 @@ import Login from "./components/Login";
 import StudentMenu from "./components/StudentMenu";
 import Profile from "./components/Profile";
 import Simulator from "./components/Simulator";
-import TeacherMenu from "./components/TeacherMenu";
+import ProfessorMenu from "./components/ProfessorMenu";
 
 class App extends Component {
 	render() {
@@ -41,8 +41,8 @@ class App extends Component {
 						></Route>
 						<Route
 							exact
-							path="/teachers/menu"
-							element={<TeacherMenu />}
+							path="/professors/menu"
+							element={<ProfessorMenu />}
 						></Route>
 					</Routes>
 				</Router>

@@ -198,9 +198,9 @@
 	background-size: 400% 400%;
 }
 
-/*-----------------TeacherMenu----------------- */
+/*-----------------ProfessorMenu----------------- */
 
-.TeacherMenu {
+.ProfessorMenu {
     margin: auto;	
 	text-align: center;
 	align-items: center;
@@ -209,7 +209,7 @@
 	flex-direction: column;
 }
 
-.TeacherMenu #container {
+.ProfessorMenu #container {
 	margin-top: 15vh;
     width: 70%;
 }

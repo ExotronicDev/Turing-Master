@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Cookies, axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 
-class TeacherMenu extends Component {
+class ProfessorMenu extends Component {
 	state = {
 		courses: [],
 		tMachines: [],
@@ -98,10 +98,10 @@ class TeacherMenu extends Component {
 
 	render() {
 		return (
-			<div class="TeacherMenu">
+			<div class="ProfessorMenu">
 				<NavBar />
 				<div id="container">
-					<h1 id="title">Teacher Menu</h1>
+					<h1 id="title">Professor Menu</h1>
 					<div class="row">
 						<div class="col-6">
 							<div class="accordion" id="courses-accordion">
@@ -186,4 +186,4 @@ class TeacherMenu extends Component {
 	}
 }
 
-export default TeacherMenu;
+export default ProfessorMenu;
