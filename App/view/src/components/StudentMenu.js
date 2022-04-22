@@ -64,10 +64,9 @@ class StudentMenu extends Component {
 			);
 		}
 
-		return tMachines.map((tMachine, index) => (
+		return tMachines.map((tMachine) => (
 			<a
-				key={index}
-				href={"\\TuringIO\\" + tMachine.id}
+				href={"/students/simulator/" + tMachine.id}
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>
@@ -86,10 +85,9 @@ class StudentMenu extends Component {
 			);
 		}
 
-		return courses.map((course, index) => (
+		return courses.map((course) => (
 			<a
-				key={index}
-				href={"\\courses\\" + course.code}
+				href={"/students/courses/" + course.code}
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>
@@ -104,26 +102,6 @@ class StudentMenu extends Component {
 				<NavBar />
 				<div id="container">
 					<h1 id="title">Student Menu</h1>
-					{/* <form action="/TuringIO">
-						<button
-							id="newmachine"
-							type="submit"
-							class="btn btn-primary btn-lg"
-						>
-							{" "}
-							New Machine{" "}
-						</button>
-					</form>
-					<form action="/MachinesList">
-						<button
-							id="mymachines"
-							type="submit"
-							class="btn btn-primary btn-lg"
-						>
-							{" "}
-							View My Machines{" "}
-						</button>
-					</form> */}
 					<div class="row">
 						<div class="col-6">
 							<div class="accordion" id="courses-accordion">
@@ -148,6 +126,13 @@ class StudentMenu extends Component {
 										data-bs-parent="#courses-accordion"
 									>
 										<div class="list-group">
+											<a
+												href="/students/courses/"
+												class="list-group-item list-group-item-action"
+												aria-current="true"
+											>
+												Enroll Course
+											</a>
 											{this.displayCourses(
 												this.state.courses
 											)}
@@ -174,11 +159,18 @@ class StudentMenu extends Component {
 									</h2>
 									<div
 										id="tmachines-data"
-										class="accordion-collapse collapse show"
+										class="accordion-collapse collapse"
 										aria-labelledby="tmachines-heading"
 										data-bs-parent="#tmachines-accordion"
 									>
 										<div class="list-group">
+											<a
+												href="/students/tmachines/"
+												class="list-group-item list-group-item-action"
+												aria-current="true"
+											>
+												Create New Turing Machine
+											</a>
 											{this.displayTMachines(
 												this.state.tMachines
 											)}

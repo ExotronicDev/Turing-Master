@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import Sidebar from "./SideBar/SideBar";
 
-class TuringIO extends Component {
+class Simulator extends Component {
 	render() {
 		return (
-			<div className="TuringIO">
+			<div className="Simulator">
 				<Sidebar />
 			</div>
 		);
 	}
 }
 
-export default TuringIO;
+export default Simulator;

@@ -9,7 +9,7 @@ import Login from "./components/Login";
 import StudentMenu from "./components/StudentMenu";
 import MachinesList from "./components/MachinesList";
 import Profile from "./components/Profile";
-import TuringIO from "./components/TuringIO";
+import Simulator from "./components/Simulator";
 
 class App extends Component {
 	render() {
@@ -41,8 +41,8 @@ class App extends Component {
 						></Route>
 						<Route
 							exact
-							path="/TuringIO"
-							element={<TuringIO />}
+							path="/students/simulator/:id"
+							element={<Simulator />}
 						></Route>
 					</Routes>
 				</Router>

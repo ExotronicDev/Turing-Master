@@ -6,6 +6,8 @@
 	background: #152028 no-repeat center center fixed;
 }
 
+/*-----------------buttons----------------- */
+
 .App button {	
 	font-weight: 500;
 	border-radius: 0.7em;
@@ -15,6 +17,8 @@
 	color: #ffffff;
 	background-color: #08ADA2;
 }
+
+/*-----------------switch----------------- */
 
 .App .form-check {
 	margin-left: 2vw;
@@ -29,6 +33,50 @@
 .App .form-check-input:checked {
     background-color: #08ADA2;
 }
+
+/*-----------------accordions----------------- */
+
+.App .accordion-item {
+	background-color: inherit;
+}
+
+.App .accordion-header {
+	background-color: inherit;
+	border-color: #08ADA2;
+}
+
+.App .accordion-button {
+	background-color: #424242;
+	color: #fff;
+	border-color: #08ADA2;
+	font-size: 1.5vw;
+}
+
+.App .accordion-button:not(.collapsed) {
+	background-color: #08ADA2;
+	color: #fff;
+	text-decoration: underline;
+}
+
+.App .list-group-item {
+	background-color: #424242;
+	color: #fff;
+	font-family: Arial;
+	font-size: 1.3vw;
+	text-align: left;
+}
+
+.App .list-group-item:hover {
+	background-color: #08ADA2;
+	color: #fff;
+}
+
+.App .list-group-item.disabled {
+	background-color: #424242;
+	color: gray;
+}
+
+/*-----------------General items----------------- */
 
 #title {
 	position: relative;
