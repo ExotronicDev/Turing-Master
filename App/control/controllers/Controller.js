@@ -152,7 +152,26 @@ exports.updateStudent = asyncHandler(async (req, res, next) => {
 		studentChanges.id,
 		studentChanges
 	);
-	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
+	if (updateResponse == -1) {
+		return next(
+			new ErrorResponse(
+				`To change password, introduce the original and new password. Only one is given.`,
+				403
+			)
+		);
+	} else if (updateResponse == -2) {
+		return next(
+			new ErrorResponse(
+				`Original password introduced does not match with the stored password. Cannot update Student.`,
+				403
+			)
+		);
+	} else if (updateResponse.passwordChanged) {
+		res.json({ success: true, data: updateResponse });
+	} else if (
+		updateResponse.modifiedCount == 0 ||
+		!updateResponse.acknowledged
+	) {
 		return next(
 			new ErrorResponse(
 				`No changes were made to the Student with id: ${req.params.id}.`,

@@ -9,9 +9,8 @@ class Profile extends Component {
 		id: "",
 		email: "",
 		password: "",
-		oldPassword: "",
 		newPassword: "",
-		confirm: "",
+		confirmPassword: "",
 	};
 
 	componentDidMount = () => {
@@ -66,8 +65,8 @@ class Profile extends Component {
 		}
 		if (document.getElementById("check4").checked) {
 			document.getElementById("password").disabled = "";
-			document.getElementById("newpassword").disabled = "";
-			document.getElementById("oldpassword").disabled = "";
+			document.getElementById("newPassword").disabled = "";
+			document.getElementById("confirmPassword").disabled = "";
 		}
 		if (!document.getElementById("checkF").checked) {
 			document.getElementById("firstName").disabled = "disabled";
@@ -80,18 +79,22 @@ class Profile extends Component {
 		}
 		if (!document.getElementById("check4").checked) {
 			document.getElementById("password").disabled = "disabled";
-			document.getElementById("newpassword").disabled = "disabled";
-			document.getElementById("oldpassword").disabled = "disabled";
+			document.getElementById("newPassword").disabled = "disabled";
+			document.getElementById("confirmPassword").disabled = "disabled";
 		}
 	};
 
 	submit = (event) => {
 		event.prevenDefault();
 
-		if (this.state.password !== this.state.oldPassword) {
+		// Verify password is being edited and matches
+		if (
+			document.getElementById("check4").checked &&
+			this.state.newPassword !== this.state.confirmPassword
+		) {
 			swal.fire({
 				title: "Warning!",
-				text: "Old Password doesn't match !",
+				text: "New Password doesn't match!",
 				icon: "warning",
 				background: "black",
 				color: "white",
@@ -214,9 +217,9 @@ class Profile extends Component {
 								<input
 									type="password"
 									class="form-control"
-									id="newpassword"
+									id="newPassword"
 									placeholder="New Password"
-									name="newpassword"
+									name="newPassword"
 									onChange={this.handleChange}
 									value={this.state.newPassword}
 									disabled="disabled"
@@ -224,14 +227,14 @@ class Profile extends Component {
 							</div>
 						</div>
 						<div class="form-group row align-items-end justify-content-center">
-							<label for="email">Confirm</label>
+							<label for="email">Confirm New Password</label>
 							<div class="col-8">
 								<input
 									type="password"
 									class="form-control"
-									id="confirm"
+									id="confirmPassword"
 									placeholder="Confirm Password"
-									name="confirm"
+									name="confirmPassword"
 									onChange={this.handleChange}
 									value={this.state.confirm}
 									disabled="disabled"

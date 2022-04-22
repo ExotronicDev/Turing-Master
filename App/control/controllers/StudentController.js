@@ -40,7 +40,38 @@ module.exports = class StudentController {
 
 	// Funcionalidades propias de estudiante
 	async updateStudent(idStudent, studentChanges) {
-		return await this.dao.update({ id: idStudent }, studentChanges);
+		//password, newPassword
+		if (!studentChanges.password && !studentChanges.newPassword) {
+			// Regular change without password changes
+			return await this.dao.update({ id: idStudent }, studentChanges);
+		} else if (!studentChanges.password || !studentChanges.newPassword) {
+			// Needs both original and new password, but one is not given
+			return -1;
+		} else {
+			// Both original and new passwords are given
+			const student = await this.dao.findWithPassword({ id: idStudent });
+			const isMatch = await student.matchPassword(
+				studentChanges.password
+			);
+			if (isMatch) {
+				// Change password
+				student.password = studentChanges.newPassword;
+				await this.dao.save(student);
+
+				// Update the rest
+				delete studentChanges.password;
+				delete studentChanges.newPassword;
+				const updateResponse = await this.dao.update(
+					{ id: idStudent },
+					studentChanges
+				);
+				updateResponse.passwordChanged = true;
+				return updateResponse;
+			} else {
+				// Original password given does not match with the stored password
+				return -2;
+			}
+		}
 	}
 
 	async getStudent(filter) {
