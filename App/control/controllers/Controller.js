@@ -3,7 +3,7 @@ const ErrorResponse = require("./../../utils/errorResponse");
 
 const StudentController = require("./StudentController");
 const TMachineController = require("./TMachineController");
-const TeacherController = require("./TeacherController");
+const ProfessorController = require("./ProfessorController");
 
 const CounterDao = require("../daos/CounterDao");
 
@@ -27,12 +27,14 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 	const controlStudent = new StudentController();
 	const student = await controlStudent.getStudent({ id: req.user.id });
 	if (student.length == 0) {
-		const controlTeacher = new TeacherController();
-		const teacher = await controlTeacher.getTeacher({ id: req.user.id });
-		if (teacher.length == 0) {
+		const controlProfessor = new ProfessorController();
+		const professor = await controlProfessor.getprofessor({
+			id: req.user.id,
+		});
+		if (professor.length == 0) {
 			return next(new ErrorResponse(`User not logged in.`, 401));
 		} else {
-			res.json({ success: true, role: "teachers", data: teacher[0] });
+			res.json({ success: true, role: "professors", data: professor[0] });
 		}
 	} else {
 		res.json({ success: true, role: "students", data: student[0] });

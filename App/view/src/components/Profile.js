@@ -11,6 +11,7 @@ class Profile extends Component {
 		password: "",
 		newPassword: "",
 		confirmPassword: "",
+		isProfessor: false,
 	};
 
 	componentDidMount = () => {
@@ -19,16 +20,19 @@ class Profile extends Component {
 
 	getInfo = () => {
 		axios({
-			url: "/api/students/" + localStorage.getItem("id"),
+			url: "/api/auth/me",
 			method: "GET",
 		})
 			.then((res) => {
+				const isProfessor =
+					res.data.role === "professors" ? true : false;
 				this.setState({
 					firstName: res.data.data.firstName,
 					lastName: res.data.data.lastName,
-					id: localStorage.getItem("id"),
+					id: res.data.data.id,
 					email: res.data.data.email,
 					password: res.data.data.password,
+					isProfessor: isProfessor,
 				});
 			})
 			.catch((err) => {
@@ -54,6 +58,25 @@ class Profile extends Component {
 	};
 
 	change = () => {
+		// Save changes button
+		if (
+			document.getElementById("checkF").checked ||
+			document.getElementById("check2").checked ||
+			document.getElementById("check3").checked ||
+			document.getElementById("check4").checked
+		) {
+			document.getElementById("save").disabled = "";
+		}
+		if (
+			!document.getElementById("checkF").checked &&
+			!document.getElementById("check2").checked &&
+			!document.getElementById("check3").checked &&
+			!document.getElementById("check4").checked
+		) {
+			document.getElementById("save").disabled = "disabled";
+		}
+
+		// Checkboxes
 		if (document.getElementById("checkF").checked) {
 			document.getElementById("firstName").disabled = "";
 		}
@@ -85,21 +108,78 @@ class Profile extends Component {
 	};
 
 	submit = (event) => {
-		event.prevenDefault();
+		event.preventDefault();
+		var user = {};
+
+		if (document.getElementById("checkF").checked)
+			user.firstName = this.state.firstName;
+		if (document.getElementById("check2").checked)
+			user.lastName = this.state.lastName;
+		if (document.getElementById("check3").checked)
+			user.email = this.state.email;
 
 		// Verify password is being edited and matches
-		if (
-			document.getElementById("check4").checked &&
-			this.state.newPassword !== this.state.confirmPassword
-		) {
-			swal.fire({
-				title: "Warning!",
-				text: "New Password doesn't match!",
-				icon: "warning",
-				background: "black",
-				color: "white",
-			});
+		if (document.getElementById("check4").checked) {
+			if (this.state.newPassword !== this.state.confirmPassword) {
+				swal.fire({
+					title: "Warning!",
+					text: "New Password doesn't match!",
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+			} else {
+				user.password = this.state.password;
+				user.newPassword = this.state.newPassword;
+			}
 		}
+
+		let isProfessor = this.state.isProfessor
+			? "/professors/"
+			: "/students/";
+		const apiUrl = "/api" + isProfessor + this.state.id;
+
+		axios({
+			url: apiUrl,
+			method: "PUT",
+			data: user,
+		})
+			.then((res) => {
+				if (res.data.success) {
+					// Should not have ! (not), but works this way
+					const accountType = !isProfessor ? "Teacher" : "Student";
+					swal.fire({
+						title: "Success!",
+						text:
+							"Your " +
+							accountType +
+							" account has been updated successfully!",
+						icon: "success",
+						background: "black",
+						color: "white",
+					}).then(() => {
+						window.location = isProfessor + "menu";
+					});
+				} else {
+					swal.fire({
+						title: "Error!",
+						text: res.data.error,
+						icon: "warning",
+						background: "black",
+						color: "white",
+					});
+				}
+			})
+			.catch((err) => {
+				console.log(err.response);
+				swal.fire({
+					title: "Error!",
+					text: err.response.data.error,
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+			});
 	};
 
 	render() {
@@ -241,7 +321,12 @@ class Profile extends Component {
 								/>
 							</div>
 						</div>
-						<button id="save" type="submit" class="btn btn-primary">
+						<button
+							id="save"
+							type="submit"
+							class="btn btn-primary"
+							disabled="disabled"
+						>
 							Save Changes
 						</button>
 					</form>

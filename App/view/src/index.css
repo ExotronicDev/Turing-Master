@@ -82,7 +82,7 @@
 	width: 3vw;
 }
 
-.Register #teacher-label {
+.Register #professor-label {
 	margin-left: -0.7vw;
 	font-weight: 400;
 	float: left;
@@ -113,7 +113,7 @@
 	width: 80%;
 }
 
-.Login #teacher-label {
+.Login #professor-label {
 	padding-left: 6.5%;
 	margin-left: -0.7vw;
 	font-weight: 400;

@@ -5,7 +5,7 @@ class Login extends Component {
 	state = {
 		email: "",
 		password: "",
-		isTeacher: false,
+		isProfessor: false,
 	};
 
 	//Función que actualiza los states
@@ -21,7 +21,7 @@ class Login extends Component {
 
 	handleSwitchChange = () => {
 		this.setState({
-			isTeacher: !this.state.isTeacher,
+			isProfessor: !this.state.isProfessor,
 		});
 	};
 
@@ -39,8 +39,8 @@ class Login extends Component {
 			return;
 		}
 
-		let isTeacher = this.state.isTeacher ? "/teachers" : "/students";
-		const apiUrl = "/api" + isTeacher + "/login";
+		let isProfessor = this.state.isProfessor ? "/professors" : "/students";
+		const apiUrl = "/api" + isProfessor + "/login";
 
 		axios({
 			url: apiUrl,
@@ -53,7 +53,7 @@ class Login extends Component {
 			.then((res) => {
 				if (res.data.success) {
 					localStorage.setItem("id", res.data.data.id);
-					window.location = isTeacher + "/menu";
+					window.location = isProfessor + "/menu";
 				} else {
 					swal.fire({
 						title: "Error!",
@@ -124,17 +124,17 @@ class Login extends Component {
 								<input
 									class="form-check-input"
 									type="checkbox"
-									id="isTeacher"
-									aria-label="Teacher Switch"
+									id="isProfessor"
+									aria-label="Professor Switch"
 									onChange={this.handleSwitchChange}
-									value={this.state.isTeacher}
+									value={this.state.isProfessor}
 								/>
 								<label
 									class="form-check-label"
-									id="teacher-label"
-									for="isTeacher"
+									id="professor-label"
+									for="isProfessor"
 								>
-									I'm a teacher!
+									I'm a professor!
 								</label>
 							</div>
 

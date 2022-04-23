@@ -46,7 +46,7 @@ class StudentMenu extends Component {
 				console.log(err);
 				swal.fire({
 					title: "Error!",
-					text: err,
+					text: "Unexpected error, Try Again",
 					icon: "warning",
 					background: "black",
 					color: "white",

@@ -9,7 +9,7 @@ class Register extends Component {
 		email: "",
 		password: "",
 		confirm: "",
-		isTeacher: false,
+		isProfessor: false,
 	};
 
 	//Función que actualiza los states
@@ -25,7 +25,7 @@ class Register extends Component {
 
 	handleSwitchChange = () => {
 		this.setState({
-			isTeacher: !this.state.isTeacher,
+			isProfessor: !this.state.isProfessor,
 		});
 	};
 
@@ -68,8 +68,8 @@ class Register extends Component {
 			password: this.state.password,
 		};
 
-		let isTeacher = this.state.isTeacher ? "/teachers" : "/students";
-		const apiUrl = "/api" + isTeacher + "/register";
+		let isProfessor = this.state.isProfessor ? "/professors" : "/students";
+		const apiUrl = "/api" + isProfessor + "/register";
 
 		axios({
 			url: apiUrl,
@@ -79,7 +79,7 @@ class Register extends Component {
 			.then((res) => {
 				if (res.data.success) {
 					// Should not have ! (not), but works this way
-					const accountType = !isTeacher ? "Teacher" : "Student";
+					const accountType = !isProfessor ? "Professor" : "Student";
 					swal.fire({
 						title: "Success!",
 						text:
@@ -210,17 +210,17 @@ class Register extends Component {
 								<input
 									class="form-check-input"
 									type="checkbox"
-									id="isTeacher"
-									aria-label="Teacher Switch"
+									id="isProfessor"
+									aria-label="Professor Switch"
 									onChange={this.handleSwitchChange}
-									value={this.state.isTeacher}
+									value={this.state.isProfessor}
 								/>
 								<label
 									class="form-check-label"
-									id="teacher-label"
-									for="isTeacher"
+									id="professor-label"
+									for="isProfessor"
 								>
-									I'm a teacher!
+									I'm a professor!
 								</label>
 							</div>
 
