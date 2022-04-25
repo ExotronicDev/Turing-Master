@@ -18,6 +18,6 @@ module.exports = class TMachineDao {
 	}
 
 	async getAll() {
-		return await TMachine.find({});
+		return await TMachine.find({ });
 	}
 };
