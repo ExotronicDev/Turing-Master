@@ -5,7 +5,6 @@ import NavBar from "./NavBar/NavBar";
 class ProfessorMenu extends Component {
 	state = {
 		courses: [],
-		tMachines: [],
 	};
 
 	componentDidMount = () => {
@@ -14,32 +13,28 @@ class ProfessorMenu extends Component {
 			window.location = "/login";
 		}
 
-		this.getTMachines();
+		this.getCourses();
 	};
 
 	getCourses = () => {
-		console.log(this.state.tMachines);
-	};
-
-	getTMachines = () => {
 		axios({
-			url: "/api/students/" + localStorage.getItem("id") + "/tmachines",
+			url: "/api/professors/" + localStorage.getItem("id") + "/courses",
 			method: "GET",
 		})
 			.then((res) => {
 				const data = res.data.data;
-				const tMachines = [];
+				const courses = [];
 				data.forEach((element) => {
-					const tMachine = {
-						id: element.id,
-						description: element.description,
+					const course = {
+						code: element.code,
+						name: element.name,
 					};
-					tMachines.push(tMachine);
+					courses.push(course);
 				});
 				this.setState({
-					tMachines: tMachines,
+					courses: courses,
 				});
-				console.log(this.state.tMachines);
+				console.log(this.state.courses);
 				console.log("Data lista");
 			})
 			.catch((err) => {
@@ -54,27 +49,6 @@ class ProfessorMenu extends Component {
 			});
 	};
 
-	displayTMachines = (tMachines) => {
-		if (tMachines.length === 0) {
-			return (
-				// eslint-disable-next-line jsx-a11y/anchor-is-valid
-				<a class="list-group-item list-group-item-action disabled">
-					No Turing Machines registered
-				</a>
-			);
-		}
-
-		return tMachines.map((tMachine) => (
-			<a
-				href={"/students/simulator/" + tMachine.id}
-				class="list-group-item list-group-item-action"
-				aria-current="true"
-			>
-				{tMachine.id} - {tMachine.description}
-			</a>
-		));
-	};
-
 	displayCourses = (courses) => {
 		if (courses.length === 0) {
 			return (
@@ -87,7 +61,7 @@ class ProfessorMenu extends Component {
 
 		return courses.map((course) => (
 			<a
-				href={"/students/courses/" + course.code}
+				href={"/professors/courses/" + course.code}
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>
@@ -103,7 +77,7 @@ class ProfessorMenu extends Component {
 				<div id="container">
 					<h1 id="title">Professor Menu</h1>
 					<div class="row">
-						<div class="col-6">
+						<div class="col">
 							<div class="accordion" id="courses-accordion">
 								<div class="accordion-item">
 									<h2
@@ -121,7 +95,7 @@ class ProfessorMenu extends Component {
 									</h2>
 									<div
 										id="courses-data"
-										class="accordion-collapse collapse"
+										class="accordion-collapse collapse show"
 										aria-labelledby="courses-heading"
 										data-bs-parent="#courses-accordion"
 									>
@@ -131,48 +105,10 @@ class ProfessorMenu extends Component {
 												class="list-group-item list-group-item-action"
 												aria-current="true"
 											>
-												Enroll Course
+												Create New Course
 											</a>
 											{this.displayCourses(
 												this.state.courses
-											)}
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-6">
-							<div class="accordion" id="tmachines-accordion">
-								<div class="accordion-item">
-									<h2
-										class="accordion-header"
-										id="tmachines-heading"
-									>
-										<button
-											type="button"
-											class="accordion-button collapsed"
-											data-bs-toggle="collapse"
-											data-bs-target="#tmachines-data"
-										>
-											Turing Machines
-										</button>
-									</h2>
-									<div
-										id="tmachines-data"
-										class="accordion-collapse collapse"
-										aria-labelledby="tmachines-heading"
-										data-bs-parent="#tmachines-accordion"
-									>
-										<div class="list-group">
-											<a
-												href="/students/tmachines/"
-												class="list-group-item list-group-item-action"
-												aria-current="true"
-											>
-												Create New Turing Machine
-											</a>
-											{this.displayTMachines(
-												this.state.tMachines
 											)}
 										</div>
 									</div>
