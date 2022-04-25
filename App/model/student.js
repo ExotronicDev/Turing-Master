@@ -35,6 +35,12 @@ const StudentSchema = new Schema({
 			description: { type: String },
 		},
 	],
+	courses: [
+		{
+			code: { type: String },
+			name: { type: String }
+		}
+	]
 });
 
 // Encrypt password with bcrypt

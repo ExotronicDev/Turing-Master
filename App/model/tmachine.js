@@ -31,11 +31,6 @@ const TMachineSchema = new Schema({
 	owner: {
 		id: { type: Number, required: true }
 	},
-	collaborators: [
-		{
-			id: { type: Number },
-		}
-	],
 	states: [StateSchema]
 });
 
