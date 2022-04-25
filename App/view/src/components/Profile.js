@@ -161,8 +161,9 @@ class Profile extends Component {
 						window.location = isProfessor + "menu";
 					});
 				} else {
+					// No necesario
 					swal.fire({
-						title: "Error!",
+						title: "Error !",
 						text: res.data.error,
 						icon: "warning",
 						background: "black",
@@ -171,10 +172,9 @@ class Profile extends Component {
 				}
 			})
 			.catch((err) => {
-				console.log(err.response);
 				swal.fire({
 					title: "Error!",
-					text: err.response.data.error,
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",

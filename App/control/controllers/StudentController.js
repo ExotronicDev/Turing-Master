@@ -41,10 +41,16 @@ module.exports = class StudentController {
 	// Funcionalidades propias de estudiante
 	async updateStudent(idStudent, studentChanges) {
 		//password, newPassword
-		if (!studentChanges.password && !studentChanges.newPassword) {
+		if (
+			studentChanges.password == undefined &&
+			studentChanges.newPassword == undefined
+		) {
 			// Regular change without password changes
 			return await this.dao.update({ id: idStudent }, studentChanges);
-		} else if (!studentChanges.password || !studentChanges.newPassword) {
+		} else if (
+			studentChanges.password == undefined ||
+			studentChanges.newPassword == undefined
+		) {
 			// Needs both original and new password, but one is not given
 			return -1;
 		} else {

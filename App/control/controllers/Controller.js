@@ -157,7 +157,7 @@ exports.updateStudent = asyncHandler(async (req, res, next) => {
 	if (updateResponse == -1) {
 		return next(
 			new ErrorResponse(
-				`To change password, introduce the original and new password. Only one is given.`,
+				`To change password, introduce the original and new password.`,
 				403
 			)
 		);
