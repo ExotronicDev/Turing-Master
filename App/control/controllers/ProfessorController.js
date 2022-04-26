@@ -86,4 +86,10 @@ module.exports = class ProfessorController {
     async getProfessors() {
         return await this.daoProfessor.getAll();
     }
+
+    // PRELIMINAR
+    // TODO: FIX THIS SHIT TO ACCOUNT FOR OTHER DATA LINKED TO IT.
+    async deleteProfessor(idProfessor) {
+        return await this.daoProfessor.delete({ id: idProfessor });
+    }
 }

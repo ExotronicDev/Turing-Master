@@ -143,6 +143,114 @@ exports.loginProfessor = asyncHandler(async (req, res, next) => {
 	sendTokenResponse(loggedProfessor, 200, res);
 });
 
+//-----------------Professor---------------//
+
+// @desc		Get all Professors
+// @route		GET /api/professors
+// @access		Public
+exports.getProfessors = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	control.getProfessors().then((data) => {
+		res.json({ success: true, count: data.length, data });
+	});
+});
+
+// @desc		Get single Professor
+// @route		GET /api/professors/:id
+// @access		Public
+exports.getProfessor = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const foundProfessor = await control.getProfessor({ id: req.params.id });
+	if (foundProfessor.length == 0) {
+		return next(
+			new ErrorResponse(
+				`Professor not found with id: ${req.params.id}.`,
+				404
+			)
+		);
+	}
+	res.json({ success: true, data: foundProfessor[0] });
+});
+
+//  @desc       Update Professor
+//  @route      PUT /api/professors/:id
+//  @access     Private
+exports.updateProfessor = asyncHandler(async (req, res, next) => {
+	const professorChanges = req.body;
+	if (!professorChanges.id) {
+		professorChanges.id = req.params.id;
+	}
+	const control = new ProfessorController();
+	const foundProfessor = await control.getProfessor({ id: req.params.id });
+	if (foundProfessor.length == 0) {
+		return next(
+			new ErrorResponse(
+				`Professor not found with id: ${req.params.id}.`,
+				404
+			)
+		);
+	}
+	const updateResponse = await control.updateProfessor(
+		professorChanges.id,
+		professorChanges
+	);
+	if (updateResponse == -1) {
+		return next(
+			new ErrorResponse(
+				`To change password, introduce the original and new password.`,
+				403
+			)
+		);
+	} else if (updateResponse == -2) {
+		return next(
+			new ErrorResponse(
+				`Original password introduced does not match with the stored password. Cannot update Professor.`,
+				403
+			)
+		);
+	} else if (updateResponse.passwordChanged) {
+		res.json({ success: true, data: updateResponse });
+	} else if (
+		updateResponse.modifiedCount == 0 ||
+		!updateResponse.acknowledged
+	) {
+		return next(
+			new ErrorResponse(
+				`No changes were made to the Professor with id: ${req.params.id}.`,
+				304
+			)
+		);
+	}
+	res.json({ success: true, data: updateResponse });
+});
+
+//  @desc       Delete Professor
+//  @route      DELETE /api/professors/:id
+//  @access     Private
+exports.deleteProfessor = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const filter = { id: req.params.id };
+	const foundProfessor = await control.getStudent(filter);
+	if (foundProfessor.length == 0) {
+		return next(
+			new ErrorResponse(
+				`Professor not found with id: ${req.params.id}.`,
+				404
+			)
+		);
+	}
+	const deleteResponse = await control.deleteProfessor(req.params.id);
+	if (deleteResponse.deletedCount == 0 || !deleteResponse.acknowledged) {
+		return next(
+			new ErrorResponse(
+				`Could not delete the Professor with id: ${req.params.id}.`,
+				409
+			)
+		);
+	}
+	res.json({ success: true, data: deleteResponse });
+});
+
 //-----------------Student-----------------//
 
 //  @desc       Get all Students

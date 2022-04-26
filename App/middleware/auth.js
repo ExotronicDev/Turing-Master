@@ -1,6 +1,8 @@
 const asyncHandler = require("./async");
 const ErrorResponse = require("../utils/errorResponse");
 const StudentController = require("../control/controllers/StudentController");
+const ProfessorController = require("../control/controllers/ProfessorController");
+
 const { jwt } = require("../config/dependencies");
 
 exports.protect = asyncHandler(async (req, res, next) => {
@@ -27,6 +29,18 @@ exports.protect = asyncHandler(async (req, res, next) => {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 		const control = new StudentController();
 		const userQuery = await control.getStudent({ id: decoded.id });
+		if (userQuery.length == 0) {
+			const controlProfessor = new ProfessorController();
+			const professor = await controlProfessor.getProfessor({
+				id: req.user.id,
+			});
+			if (professor.length == 0) {
+				return next(new ErrorResponse(`User not logged in.`, 401));
+			} else {
+				req.user = professor[0];
+				next();
+			}
+		}
 		req.user = userQuery[0];
 		next();
 	} catch (err) {
