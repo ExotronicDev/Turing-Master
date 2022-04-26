@@ -117,14 +117,13 @@
 	font-size: 50%;
 }
 
-#form-view button {
+/* #form-view button {
 	width: 85%;
 	margin: 2% 7.5% 5% 7.5%;
 	font-size: 50%;
-}
+} */
 
 #form-view .input-group {
-    /* padding: 0 20vw 5vh 0; */
 	width: 85%;
 	margin: 0 7.5% 0 7.5%;
 }
