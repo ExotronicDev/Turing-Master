@@ -28,7 +28,7 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 	const student = await controlStudent.getStudent({ id: req.user.id });
 	if (student.length == 0) {
 		const controlProfessor = new ProfessorController();
-		const professor = await controlProfessor.getprofessor({
+		const professor = await controlProfessor.getProfessor({
 			id: req.user.id,
 		});
 		if (professor.length == 0) {
@@ -81,9 +81,9 @@ exports.loginStudent = asyncHandler(async (req, res, next) => {
 	sendTokenResponse(loggedStudent, 200, res);
 });
 
-const sendTokenResponse = (student, statusCode, res) => {
+const sendTokenResponse = (user, statusCode, res) => {
 	// Create token
-	const token = student.getSignedJwtToken();
+	const token = user.getSignedJwtToken();
 
 	// Miliseconds -> seconds -> minutes -> hours -> days
 	const days = process.env.JWT_COOKIE_EXPIRE * 1000 * 60 * 60 * 24;
@@ -99,9 +99,49 @@ const sendTokenResponse = (student, statusCode, res) => {
 	res.cookie("token", token, options).json({
 		success: true,
 		token,
-		data: student,
+		data: user,
 	});
 };
+
+//-----------------Professor Authentication-----------------//
+
+// @desc		Register new Professor
+// @route		POST /api/professors/register
+// @access		Public
+exports.registerProfessor = asyncHandler(async (req, res, next) => {
+	const professor = req.body;
+	const control = new ProfessorController();
+	const filter = { $or: [{ email: req.body.email }, { id: req.body.id }] };
+	const foundProfessor = await control.getProfessor(filter);
+	if (foundProfessor.length != 0) {
+		return next(
+			new ErrorResponse(
+				`Professor is already registered. Please login with the existing account or create a new one.`,
+				409
+			)
+		);
+	}
+	const savedProfessor = await control.register(professor);
+	sendTokenResponse(savedProfessor, 200, res);
+});
+
+// @desc		Login Professor
+// @route		POST /api/professors/login
+// @access		Public
+exports.loginProfessor = asyncHandler(async (req, res, next) => {
+	const { email, password } = req.body;
+	if (!email || !password) {
+		return next(
+			new ErrorResponse(`Please provide an email and password.`, 400)
+		);
+	} 
+	const control = new ProfessorController();
+	const loggedProfessor = await control.login(email, password);
+	if (!loggedProfessor) {
+		return next(new ErrorResponse(`Invalid credentials.`, 401));
+	}
+	sendTokenResponse(loggedProfessor, 200, res);
+});
 
 //-----------------Student-----------------//
 
