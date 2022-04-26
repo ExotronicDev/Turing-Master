@@ -61,7 +61,7 @@ class ProfessorMenu extends Component {
 
 		return courses.map((course) => (
 			<a
-				href={"/professors/courses/" + course.code}
+				href={"/professors/course/" + course.code}
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>
@@ -101,7 +101,7 @@ class ProfessorMenu extends Component {
 									>
 										<div class="list-group">
 											<a
-												href="/students/courses/"
+												href="/professors/course/"
 												class="list-group-item list-group-item-action"
 												aria-current="true"
 											>

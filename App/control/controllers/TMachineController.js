@@ -1,5 +1,4 @@
 const TMachineDao = require("../daos/TMachineDao");
-const StateDao = require("../daos/StateDao");
 const CounterDao = require("../daos/CounterDao");
 
 const TapeSymbol = require("../../model/symbol");
@@ -28,10 +27,6 @@ module.exports = class TMachineController {
 
 	//Delete TMachine esta implementado en StudentController (pero aca hay otro)
 	async deleteTMachine(idTMachine) {
-		const daoState = new StateDao();
-
-		await daoState.deleteMany({ tMachine: { id: idTMachine } });
-
 		//TODO: Borrar los estados.
 		return await this.dao.delete({ id: idTMachine });
 	}
@@ -352,7 +347,7 @@ module.exports = class TMachineController {
 			//No hay estado inicial, tiro código de error. El controller.js maneja esto.
 			return -1;
 		}
-	
+
 		//Creo que ahora debo cargar la cinta con el input xd. Se me olvidó programar
 		//tape es mi cabecera, siempre es el primer elemento de la cinta.
 		let tape = new TapeSymbol(input.charAt(0));
@@ -374,26 +369,29 @@ module.exports = class TMachineController {
 		//Pongo el current de vuelta al inicio. Esto debería de funcionar, debería.
 		let outputTape = tape;
 		current = outputTape;
-		
+
 		let currentState = foundInitialState;
 
-		const timeoutFlag = +new Date;
+		const timeoutFlag = +new Date();
 		while (this.hasNextState(currentState, current.getValue())) {
 			//Si han pasado 30 segundos, tiro un timeout.
-			if (+new Date > timeoutFlag + 30000) {
+			if (+new Date() > timeoutFlag + 30000) {
 				//Ha ocurrido un timeout
 				let currentOutput = this.getOutputString(outputTape);
 				let finalOutput = {
 					status: "timeout",
 					finalState: currentState,
-					output: currentOutput
+					output: currentOutput,
 				};
 
 				return finalOutput;
 			}
 
 			//Hay un estado al cual saltar. Hago las operaciones acá.
-			let transition = this.getProperTransition(currentState, current.getValue());
+			let transition = this.getProperTransition(
+				currentState,
+				current.getValue()
+			);
 			let outputChar = transition.writeValue;
 			let moveDirection = transition.moveValue;
 			let nextStateName = transition.targetState.name;
@@ -440,17 +438,19 @@ module.exports = class TMachineController {
 				let finalOutput = {
 					status: "failed",
 					finalState: currentState,
-					output: currentOutput
-				}
+					output: currentOutput,
+				};
 				return finalOutput;
-			} else if (!this.checkStateLogic(foundNextState, currentState, transition)) {
+			} else if (
+				!this.checkStateLogic(foundNextState, currentState, transition)
+			) {
 				//Otro error de lógica.
 				let currentOutput = this.getOutputString(outputTape);
 				let finalOutput = {
 					status: "failed",
 					finalState: currentState,
-					output: currentOutput
-				}
+					output: currentOutput,
+				};
 				return finalOutput;
 			}
 			//Aaand, that should be it for this loop. Creo.
@@ -463,8 +463,8 @@ module.exports = class TMachineController {
 		let finalOutput = {
 			status: "finished",
 			finalState: currentState,
-			output: outputString
-		}
+			output: outputString,
+		};
 		return finalOutput;
 	}
 
@@ -525,17 +525,23 @@ module.exports = class TMachineController {
 	//Para revisar posibles errores que hayan con la lógica de crear la máquina.
 	checkStateLogic(nextState, currentState, transition) {
 		let incomingStateName = currentState.name;
-		const nextStateIncomingTransitions = nextState.incomingTransitions
+		const nextStateIncomingTransitions = nextState.incomingTransitions;
 		if (nextStateIncomingTransitions.length <= 0) {
 			return false;
 		}
 
 		let foundIncomingTransition = -1;
 		for (let i = 0; i < nextStateIncomingTransitions.length; i++) {
-			if (nextStateIncomingTransitions[i].readValue === transition.readValue &&
-				nextStateIncomingTransitions[i].writeValue === transition.writeValue &&
-				nextStateIncomingTransitions[i].moveValue == transition.moveValue &&
-				nextStateIncomingTransitions[i].originState.name === incomingStateName) {
+			if (
+				nextStateIncomingTransitions[i].readValue ===
+					transition.readValue &&
+				nextStateIncomingTransitions[i].writeValue ===
+					transition.writeValue &&
+				nextStateIncomingTransitions[i].moveValue ==
+					transition.moveValue &&
+				nextStateIncomingTransitions[i].originState.name ===
+					incomingStateName
+			) {
 				foundIncomingTransition = nextStateIncomingTransitions[i];
 			}
 		}

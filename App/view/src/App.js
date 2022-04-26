@@ -10,6 +10,8 @@ import StudentMenu from "./components/StudentMenu";
 import Profile from "./components/Profile";
 import Simulator from "./components/Simulator";
 import ProfessorMenu from "./components/ProfessorMenu";
+import ProfessorCourse from "./components/ProfessorCourse";
+import NewCourse from "./components/NewCourse";
 
 class App extends Component {
 	render() {
@@ -43,6 +45,16 @@ class App extends Component {
 							exact
 							path="/professors/menu"
 							element={<ProfessorMenu />}
+						></Route>
+						<Route
+							exact
+							path="/professors/course/"
+							element={<NewCourse />}
+						></Route>
+						<Route
+							exact
+							path="/professors/course/:code"
+							element={<ProfessorCourse />}
 						></Route>
 					</Routes>
 				</Router>
