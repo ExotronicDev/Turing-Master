@@ -13,6 +13,7 @@ const connectDB = require("./config/db");
 const studentsRouter = require("./routes/studentsRouter");
 const tmachinesRouter = require("./routes/tmachinesRouter");
 const authRouter = require("./routes/authRouter");
+const professorRouter = require("./routes/professorRouter");
 
 // Config for environment variables
 dotenv.config({ path: "./config/config.env" });
@@ -37,6 +38,7 @@ app.use(morgan("dev"));
 app.use("/api/students", studentsRouter);
 app.use("/api/tmachines", tmachinesRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/professors", professorRouter);
 
 // Custom error messages
 app.use(errorHandler);
