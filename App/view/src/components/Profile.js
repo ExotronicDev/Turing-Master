@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { axios, swal } from "../dependencies";
+import { Cookies, axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 
 class Profile extends Component {
@@ -15,6 +15,10 @@ class Profile extends Component {
 	};
 
 	componentDidMount = () => {
+		const token = Cookies.get("token");
+		if (token === undefined) {
+			window.location = "/login";
+		}
 		this.getInfo();
 	};
 
@@ -107,33 +111,7 @@ class Profile extends Component {
 		}
 	};
 
-	submit = (event) => {
-		event.preventDefault();
-		var user = {};
-
-		if (document.getElementById("checkF").checked)
-			user.firstName = this.state.firstName;
-		if (document.getElementById("check2").checked)
-			user.lastName = this.state.lastName;
-		if (document.getElementById("check3").checked)
-			user.email = this.state.email;
-
-		// Verify password is being edited and matches
-		if (document.getElementById("check4").checked) {
-			if (this.state.newPassword !== this.state.confirmPassword) {
-				swal.fire({
-					title: "Warning!",
-					text: "New Password doesn't match!",
-					icon: "warning",
-					background: "black",
-					color: "white",
-				});
-			} else {
-				user.password = this.state.password;
-				user.newPassword = this.state.newPassword;
-			}
-		}
-
+	saveChanges(user) {
 		let isProfessor = this.state.isProfessor
 			? "/professors/"
 			: "/students/";
@@ -180,6 +158,37 @@ class Profile extends Component {
 					color: "white",
 				});
 			});
+	}
+
+	submit = (event) => {
+		event.preventDefault();
+		var user = {};
+
+		if (document.getElementById("checkF").checked)
+			user.firstName = this.state.firstName;
+		if (document.getElementById("check2").checked)
+			user.lastName = this.state.lastName;
+		if (document.getElementById("check3").checked)
+			user.email = this.state.email;
+
+		// Verify password is being edited and matches
+		if (document.getElementById("check4").checked) {
+			if (this.state.newPassword !== this.state.confirmPassword) {
+				swal.fire({
+					title: "Warning!",
+					text: "New Password doesn't match!",
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+			} else {
+				user.password = this.state.password;
+				user.newPassword = this.state.newPassword;
+				this.saveChanges(user);
+			}
+		} else {
+			this.saveChanges(user);
+		}
 	};
 
 	render() {

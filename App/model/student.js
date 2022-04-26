@@ -26,7 +26,10 @@ const StudentSchema = new Schema({
 	password: {
 		type: String,
 		required: [true, "Please add a password."],
-		minlength: [8, "Password is too short. The minimum required is 8 characters long."],
+		minlength: [
+			8,
+			"Password is too short. The minimum required is 8 characters long.",
+		],
 		select: false,
 	},
 	tMachines: [
@@ -38,9 +41,9 @@ const StudentSchema = new Schema({
 	courses: [
 		{
 			code: { type: String },
-			name: { type: String }
-		}
-	]
+			name: { type: String },
+		},
+	],
 });
 
 // Encrypt password with bcrypt
@@ -52,7 +55,7 @@ StudentSchema.pre("save", async function (next) {
 
 // Sign JWT and return
 StudentSchema.methods.getSignedJwtToken = function () {
-	return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {
+	return jwt.sign({ id: this.id, role: "students" }, process.env.JWT_SECRET, {
 		expiresIn: process.env.JWT_EXPIRE,
 	});
 };

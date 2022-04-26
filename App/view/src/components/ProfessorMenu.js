@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Cookies, axios, swal } from "../dependencies";
+import { Cookies, axios, swal, jwt_decode } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 
 class ProfessorMenu extends Component {
 	state = {
 		courses: [],
+		loggedId: "",
 	};
 
 	componentDidMount = () => {
@@ -12,13 +13,32 @@ class ProfessorMenu extends Component {
 		if (token === undefined) {
 			window.location = "/login";
 		}
-
+		this.verifyRole(token);
 		this.getCourses();
 	};
 
+	verifyRole(token) {
+		const logged = jwt_decode(token);
+		// Verify role
+		if (logged.role !== "professors") {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+		// Verified
+		this.state.loggedId = logged.id;
+	}
+
 	getCourses = () => {
+		let apiUrl = "/api/professors/" + this.state.loggedId + "/courses";
 		axios({
-			url: "/api/professors/" + localStorage.getItem("id") + "/courses",
+			url: apiUrl,
 			method: "GET",
 		})
 			.then((res) => {

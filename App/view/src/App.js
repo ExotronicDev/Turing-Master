@@ -48,7 +48,7 @@ class App extends Component {
 						></Route>
 						<Route
 							exact
-							path="/professors/course/"
+							path="/professors/course"
 							element={<NewCourse />}
 						></Route>
 						<Route

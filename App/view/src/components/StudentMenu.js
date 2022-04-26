@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Cookies, axios, swal } from "../dependencies";
+import { Cookies, axios, swal, jwt_decode } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 
 class StudentMenu extends Component {
 	state = {
 		courses: [],
 		tMachines: [],
+		loggedId: "",
 	};
 
 	componentDidMount = () => {
@@ -13,17 +14,66 @@ class StudentMenu extends Component {
 		if (token === undefined) {
 			window.location = "/login";
 		}
-
+		this.verifyRole(token);
 		this.getTMachines();
 	};
 
+	verifyRole(token) {
+		const logged = jwt_decode(token);
+		// Verify role
+		if (logged.role !== "students") {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+		// Verified
+		this.state.loggedId = logged.id;
+	}
+
 	getCourses = () => {
-		console.log(this.state.tMachines);
+		let apiUrl = "/api/students/" + this.state.loggedId + "/courses";
+		axios({
+			url: apiUrl,
+			method: "GET",
+		})
+			.then((res) => {
+				const data = res.data.data;
+				const courses = [];
+				data.forEach((element) => {
+					const course = {
+						code: element.code,
+						name: element.name,
+					};
+					courses.push(course);
+				});
+				this.setState({
+					courses: courses,
+				});
+				console.log(this.state.courses);
+				console.log("Data courses lista");
+			})
+			.catch((err) => {
+				console.log(err);
+				swal.fire({
+					title: "Error!",
+					text: err,
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+			});
 	};
 
 	getTMachines = () => {
+		const apiUrl = "/api/students/" + this.state.loggedId + "/tmachines";
 		axios({
-			url: "/api/students/" + localStorage.getItem("id") + "/tmachines",
+			url: apiUrl,
 			method: "GET",
 		})
 			.then((res) => {

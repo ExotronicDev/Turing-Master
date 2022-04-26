@@ -343,3 +343,9 @@
 	margin: 5% 7.5% 5% 7.5%;
 	font-size: 50%;
 }
+
+/*-----------------ProfessorCourse----------------- */
+
+.ProfessorCourse #container {
+	margin-top: 7.5%;
+}

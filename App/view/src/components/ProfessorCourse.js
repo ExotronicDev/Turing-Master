@@ -1,17 +1,82 @@
 import React, { Component } from "react";
-import { Cookies, axios, swal } from "../dependencies";
+import { Cookies, axios, swal, jwt_decode } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 
 class ProfessorCourse extends Component {
-	state = {};
+	state = {
+		code: "",
+		name: "",
+		students: [],
+		exercises: [],
+		loggedId: "",
+	};
 
 	componentDidMount = () => {
 		const token = Cookies.get("token");
 		if (token === undefined) {
 			window.location = "/login";
 		}
+		// this.verifyRole(token);
+		this.getInfo();
+	};
 
-		this.getTMachines();
+	verifyRole(token) {
+		const logged = jwt_decode(token);
+		console.log("Before verify", logged);
+		// Verify role
+		if (logged.role !== "professors") {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+		// Verified
+		this.state.loggedId = logged.id;
+	}
+
+	getInfo = () => {
+		// let apiUrl = "/api/courses/" + this.state.loggedId + "/courses";
+		axios({
+			url: "/api/auth/me",
+			method: "GET",
+		})
+			.then((res) => {
+				const isProfessor =
+					res.data.role === "professors" ? true : false;
+				this.setState({
+					firstName: res.data.data.firstName,
+					lastName: res.data.data.lastName,
+					id: res.data.data.id,
+					email: res.data.data.email,
+					password: res.data.data.password,
+					isProfessor: isProfessor,
+				});
+			})
+			.catch((err) => {
+				swal.fire({
+					title: "Oops !",
+					text: "Unexpected error, Try Again",
+					icon: "error",
+					background: "black",
+					color: "white",
+				});
+			});
+	};
+
+	//Función que actualiza los states
+	handleChange = (event) => {
+		const target = event.target;
+		const name = target.name;
+		const value = target.value;
+
+		this.setState({
+			[name]: value,
+		});
 	};
 
 	render() {

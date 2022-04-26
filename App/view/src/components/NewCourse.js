@@ -1,13 +1,39 @@
 import React, { Component } from "react";
-import { axios, swal } from "../dependencies";
+import { Cookies, axios, swal, jwt_decode } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 
 class NewCourse extends Component {
 	state = {
 		code: "",
 		name: "",
-		// idProfessor: ""
+		loggedId: "",
 	};
+
+	componentDidMount = () => {
+		const token = Cookies.get("token");
+		if (token === undefined) {
+			window.location = "/login";
+		}
+		this.verifyRole(token);
+	};
+
+	verifyRole(token) {
+		const logged = jwt_decode(token);
+		// Verify role
+		if (logged.role !== "professors") {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+		// Verified
+		this.state.loggedId = logged.id;
+	}
 
 	// componentDidMount = () => {
 	// 	this.getInfo();

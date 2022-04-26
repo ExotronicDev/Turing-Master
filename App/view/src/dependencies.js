@@ -2,6 +2,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import swal from "sweetalert2";
+import jwt_decode from "jwt-decode";
 
 // SideBar components
 import {
@@ -17,6 +18,7 @@ export {
 	axios,
 	Cookies,
 	swal,
+	jwt_decode,
 	CDBSidebar,
 	CDBSidebarContent,
 	CDBSidebarFooter,
