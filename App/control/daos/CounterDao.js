@@ -22,3 +22,4 @@ module.exports = class CounterDao {
 		return await counter.find({});
 	}
 };
+
