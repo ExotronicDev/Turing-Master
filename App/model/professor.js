@@ -35,7 +35,12 @@ const ProfessorSchema = new Schema({
 		],
 		select: false,
 	},
-	courses: [{}],
+	courses: [
+		{
+			code: { type: String },
+			name: { type: String }
+		}
+	],
 });
 
 // Encrypt password with bcrypt
