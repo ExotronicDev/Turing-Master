@@ -87,9 +87,28 @@ module.exports = class ProfessorController {
         return await this.daoProfessor.getAll();
     }
 
+    async createCourse(course) {
+        const newCourse = new Course({
+            id: course.id,
+            name: course.name
+        });
+
+        return await this.daoProfessor.save(newProfessor);
+    }
+		
+    async getStudent(filter) {
+        return await this.daoStudent.find(filter);
+    }
+
+    async getStudents() {
+        return await this.daoStudent.getAll();
+    }
+    
     // PRELIMINAR
     // TODO: FIX THIS SHIT TO ACCOUNT FOR OTHER DATA LINKED TO IT.
     async deleteProfessor(idProfessor) {
         return await this.daoProfessor.delete({ id: idProfessor });
     }
+
 }
+
