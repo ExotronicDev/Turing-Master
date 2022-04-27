@@ -91,42 +91,54 @@ module.exports = class ProfessorController {
         const newCourse = new Course({
             code: course.code,
             name: course.name,
-            professor: {id: course.professor.id}
+            professor: {
+                id: course.professor.id
+            },
+            students: [],
+            exercises: []
         });
 
-        let foundProfessor = await this.daoProfessor.find({id: course.professor.id})[0];
-        foundProfessor.courses.push({code: course.code,name: course.name});
-        await this.daoProfessor.update({id: course.professor.id},foundProfessor);
+        let foundProfessor = await this.daoProfessor.find({ id: course.professor.id })[0];
+
+        foundProfessor.courses.push({ code: course.code,name: course.name });
+        await this.daoProfessor.update({ id: course.professor.id }, foundProfessor);
+
         return await this.daoCourse.save(newCourse);
     }
 
-    async createExercise(exercise) {
-        const newExercise = new Exercise({
+    async createExercise(courseCode, exercise) {
+        const newExercise = {
             name: exercise.name,
             description: exercise.description,
             inputDescription: exercise.inputDescription,
             outputDescription: exercise.outputDescription,
-            exampleCases: {number: exercise.inputCase.number, input: exercise.inputCase.input ,output: exercise.inputCase.output},
-            testCases: {number: exercise.inputCase.number, input: exercise.inputCase.input ,output: exercise.inputCase.output}
-        });
+            exampleCases: [],
+            testCases: []
+        };
 
-        let foundCourse = await this.daoCourse.find({id: exercise.course.id})[0];
-        foundCourse.courses.push({name: exercise.name,description: exercise.description, inputDescription: exercise.inputDescription, outputDescription: exercise.outputDescription});
-        await this.daoCourse.update({number: exercise.inputCase.number, input: exercise.inputCase.input ,output: exercise.inputCase.output},foundCourse);
-        await this.daoCourse.update({number: exercise.inputCase.number, input: exercise.inputCase.input ,output: exercise.inputCase.output},foundCourse);
-        return await this.daoCourse.save(newExercise);
-    }
-		
-    async getStudent(filter) {
-        return await this.daoStudent.find(filter);
+        let foundCourse = await this.daoCourse.find({ code: courseCode })[0];
+        foundCourse.exercises.push(newExercise);
+
+        return await this.daoCourse.update({ code: courseCode }, foundCourse);
     }
 
-    async getStudents() {
-        return await this.daoStudent.getAll();
+    // Retorna los estudiantes de un curso.
+    async getStudents(courseCode) {
+        const foundCourse = await this.daoCourse.find({ code: courseCode });
+
+        if (foundCourse.length == 0) {
+            return -1;
+        }
+
+        return foundCourse[0].students;
     }
     
     // PRELIMINAR
     // TODO: FIX THIS SHIT TO ACCOUNT FOR OTHER DATA LINKED TO IT.
+    // Nota:    Borrar un profesor implica borrar los cursos del profesor.
+    //          Borrar un curso implica actualizar el array de cursos de los estudiantes.
+    //          Esto es super heavy en consultas tho.
+    // However, se debería borrar un profesor en primer lugar?
     async deleteProfessor(idProfessor) {
         return await this.daoProfessor.delete({ id: idProfessor });
     }
