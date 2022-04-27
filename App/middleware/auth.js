@@ -32,7 +32,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 		if (userQuery.length == 0) {
 			const controlProfessor = new ProfessorController();
 			const professor = await controlProfessor.getProfessor({
-				id: req.user.id,
+				id: decoded.id,
 			});
 			if (professor.length == 0) {
 				return next(new ErrorResponse(`User not logged in.`, 401));
@@ -40,9 +40,10 @@ exports.protect = asyncHandler(async (req, res, next) => {
 				req.user = professor[0];
 				next();
 			}
+		} else {
+			req.user = userQuery[0];
+			next();
 		}
-		req.user = userQuery[0];
-		next();
 	} catch (err) {
 		return next(
 			new ErrorResponse("Access has been denied to this route.", 401)
