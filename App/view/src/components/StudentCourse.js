@@ -3,11 +3,10 @@ import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 import roleChecker from "./Routes/roleChecker";
 
-class ProfessorCourse extends Component {
+class StudentCourse extends Component {
 	state = {
 		code: "",
 		name: "",
-		students: [],
 		exercises: [],
 		loggedId: "",
 	};
@@ -74,7 +73,7 @@ class ProfessorCourse extends Component {
 
 	render() {
 		return (
-			<div class="ProfessorCourse">
+			<div class="StudentCourse">
 				<NavBar />
 				<div id="container">
 					<h1 id="title">Course</h1>
@@ -84,4 +83,4 @@ class ProfessorCourse extends Component {
 	}
 }
 
-export default ProfessorCourse;
+export default StudentCourse;

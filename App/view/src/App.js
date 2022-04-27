@@ -16,6 +16,8 @@ import NewCourse from "./components/NewCourse";
 import StudentRoutes from "./components/Routes/StudentRoutes";
 import ProfessorRoutes from "./components/Routes/ProfessorRoutes";
 import PublicRoutes from "./components/Routes/PublicRoutes";
+import StudentCourse from "./components/StudentCourse";
+import StudentExercise from "./components/StudentExercise";
 
 class App extends Component {
 	render() {
@@ -24,12 +26,11 @@ class App extends Component {
 				<Router>
 					<Routes>
 						{/* Public Routes */}
-						{/* <Route path="/" element={<PublicRoutes />}>
-							
-						</Route> */}
+						<Route path="/login" element={<PublicRoutes />}>
+							<Route exact path="/login" element={<Login />} />
+						</Route>
 						<Route exact path="/" element={<Home />} />
 						<Route exact path="/register" element={<Register />} />
-						<Route exact path="/login" element={<Login />} />
 						<Route exact path="/profile" element={<Profile />} />
 
 						{/* Student Routes */}
@@ -38,6 +39,16 @@ class App extends Component {
 								exact
 								path="/students/menu"
 								element={<StudentMenu />}
+							/>
+							<Route
+								exact
+								path="/students/course/:code"
+								element={<StudentCourse />}
+							/>
+							<Route
+								exact
+								path="/students/course/:code/exercise/:name"
+								element={<StudentExercise />}
 							/>
 							<Route
 								exact

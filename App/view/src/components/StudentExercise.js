@@ -3,12 +3,31 @@ import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 import roleChecker from "./Routes/roleChecker";
 
-class ProfessorCourse extends Component {
+class StudentExercise extends Component {
 	state = {
-		code: "",
-		name: "",
-		students: [],
-		exercises: [],
+		// name: "",
+		// description: "",
+		// inputDescription: "",
+		// outputDescription: "",
+		// exampleCases: [],
+		// loggedId: "",
+		name: "Validate Email",
+		description:
+			"Create a Turing Machine that validates if an email has correct syntaxis",
+		inputDescription: "An email string to validate with the machine",
+		outputDescription: "A final state which accepts the email introduced",
+		exampleCases: [
+			{
+				number: 1,
+				input: "agusbrenesgmail.com",
+				output: "false",
+			},
+			{
+				number: 2,
+				input: "agusbrenesu@gmail.com",
+				output: "true",
+			},
+		],
 		loggedId: "",
 	};
 
@@ -35,7 +54,7 @@ class ProfessorCourse extends Component {
 	getInfo = () => {
 		// let apiUrl = "/api/courses/" + this.state.loggedId + "/courses";
 		// axios({
-		// 	url: "/api/auth/me",
+		// 	url: "/api//me",
 		// 	method: "GET",
 		// })
 		// 	.then((res) => {
@@ -74,14 +93,14 @@ class ProfessorCourse extends Component {
 
 	render() {
 		return (
-			<div class="ProfessorCourse">
+			<div class="StudentExercise">
 				<NavBar />
 				<div id="container">
-					<h1 id="title">Course</h1>
+					<h1 id="title">{this.state.name}</h1>
 				</div>
 			</div>
 		);
 	}
 }
 
-export default ProfessorCourse;
+export default StudentExercise;
