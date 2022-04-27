@@ -130,6 +130,5 @@ module.exports = class ProfessorController {
     async deleteProfessor(idProfessor) {
         return await this.daoProfessor.delete({ id: idProfessor });
     }
-
+    
 }
-
