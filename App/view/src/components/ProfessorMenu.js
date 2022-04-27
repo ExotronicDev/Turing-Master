@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Cookies, axios, swal, jwt_decode } from "../dependencies";
+import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 import roleChecker from "./Routes/roleChecker";
 

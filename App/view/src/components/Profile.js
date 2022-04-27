@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Cookies, axios, swal } from "../dependencies";
+import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 import roleChecker from "./Routes/roleChecker";
 
@@ -139,7 +139,8 @@ class Profile extends Component {
 			.then((res) => {
 				if (res.data.success) {
 					// Should not have ! (not), but works this way
-					const accountType = !isProfessor ? "Teacher" : "Student";
+					// Did it
+					const accountType = isProfessor ? "Teacher" : "Student";
 					swal.fire({
 						title: "Success!",
 						text:
