@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Cookies, axios, swal, jwt_decode } from "../dependencies";
+import roleChecker from "./Routes/roleChecker";
 import NavBar from "./NavBar/NavBar";
 
 class StudentMenu extends Component {
@@ -10,18 +11,13 @@ class StudentMenu extends Component {
 	};
 
 	componentDidMount = () => {
-		const token = Cookies.get("token");
-		if (token === undefined) {
-			window.location = "/login";
-		}
-		this.verifyRole(token);
+		this.setLoggedId();
 		this.getTMachines();
 	};
 
-	verifyRole(token) {
-		const logged = jwt_decode(token);
-		// Verify role
-		if (logged.role !== "students") {
+	setLoggedId() {
+		this.state.loggedId = roleChecker.getLoggedId();
+		if (this.state.loggedId === undefined) {
 			swal.fire({
 				title: "Oops !",
 				text: "User does not have access to this page. Please login to access.",
@@ -32,8 +28,6 @@ class StudentMenu extends Component {
 				window.location = "/login";
 			});
 		}
-		// Verified
-		this.state.loggedId = logged.id;
 	}
 
 	getCourses = () => {
