@@ -99,6 +99,23 @@ module.exports = class ProfessorController {
         await this.daoProfessor.update({id: course.professor.id},foundProfessor);
         return await this.daoCourse.save(newCourse);
     }
+
+    async createExercise(exercise) {
+        const newExercise = new Exercise({
+            name: exercise.name,
+            description: exercise.description,
+            inputDescription: exercise.inputDescription,
+            outputDescription: exercise.outputDescription,
+            exampleCases: {number: exercise.inputCase.number, input: exercise.inputCase.input ,output: exercise.inputCase.output},
+            testCases: {number: exercise.inputCase.number, input: exercise.inputCase.input ,output: exercise.inputCase.output}
+        });
+
+        let foundCourse = await this.daoCourse.find({id: exercise.course.id})[0];
+        foundCourse.courses.push({name: exercise.name,description: exercise.description, inputDescription: exercise.inputDescription, outputDescription: exercise.outputDescription});
+        await this.daoCourse.update({number: exercise.inputCase.number, input: exercise.inputCase.input ,output: exercise.inputCase.output},foundCourse);
+        await this.daoCourse.update({number: exercise.inputCase.number, input: exercise.inputCase.input ,output: exercise.inputCase.output},foundCourse);
+        return await this.daoCourse.save(newExercise);
+    }
 		
     async getStudent(filter) {
         return await this.daoStudent.find(filter);
