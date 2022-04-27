@@ -79,7 +79,8 @@ class Register extends Component {
 			.then((res) => {
 				if (res.data.success) {
 					// Should not have ! (not), but works this way
-					const accountType = !isProfessor ? "Professor" : "Student";
+					// Did it
+					const accountType = isProfessor ? "Professor" : "Student";
 					swal.fire({
 						title: "Success!",
 						text:

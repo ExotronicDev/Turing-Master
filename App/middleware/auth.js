@@ -27,12 +27,26 @@ exports.protect = asyncHandler(async (req, res, next) => {
 	try {
 		// Verify token
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		let control;
 		if (decoded.role === "students") {
-			console.log("Student logged");
-			this.protectStudent(req, res, next);
+			control = new StudentController();
+			const userQuery = await control.getStudent({ id: decoded.id });
+			req.user = userQuery[0];
+			req.user.role = decoded.role;
+			next();
 		} else if (decoded.role === "professors") {
-			console.log("Professor logged");
-			this.protectProfessor(req, res, next);
+			control = new ProfessorController();
+			const userQuery = await control.getProfessors({ id: decoded.id });
+			req.user = userQuery[0];
+			req.user.role = decoded.role;
+			next();
+		} else {
+			return next(
+				new ErrorResponse(
+					"Type of user invalid. Access has been denied to this route.",
+					401
+				)
+			);
 		}
 	} catch (err) {
 		return next(
@@ -66,6 +80,7 @@ exports.protectStudent = asyncHandler(async (req, res, next) => {
 		const control = new StudentController();
 		const userQuery = await control.getStudent({ id: decoded.id });
 		req.user = userQuery[0];
+		req.user.role = "students";
 		next();
 	} catch (err) {
 		return next(
@@ -99,6 +114,7 @@ exports.protectProfessor = asyncHandler(async (req, res, next) => {
 		const control = new ProfessorController();
 		const userQuery = await control.getProfessor({ id: decoded.id });
 		req.user = userQuery[0];
+		req.user.role = "professors";
 		next();
 	} catch (err) {
 		return next(
