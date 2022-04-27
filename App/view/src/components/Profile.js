@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Cookies, axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
+import roleChecker from "./Routes/roleChecker";
 
 class Profile extends Component {
 	state = {
@@ -12,15 +13,28 @@ class Profile extends Component {
 		newPassword: "",
 		confirmPassword: "",
 		isProfessor: false,
+		loggedId: "",
 	};
 
 	componentDidMount = () => {
-		const token = Cookies.get("token");
-		if (token === undefined) {
-			window.location = "/login";
-		}
+		this.setLoggedId();
 		this.getInfo();
 	};
+
+	setLoggedId() {
+		this.state.loggedId = roleChecker.getLoggedId();
+		if (this.state.loggedId === undefined) {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+	}
 
 	getInfo = () => {
 		axios({
@@ -42,7 +56,7 @@ class Profile extends Component {
 			.catch((err) => {
 				swal.fire({
 					title: "Oops !",
-					text: "Unexpected error, Try Again",
+					text: err,
 					icon: "error",
 					background: "black",
 					color: "white",

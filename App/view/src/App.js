@@ -13,49 +13,60 @@ import ProfessorMenu from "./components/ProfessorMenu";
 import ProfessorCourse from "./components/ProfessorCourse";
 import NewCourse from "./components/NewCourse";
 
+import StudentRoutes from "./components/Routes/StudentRoutes";
+import ProfessorRoutes from "./components/Routes/ProfessorRoutes";
+import PublicRoutes from "./components/Routes/PublicRoutes";
+
 class App extends Component {
 	render() {
 		return (
 			<div className="App">
 				<Router>
 					<Routes>
-						<Route exact path="/" element={<Home />}></Route>
+						{/* Public Routes */}
+						{/* <Route path="/" element={<PublicRoutes />}>
+							
+						</Route> */}
+						<Route exact path="/" element={<Home />} />
+						<Route exact path="/register" element={<Register />} />
+						<Route exact path="/login" element={<Login />} />
+						<Route exact path="/profile" element={<Profile />} />
+
+						{/* Student Routes */}
+						<Route path="/students/" element={<StudentRoutes />}>
+							<Route
+								exact
+								path="/students/menu"
+								element={<StudentMenu />}
+							/>
+							<Route
+								exact
+								path="/students/simulator/:id"
+								element={<Simulator />}
+							/>
+						</Route>
+
+						{/* Professor Routes */}
 						<Route
-							exact
-							path="/register"
-							element={<Register />}
-						></Route>
-						<Route exact path="/login" element={<Login />}></Route>
-						<Route
-							exact
-							path="/profile"
-							element={<Profile />}
-						></Route>
-						<Route
-							exact
-							path="/students/menu"
-							element={<StudentMenu />}
-						></Route>
-						<Route
-							exact
-							path="/students/simulator/:id"
-							element={<Simulator />}
-						></Route>
-						<Route
-							exact
-							path="/professors/menu"
-							element={<ProfessorMenu />}
-						></Route>
-						<Route
-							exact
-							path="/professors/course"
-							element={<NewCourse />}
-						></Route>
-						<Route
-							exact
-							path="/professors/course/:code"
-							element={<ProfessorCourse />}
-						></Route>
+							path="/professors/"
+							element={<ProfessorRoutes />}
+						>
+							<Route
+								exact
+								path="/professors/menu"
+								element={<ProfessorMenu />}
+							/>
+							<Route
+								exact
+								path="/professors/course"
+								element={<NewCourse />}
+							/>
+							<Route
+								exact
+								path="/professors/course/:code"
+								element={<ProfessorCourse />}
+							/>
+						</Route>
 					</Routes>
 				</Router>
 			</div>
