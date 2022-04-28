@@ -5,6 +5,7 @@ import roleChecker from "./Routes/roleChecker";
 
 class StudentExercise extends Component {
 	state = {
+		slugName: "",
 		name: "",
 		description: "",
 		inputDescription: "",
@@ -12,25 +13,12 @@ class StudentExercise extends Component {
 		exampleCases: [],
 		courseCode: "",
 		loggedId: "",
-		// name: "Validate Email",
-		// description:
-		// 	"Introduce an email and the Turing Machine should check if it has valid syntax or not.",
-		// inputDescription: "An email",
-		// outputDescription: "Turing Machine final state",
-		// exampleCases: [
-		// 	{
-		// 		number: 1,
-		// 		input: "asdasf",
-		// 		output: "false",
-		// 	},
-		// ],
-		// courseCode: "",
-		// loggedId: "",
 	};
 
 	componentDidMount = () => {
 		this.setLoggedId();
 		this.setCourseCode();
+		this.setExerciseName();
 		this.getInfo();
 	};
 
@@ -66,7 +54,6 @@ class StudentExercise extends Component {
 				window.location = "/students/menu";
 			});
 		}
-		// length of "/students/course/", so searches next to it
 		start += searchString.length;
 		courseCode = currentUrl.substring(start);
 
@@ -88,8 +75,43 @@ class StudentExercise extends Component {
 		this.state.courseCode = courseCode;
 	}
 
+	setExerciseName() {
+		let name;
+		const searchString =
+			"/students/course/" + this.state.courseCode + "/exercise/";
+		const currentUrl = window.location.href;
+
+		var start = currentUrl.search(searchString);
+		if (start === -1) {
+			swal.fire({
+				title: "Oops !",
+				text: "Invalid URL.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				// Or menu
+				window.location = "/students/course/" + this.state.courseCode;
+			});
+		}
+		start += searchString.length;
+		name = currentUrl.substring(start);
+
+		this.state.slugName = name;
+	}
+
 	getInfo = () => {
-		let apiUrl = "/api/courses/" + this.state.courseCode + "/exercises";
+		console.log(
+			"Course",
+			this.state.courseCode,
+			"Exercise",
+			this.state.slugName
+		);
+		let apiUrl =
+			"/api/courses/" +
+			this.state.courseCode +
+			"/exercises/" +
+			this.state.slugName;
 		axios({
 			url: apiUrl,
 			method: "GET",
@@ -159,19 +181,6 @@ class StudentExercise extends Component {
 					<div id="box">
 						<form id="boxform" onSubmit={this.submit}>
 							<p>{this.state.description}</p>
-							{/* <div class="form-group">
-								<input
-									type="text"
-									class="form-control"
-									id="code"
-									placeholder="Code"
-									name="code"
-									aria-label="Code for the new course"
-									onChange={this.handleChange}
-									value={this.state.description}
-									disabled="disabled"
-								/>
-							</div> */}
 
 							<label for="inputDescription">Expected input</label>
 							<div class="form-group">
