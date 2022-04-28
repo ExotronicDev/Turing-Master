@@ -124,7 +124,7 @@ class StudentMenu extends Component {
 			return (
 				// eslint-disable-next-line jsx-a11y/anchor-is-valid
 				<a class="list-group-item list-group-item-action disabled">
-					No Courses registered
+					No Courses enrolled
 				</a>
 			);
 		}
@@ -170,13 +170,6 @@ class StudentMenu extends Component {
 										data-bs-parent="#courses-accordion"
 									>
 										<div class="list-group">
-											<a
-												href="/students/courses/"
-												class="list-group-item list-group-item-action"
-												aria-current="true"
-											>
-												Enroll Course
-											</a>
 											{this.displayCourses(
 												this.state.courses
 											)}
