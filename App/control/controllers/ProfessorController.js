@@ -3,11 +3,13 @@ const Course = require("../../model/course");
 
 const ProfessorDao = require("../daos/ProfessorDao");
 const CourseDao = require("../daos/CourseDao");
+const StudentDao = require("../daos/StudentDao");
 
 module.exports = class ProfessorController {
     constructor() {
         this.daoProfessor = new ProfessorDao();
         this.daoCourse = new CourseDao();
+        this.daoStudent = new StudentDao();
     }
 
     //Autenticación de profesores.
@@ -87,6 +89,16 @@ module.exports = class ProfessorController {
         return await this.daoProfessor.getAll();
     }
 
+    async getCourses(idProfessor) {
+        let foundProfessor = await this.daoProfessor.find({ id: idProfessor });
+        
+        if (foundProfessor.length == 0) {
+            return -1;
+        }
+
+        return foundProfessor[0].courses;
+    }
+
     async createCourse(course) {
         const newCourse = new Course({
             code: course.code,
@@ -106,6 +118,94 @@ module.exports = class ProfessorController {
         return await this.daoCourse.save(newCourse);
     }
 
+    async updateCourse(courseCode, courseChanges) {
+        let queryCourse = await this.daoCourse.find({ code: courseCode });
+
+        if (queryCourse.length == 0) {
+            return -1;
+        }
+
+        let foundCourse = queryCourse[0];
+        foundCourse.name = courseChanges.name;
+        
+        return await this.daoCourse.update({ code: courseCode }, foundCourse);
+    }
+
+    async getCourse(courseCode) {
+        let foundCourse = await this.daoCourse.find({ code: courseCode });
+
+        if (foundCourse.length == 0) {
+            return -1;
+        }
+
+        return foundCourse[0];
+    }
+
+    // Retorna los estudiantes de un curso.
+    async getStudents(courseCode) {
+        const foundCourse = await this.daoCourse.find({ code: courseCode });
+
+        if (foundCourse.length == 0) {
+            return -1;
+        }
+
+        return foundCourse[0].students;
+    }
+
+    async enrollStudent(idStudent, courseCode) {
+        const queryStudent = await this.daoStudent.find({ id: idStudent });
+        const queryCourse = await this.daoCourse.find({ code: courseCode });
+
+        if (queryStudent.length == 0) {
+            return -1;
+        } else if (queryCourse.length == 0) {
+            return -2;
+        }
+
+        let foundStudent = queryStudent[0];
+        let foundCourse = queryCourse[0];
+
+        foundCourse.students.push({
+            id: foundStudent.id,
+            firstName: foundStudent.firstName,
+            lastName: foundStudent.lastName,
+            email: foundStudent.email
+        });
+
+        foundStudent.courses.push({
+            code: foundCourse.code,
+            name: foundCourse.name
+        });
+
+        await this.daoStudent.update({ id: idStudent }, foundStudent);
+        return await this.daoCourse.update({ code: courseCode }, foundCourse);
+    }
+
+    // Clonar un curso.
+    async cloneCourse(courseCode, newCourseCode) {
+        const query = await this.daoCourse.find({ code: courseCode });
+        const query2 = await this.daoCourse.find({ code: newCourseCode });
+
+        if (query.length == 0) {
+            return -1;
+        } else if (query2.length > 0) {
+            return -2;
+        }
+        const foundCourse = query[0];
+
+        const clonedCourse = new Course({ 
+            code: newCourseCode,
+            name: foundCourse.name,
+            professor: {
+                id: foundCourse.professor.id
+            },
+            students: [],
+            exercises: foundCourse.exercises
+        });
+
+        return await this.daoCourse.save(clonedCourse);
+    }
+
     async createExercise(courseCode, exercise) {
         const newExercise = {
             name: exercise.name,
@@ -122,25 +222,101 @@ module.exports = class ProfessorController {
         return await this.daoCourse.update({ code: courseCode }, foundCourse);
     }
 
-    // Retorna los estudiantes de un curso.
-    async getStudents(courseCode) {
-        const foundCourse = await this.daoCourse.find({ code: courseCode });
+    async updateExercise(slugExercise, courseCode, exerciseChanges) {
+        let queryCourse = await this.daoCourse.find({ code: courseCode });
 
-        if (foundCourse.length == 0) {
+        if (queryCourse == 0) {
             return -1;
         }
 
-        return foundCourse[0].students;
+        let foundCourse = queryCourse[0];
+        let foundExercise = -1;
+        let foundExerciseIndex = -1;
+        for (let i = 0; i < foundCourse.exercises.length; i++) {
+            if (foundCourse.exercises[i].slugName === slugExercise) {
+                foundExercise = foundCourse.exercises[i];
+                foundExerciseIndex = i;
+            }
+        }
+
+        if (foundExercise == -1) {
+            return -2;
+        }
+
+        foundExercise.description = exerciseChanges.description;
+        foundExercise.inputDescription = exerciseChanges.inputDescription;
+        foundExercise.outputDescription = exerciseChanges.outputDescription;
+        foundExercise.exampleCases = exerciseChanges.exampleCases;
+        foundExercise.testCases = exerciseChanges.testCases;
+
+        foundCourse.exercises[foundExerciseIndex] = foundExercise;
+
+        return await this.daoCourse.update({ code: courseCode }, foundCourse);
     }
-    
-    // PRELIMINAR
-    // TODO: FIX THIS SHIT TO ACCOUNT FOR OTHER DATA LINKED TO IT.
-    // Nota:    Borrar un profesor implica borrar los cursos del profesor.
-    //          Borrar un curso implica actualizar el array de cursos de los estudiantes.
-    //          Esto es super heavy en consultas tho.
-    // However, se debería borrar un profesor en primer lugar?
-    async deleteProfessor(idProfessor) {
-        return await this.daoProfessor.delete({ id: idProfessor });
+
+    async getExercise(courseCode, slugExercise) {
+        let queryCourse = await this.daoCourse.find({ code: courseCode });
+
+        if (queryCourse.length == 0) {
+            return -1;
+        }
+
+        let foundCourse = queryCourse[0];
+        let foundExercise = -1;
+        for (let i = 0; i < foundCourse.exercises.length; i++) {
+            if (foundCourse.exercises[i].slugName === slugExercise) {
+                foundExercise = foundCourse.exercises[i];
+            }
+        }
+
+        if (foundExercise == -1) {
+            return -2;
+        }
+
+        return foundExercise;
     }
-    
+
+    async getExercises(courseCode) {
+        let queryCourse = await this.daoCourse.find({ code: courseCode });
+
+        if (queryCourse.length == 0) {
+            return -1;
+        }
+
+        let foundCourse = queryCourse[0];
+
+        return foundCourse.exercises;
+    }
+
+    async deleteExercise(courseCode, slugExercise) {
+        let queryCourse = await this.daoCourse.find({ code: courseCode });
+
+        if (queryCourse.length == 0) {
+            return -1;
+        }
+
+        let foundCourse = queryCourse[0];
+        let foundExerciseIndex = -1;
+        for (let i = 0; i < foundCourse.exercises.length; i++) {
+            if (foundCourse.exercises[i].slugName === slugExercise) {
+                foundExerciseIndex = i;
+            }
+        }
+
+        if (foundExerciseIndex == -1) {
+            return -2;
+        }
+
+        foundCourse.exercises.splice(foundExerciseIndex, 1);
+        return await this.daoCourse.update({ code: courseCode }, foundCourse);
+    }
+
+    //Falta:
+    //  addTestCase
+    //  updateTestCase
+    //  deleteTestCase
+    //  addExampleCase
+    //  updateExampleCase
+    //  deleteExampleCase
+    //  Estos no tienen que hacer consultas a la base de datos.
 }

@@ -7,6 +7,9 @@ const {
     deleteProfessor,
     getProfessors,
     getProfessor,
+    getCourses,
+    getCourse,
+    createCourse,
 } = require("../control/controllers/Controller");
 
 // Create router
@@ -22,6 +25,5 @@ professorRouter
     .route("/:id")
     .get(getProfessor)
     .put(protect, updateProfessor)
-    .delete(protect, deleteProfessor)
 
 module.exports = professorRouter;

@@ -27,6 +27,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 	try {
 		// Verify token
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		console.log(decoded);
 		let control;
 		if (decoded.role === "students") {
 			control = new StudentController();
@@ -36,7 +37,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 			next();
 		} else if (decoded.role === "professors") {
 			control = new ProfessorController();
-			const userQuery = await control.getProfessors({ id: decoded.id });
+			const userQuery = await control.getProfessor({ id: decoded.id });
 			req.user = userQuery[0];
 			req.user.role = decoded.role;
 			next();

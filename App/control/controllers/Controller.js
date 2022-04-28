@@ -24,20 +24,27 @@ exports.logout = asyncHandler(async (req, res, next) => {
 //  @route      POST /api/students/me
 //  @access     Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-	const controlStudent = new StudentController();
-	const student = await controlStudent.getStudent({ id: req.user.id });
-	if (student.length == 0) {
-		const controlProfessor = new ProfessorController();
-		const professor = await controlProfessor.getProfessor({
-			id: req.user.id,
-		});
-		if (professor.length == 0) {
-			return next(new ErrorResponse(`User not logged in.`, 401));
-		} else {
-			res.json({ success: true, role: "professors", data: professor[0] });
+	//const controlStudent = new StudentController();
+	let control;
+
+	if (req.user.role === "students") {
+		control = new StudentController();
+		const student = await control.getStudent({ id: req.user.id });
+
+		if (student.length == 0) {
+			return next(new ErrorResponse(`Student doesn't exist.`, 404));
 		}
-	} else {
 		res.json({ success: true, role: "students", data: student[0] });
+	} else if (req.user.role === "professors") {
+		control = new ProfessorController();
+		const professor = await control.getProfessor({ id: req.user.id });
+
+		if (professor.length == 0) {
+			return next(new ErrorResponse(`Professor doesn't exist.`, 404));
+		}
+		res.json({ success: true, role: "professors", data: professor[0] });
+	} else {
+		return next(new ErrorResponse(`Invalid token. Access has been denied to this route.`, 401));
 	}
 });
 
@@ -222,33 +229,6 @@ exports.updateProfessor = asyncHandler(async (req, res, next) => {
 		);
 	}
 	res.json({ success: true, data: updateResponse });
-});
-
-//  @desc       Delete Professor
-//  @route      DELETE /api/professors/:id
-//  @access     Private
-exports.deleteProfessor = asyncHandler(async (req, res, next) => {
-	const control = new ProfessorController();
-	const filter = { id: req.params.id };
-	const foundProfessor = await control.getStudent(filter);
-	if (foundProfessor.length == 0) {
-		return next(
-			new ErrorResponse(
-				`Professor not found with id: ${req.params.id}.`,
-				404
-			)
-		);
-	}
-	const deleteResponse = await control.deleteProfessor(req.params.id);
-	if (deleteResponse.deletedCount == 0 || !deleteResponse.acknowledged) {
-		return next(
-			new ErrorResponse(
-				`Could not delete the Professor with id: ${req.params.id}.`,
-				409
-			)
-		);
-	}
-	res.json({ success: true, data: deleteResponse });
 });
 
 //-----------------Student-----------------//
@@ -711,3 +691,123 @@ exports.simulateTMachine = (req, res, next) => {
 	}
 	res.json({ sucess: true, data: output });
 };
+
+//-----------------Course-----------------//
+
+// @desc		Create Course
+// @route		POST /api/courses/createCourse
+// @access		Private
+exports.createCourse = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const { course } = req.body;
+	const newCourse = await control.createCourse(course);
+
+	res.json({ success: true, data: newCourse });
+});
+
+// @desc		Get Course
+// @route		GET /api/courses/:code
+// @access		Private
+exports.getCourse = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const courseCode = req.params.code;
+	const queryResult = await control.getCourse(courseCode);
+
+	if (data == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	}
+	res.json({ success: true, data: queryResult });
+});
+
+// @desc		Get Courses
+// @route		GET /api/courses/
+// @access		Private
+exports.getCourses = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const idProfessor = req.user.id;
+	const queryResult = await control.getCourses(idProfessor);
+
+	if (queryResult == -1) {
+		return next(new ErrorResponse(`Professor does not exist.`, 404));
+	}
+	res.json({ success: true, length: queryResult.length, data: queryResult });
+});
+
+// @desc		Clone Course
+// @route		POST /api/courses/:code/clone
+// @access		Private
+exports.cloneCourse = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const courseCode = req.params.code
+	const newCourseCode = req.body;
+	const clonedCourse = await control.cloneCourse(courseCode, newCourseCode);
+
+	if (clonedCourse == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	} else if (clonedCourse == -2) {
+		return next(new ErrorResponse(`New code for cloned course already exists.`));
+	}
+
+	res.json({ success: true, data: clonedCourse });
+});
+
+// @desc		Update Course
+// @route		POST /api/courses/:code/update
+// @access		Private
+exports.updateCourse = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const courseCode = req.params.code;
+	const foundCourse = await control.getCourse(courseCode);
+
+	if (foundCourse == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	}
+
+	const courseChanges = req.body;
+	const updateResponse = await control.updateCourse(courseCode, courseChanges);
+	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
+		return next(
+			new ErrorResponse(
+				`No changes were made to the Course with code: ${courseCode}`,
+				304
+			)
+		);
+	}
+
+	res.json({ success: true, data: updateResponse });
+});
+
+// @desc		Get Course Students
+// @route		GET /api/courses/:code/getStudents
+// @access		Private
+exports.getCourseStudents = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const courseCode = req.params.code;
+	const foundStudents = await control.getStudents(courseCode);
+
+	if (foundStudents == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	}
+
+	res.json({ success: true, length: foundStudents.length, data: foundStudents });
+});
+
+// @desc		Enroll Student in Course
+// @route		POST /api/courses/:code/enrollStudent
+// @access		Private
+exports.enrollStudent = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+	const idStudent = req.body;
+
+	const enrollResponse = await control.enrollStudent(idStudent, courseCode);
+
+	if (enrollResponse == -1) {
+		return next(new ErrorResponse(`Student does not exist.`, 404));
+	} else if (enrollResponse == -2) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	}
+
+	res.json({ success: true, data: enrollResponse });
+});

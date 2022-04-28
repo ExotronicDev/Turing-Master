@@ -18,7 +18,7 @@ const ExerciseSchema = new Schema({
 	slugName: { type: String, index: true },
 	description: { type: String, required: true },
 	inputDescription: { type: String, required: true },
-	outputDescription: { type: String },
+	outputDescription: { type: String, required: true },
 	exampleCases: [InputCaseSchema],
 	testCases: [InputCaseSchema],
 });

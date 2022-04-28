@@ -14,6 +14,7 @@ const studentsRouter = require("./routes/studentsRouter");
 const tmachinesRouter = require("./routes/tmachinesRouter");
 const authRouter = require("./routes/authRouter");
 const professorRouter = require("./routes/professorRouter");
+const courseRouter = require("./routes/courseRouter");
 
 // Config for environment variables
 dotenv.config({ path: "./config/config.env" });
@@ -39,6 +40,7 @@ app.use("/api/students", studentsRouter);
 app.use("/api/tmachines", tmachinesRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/professors", professorRouter);
+app.use("/api/courses", courseRouter);
 
 // Custom error messages
 app.use(errorHandler);
