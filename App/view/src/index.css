@@ -350,5 +350,33 @@
 }
 
 .ProfessorCourse #container {
-	margin-top: 7.5%;
+	margin-top: 15vh;
+	width: 50%;
+}
+
+.ProfessorCourse #edit {
+	text-align: right;
+	padding: 0;
+}
+
+.ProfessorCourse #save {
+	margin: 5%;
+	width: 30%;
+}
+
+.ProfessorCourse .row {
+	height: 100%;
+	margin-bottom: 1%;
+}
+
+.ProfessorCourse label {
+	text-align: center;
+  	color: white;
+
+    font-weight: 500;
+    font-size: 60%;
+}
+
+.ProfessorCourse input {
+	width: 100%;
 }
