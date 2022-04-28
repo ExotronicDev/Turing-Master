@@ -12,6 +12,20 @@ class StudentExercise extends Component {
 		exampleCases: [],
 		courseCode: "",
 		loggedId: "",
+		// name: "Validate Email",
+		// description:
+		// 	"Introduce an email and the Turing Machine should check if it has valid syntax or not.",
+		// inputDescription: "An email",
+		// outputDescription: "Turing Machine final state",
+		// exampleCases: [
+		// 	{
+		// 		number: 1,
+		// 		input: "asdasf",
+		// 		output: "false",
+		// 	},
+		// ],
+		// courseCode: "",
+		// loggedId: "",
 	};
 
 	componentDidMount = () => {
@@ -161,7 +175,7 @@ class StudentExercise extends Component {
 
 							<label for="inputDescription">Expected input</label>
 							<div class="form-group">
-								<input
+								<textarea
 									type="text"
 									class="form-control"
 									id="inputDescription"
@@ -175,7 +189,7 @@ class StudentExercise extends Component {
 								Expected output
 							</label>
 							<div class="form-group">
-								<input
+								<textarea
 									type="text"
 									class="form-control"
 									id="outputDescription"
