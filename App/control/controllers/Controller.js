@@ -827,3 +827,50 @@ exports.enrollStudent = asyncHandler(async (req, res, next) => {
 
 	res.json({ success: true, data: enrollResponse });
 });
+
+// @desc		Clone Course
+// @route		POST /api/courses/:code/clone
+// @access		Private
+exports.cloneCourse = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+	const newCourseCode = req.body;
+
+	const cloneResponse = await control.cloneCourse(courseCode, newCourseCode);
+
+	if (cloneResponse == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	} else if (cloneResponse == -2) {
+		return next(new ErrorResponse(`New code for cloned course already exists.`, 409));
+	}
+
+	res.json({ success: true, data: cloneResponse });
+});
+
+//------------------------Exercises-----------------------//
+// @desc		Add Exercise
+// @route		POST /api/courses/:code/exercises/
+// @access		Private
+exports.addExercise = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+	const exercise = req.body;
+
+	/* Exercise debería tener esto
+	Exercise = {
+		name:
+		description:
+		inputDescription:
+		outputDescription:
+	}
+	*/
+	const newExercise = await control.createExercise(courseCode, exercise);
+
+	if (newExercise.modifiedCount == 0 || !newExercise.acknowledged) {
+		return next(new ErrorResponse(`Could not add Exercise. No changes were made`, 304));
+	}
+
+	res.json({ success: true, data: newExercise });
+});
