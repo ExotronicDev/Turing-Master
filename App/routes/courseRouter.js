@@ -8,6 +8,7 @@ const {
 	updateCourse,
 	getCourseStudents,
 	enrollStudent,
+	addExercise,
 } = require("../control/controllers/Controller");
 
 // Create router
@@ -24,5 +25,8 @@ courseRouter
 
 courseRouter.route("/:code/students").get(protect, getCourseStudents);
 courseRouter.route("/:code/enrollStudent").post(protect, enrollStudent);
+
+// Exercise routes
+courseRouter.route("/:code/exercises").post(protect, addExercise);
 
 module.exports = courseRouter;
