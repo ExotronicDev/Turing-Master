@@ -1,7 +1,6 @@
 const { express } = require("../config/dependencies");
 const { protect } = require("../middleware/auth");
 const {
-	getCourses,
 	getCourse,
 	createCourse,
 	cloneCourse,
@@ -9,6 +8,11 @@ const {
 	getCourseStudents,
 	enrollStudent,
 	addExercise,
+	updateExercise,
+	saveExerciseArrays,
+	getExercise,
+	getExercises,
+	deleteExercise,
 } = require("../control/controllers/Controller");
 
 // Create router
@@ -27,6 +31,12 @@ courseRouter.route("/:code/students").get(protect, getCourseStudents);
 courseRouter.route("/:code/enrollStudent").post(protect, enrollStudent);
 
 // Exercise routes
-courseRouter.route("/:code/exercises").post(protect, addExercise);
+courseRouter.route("/:code/exercises").get(protect, getExercises).post(protect, addExercise);
+
+courseRouter.route("/:code/exercises/:slug")
+	.get(protect, getExercise)
+	.put(protect, updateExercise)
+	.put(protect, saveExerciseArrays)
+	.delete(protect, deleteExercise);
 
 module.exports = courseRouter;

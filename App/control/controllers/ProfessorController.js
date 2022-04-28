@@ -231,6 +231,7 @@ module.exports = class ProfessorController {
 		return await this.daoCourse.update({ code: courseCode }, foundCourse);
 	}
 
+	//Esto solo cambia las cosas que no son arrays.
 	async updateExercise(slugExercise, courseCode, exerciseChanges) {
 		let queryCourse = await this.daoCourse.find({ code: courseCode });
 
@@ -255,6 +256,34 @@ module.exports = class ProfessorController {
 		foundExercise.description = exerciseChanges.description;
 		foundExercise.inputDescription = exerciseChanges.inputDescription;
 		foundExercise.outputDescription = exerciseChanges.outputDescription;
+
+		foundCourse.exercises[foundExerciseIndex] = foundExercise;
+
+		return await this.daoCourse.update({ code: courseCode }, foundCourse);
+	}
+
+	//Esto cambia solamente los arrays.
+	async saveArrayChanges(slugExercise, courseCode, exerciseChanges) {
+		let queryCourse = await this.daoCourse.find({ code: courseCode });
+
+		if (queryCourse == 0) {
+			return -1;
+		}
+
+		let foundCourse = queryCourse[0];
+		let foundExercise = -1;
+		let foundExerciseIndex = -1;
+		for (let i = 0; i < foundCourse.exercises.length; i++) {
+			if (foundCourse.exercises[i].slugName === slugExercise) {
+				foundExercise = foundCourse.exercises[i];
+				foundExerciseIndex = i;
+			}
+		}
+
+		if (foundExercise == -1) {
+			return -2;
+		}
+
 		foundExercise.exampleCases = exerciseChanges.exampleCases;
 		foundExercise.testCases = exerciseChanges.testCases;
 

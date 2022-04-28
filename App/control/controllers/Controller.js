@@ -876,11 +876,111 @@ exports.addExercise = asyncHandler(async (req, res, next) => {
 });
 
 // @desc		Update Exercise
-// @route		POST /api/courses/:code/exercises/:slug
+// @route		PUT /api/courses/:code/exercises/:slug
 // @access		Private
 exports.updateExercise = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
 
 	const courseCode = req.params.code;
 	const exerciseSlug = req.params.slug;
+
+	const exerciseChanges = req.body;
+
+	/* ExerciseChanges debería de tener esto
+	exerciseChanges = {
+		description:
+		inputDescription:
+		outputDescription:
+	}
+	*/
+	const updateResponse = await control.updateExercise(exerciseSlug, courseCode, exerciseChanges);
+
+	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
+		return next(new ErrorResponse(`Exercise could not be updated. No changes were made to the Exercise.`, 304));
+	}
+
+	res.json({ success: true, data: updateResponse });
+});
+
+// @desc		Save Exercise Arrays
+// @route		PUT /api/courses/:code/exercises/:slug
+// @access		Private
+exports.saveExerciseArrays = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+	const exerciseSlug = req.params.slug;
+
+	const exerciseChanges = req.body;
+
+	/* ExerciseChanges debería de tener esto
+	exerciseChanges = {
+		exampleCases:
+		testCases:
+	}
+	*/
+	const updateResponse = await control.updateExercise(exerciseSlug, courseCode, exerciseChanges);
+
+	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
+		return next(new ErrorResponse(`Exercise could not be updated. No changes were made to the Exercise.`, 304));
+	}
+
+	res.json({ success: true, data: updateResponse });
+});
+
+// @desc		Get Exercise
+// @route		GET /api/courses/:code/exercises/:slug
+// @access		Private
+exports.getExercise = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+	const exerciseSlug = req.params.slug;
+
+	const storedExercise = await control.getExercise(courseCode, exerciseSlug);
+
+	if (storedExercise == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	} else if (storedExercise == -2) {
+		return next(new ErrorResponse(`Exercise does not exist.`, 404));
+	}
+
+	res.json({ success: true, data: storedExercise });
+});
+
+// @desc		Get Exercises
+// @route		GET /api/courses/:code/exercises/
+// @access		Private
+exports.getExercises = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+
+	const storedExercises = await control.getExercises(courseCode);
+
+	if (storedExercises == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	}
+
+	res.json({ success: true, length: storedExercises.length, data: storedExercises });
+});
+
+// @desc		Delete Exercise
+// @route		DELETE /api/courses/:code/exercises/:slug
+// @access		Private
+exports.deleteExercise = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+	const exerciseSlug = req.params.slug;
+
+	const deleteResponse = await control.deleteExercise(courseCode, exerciseSlug);
+
+	if (deleteResponse == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	} else if (deleteResponse == -2) {
+		return next(new ErrorResponse(`Exercise does not exist.`, 404));
+	}
+
+	res.json({ success: true, data: deleteResponse });
 });
