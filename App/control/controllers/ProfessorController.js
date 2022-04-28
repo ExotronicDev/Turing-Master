@@ -110,12 +110,14 @@ module.exports = class ProfessorController {
             exercises: []
         });
 
+        let saveResponse = await this.daoCourse.save(newCourse);
+
         let foundProfessor = await this.daoProfessor.find({ id: course.professor.id })[0];
 
         foundProfessor.courses.push({ code: course.code,name: course.name });
         await this.daoProfessor.update({ id: course.professor.id }, foundProfessor);
 
-        return await this.daoCourse.save(newCourse);
+        return saveResponse;
     }
 
     async updateCourse(courseCode, courseChanges) {
