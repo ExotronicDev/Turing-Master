@@ -218,7 +218,7 @@ module.exports = class ProfessorController {
 		let foundCourse = query[0];
 		foundCourse.exercises.push(newExercise);
 
-		return await this.daoCourse.update({ code: courseCode }, foundCourse);
+		return await this.daoCourse.save(foundCourse);
 	}
 
 	//Esto solo cambia las cosas que no son arrays.
