@@ -720,7 +720,7 @@ exports.getCourse = asyncHandler(async (req, res, next) => {
 	const courseCode = req.params.code;
 	const queryResult = await control.getCourse(courseCode);
 
-	if (data == -1) {
+	if (queryResult == -1) {
 		return next(new ErrorResponse(`Course does not exist.`, 404));
 	}
 	res.json({ success: true, data: queryResult });
@@ -873,4 +873,14 @@ exports.addExercise = asyncHandler(async (req, res, next) => {
 	}
 
 	res.json({ success: true, data: newExercise });
+});
+
+// @desc		Update Exercise
+// @route		POST /api/courses/:code/exercises/:slug
+// @access		Private
+exports.updateExercise = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+	const exerciseSlug = req.params.slug;
 });
