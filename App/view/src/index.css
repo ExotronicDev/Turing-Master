@@ -25,7 +25,7 @@
 	margin-top: 15vh;
 	margin-bottom: 5vh;
 
-	font-family: "Fira Sans"; /*Papyrus, Lucida Handwriting, Courier New */
+	font-family: "Fira Sans";
 	font-style: normal;
 	font-weight: 600;
 	font-size: 5vw;
@@ -91,50 +91,11 @@
 	width: 3vw;
 }
 
-/* .Register #form-view {
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
-}
-
-.Register label {
-	color: white;
-	font-weight: 500;
-	font-size: 50%;
-} */
-
 .Register button {
 	width: 85%;
 	margin: 2% 7.5% 5% 7.5%;
 	font-size: 50%;
 }
-
-/* .Register .input-group {
-	width: 85%;
-	margin: 0 7.5% 0 7.5%;
-}
-
-.Register .input-group-text {
-	height: 100%;
-}
-
-.Register #box {
-    background: rgb(90, 101, 111);
-    box-shadow: 0 0 1vh #000000;
-    border-radius: 0.2em;
-    overflow: hidden !important;
-    position: relative;
-	width: 40%;
-	margin: 0% 30% 0% 30%;
-}
-
-.Register #boxform {
-    z-index: 200;
-	width: 100%;
-	margin-top: 0.5%;
-} */
 
 .Register #professor-label {
 	margin-left: -0.7vw;
@@ -149,15 +110,6 @@
 }
 
 /*-----------------Login----------------- */
-
-/* .Login {
-    margin: auto;	
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
-} */
 
 .Login .form-check {
 	margin-left: 1.7vw;
@@ -176,50 +128,11 @@
 	width: 80%;
 }
 
-/* .Login #form-view {
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	flex-direction: column;
-}
-
-.Login label {
-	color: white;
-	font-weight: 500;
-	font-size: 50%;
-} */
-
 .Login button {
 	width: 85%;
 	margin: 2% 7.5% 5% 7.5%;
 	font-size: 50%;
 }
-
-/* .Login .input-group {
-	width: 85%;
-	margin: 0 7.5% 0 7.5%;
-}
-
-.Login .input-group-text {
-	height: 100%;
-}
-
-.Login #box {
-    background: rgb(90, 101, 111);
-    box-shadow: 0 0 1vh #000000;
-    border-radius: 0.2em;
-    overflow: hidden !important;
-    position: relative;
-	width: 40%;
-	margin: 0% 30% 0% 30%;
-}
-
-.Login #boxform {
-    z-index: 200;
-	width: 100%;
-	margin-top: 0.5%;
-} */
 
 .Login #professor-label {
 	padding-left: 6.5%;
@@ -315,6 +228,57 @@
 
 .StudentExercise #container {
 	margin-top: 7.5%;
+	width: 150%;
+}
+
+.StudentExercise p {
+	width: 90%;
+	margin: 3% 5% 0% 5%;
+	
+	color: white;
+	font-weight: 500;
+	font-size: 80%;
+}
+
+.StudentExercise input {
+	width: 85%;
+	margin: 0% 7.5% 0% 7.5%;
+}
+
+.StudentExercise .form-check {
+	margin-left: 1.5vw;
+	margin-top: 3%;
+	width: 80%;
+}
+
+.StudentExercise .form-check-input {
+	margin-left: -13%;
+	align-items: center;
+	height: 3vh;
+	width: 3vw;
+}
+
+.StudentExercise .table {
+	margin: 0% 7.5% 0% 7.5%;
+	width: 85%;
+}
+
+.StudentExercise th {
+	font-size: 60%;
+}
+
+.StudentExercise td {
+	font-size: 60%;
+}
+
+.StudentExercise #noCases {
+	color: white;
+}
+
+.StudentExercise #solve {
+	width: 50%;
+	margin: 3% 25% 3% 25%;
+	font-size: 50%;
 }
 
 /*-----------------Simulator----------------- */

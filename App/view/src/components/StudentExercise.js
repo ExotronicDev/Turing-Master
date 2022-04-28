@@ -5,34 +5,18 @@ import roleChecker from "./Routes/roleChecker";
 
 class StudentExercise extends Component {
 	state = {
-		// name: "",
-		// description: "",
-		// inputDescription: "",
-		// outputDescription: "",
-		// exampleCases: [],
-		// loggedId: "",
-		name: "Validate Email",
-		description:
-			"Create a Turing Machine that validates if an email has correct syntaxis",
-		inputDescription: "An email string to validate with the machine",
-		outputDescription: "A final state which accepts the email introduced",
-		exampleCases: [
-			{
-				number: 1,
-				input: "agusbrenesgmail.com",
-				output: "false",
-			},
-			{
-				number: 2,
-				input: "agusbrenesu@gmail.com",
-				output: "true",
-			},
-		],
+		name: "",
+		description: "",
+		inputDescription: "",
+		outputDescription: "",
+		exampleCases: [],
+		courseCode: "",
 		loggedId: "",
 	};
 
 	componentDidMount = () => {
 		this.setLoggedId();
+		this.setCourseCode();
 		this.getInfo();
 	};
 
@@ -51,33 +35,76 @@ class StudentExercise extends Component {
 		}
 	}
 
+	setCourseCode() {
+		let courseCode;
+		const searchString = "/students/course/";
+		const currentUrl = window.location.href;
+
+		var start = currentUrl.search(searchString);
+		if (start === -1) {
+			swal.fire({
+				title: "Oops !",
+				text: "Invalid URL.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/students/menu";
+			});
+		}
+		// length of "/students/course/", so searches next to it
+		start += searchString.length;
+		courseCode = currentUrl.substring(start);
+
+		// find first "/" after slicing string
+		const end = courseCode.indexOf("/");
+		if (end === -1) {
+			swal.fire({
+				title: "Oops !",
+				text: "Invalid URL.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/students/menu";
+			});
+		}
+
+		courseCode = courseCode.substring(0, end);
+		this.state.courseCode = courseCode;
+	}
+
 	getInfo = () => {
-		// let apiUrl = "/api/courses/" + this.state.loggedId + "/courses";
-		// axios({
-		// 	url: "/api//me",
-		// 	method: "GET",
-		// })
-		// 	.then((res) => {
-		// 		const isProfessor =
-		// 			res.data.role === "professors" ? true : false;
-		// 		this.setState({
-		// 			firstName: res.data.data.firstName,
-		// 			lastName: res.data.data.lastName,
-		// 			id: res.data.data.id,
-		// 			email: res.data.data.email,
-		// 			password: res.data.data.password,
-		// 			isProfessor: isProfessor,
-		// 		});
-		// 	})
-		// 	.catch((err) => {
-		// 		swal.fire({
-		// 			title: "Oops !",
-		// 			text: "Unexpected error, Try Again",
-		// 			icon: "error",
-		// 			background: "black",
-		// 			color: "white",
-		// 		});
-		// 	});
+		let apiUrl = "/api/courses/" + this.state.courseCode + "/exercises";
+		axios({
+			url: apiUrl,
+			method: "GET",
+		})
+			.then((res) => {
+				const exampleCases = res.data.data.exampleCases.map(
+					(example) => ({
+						number: example.number,
+						input: example.input,
+						output: example.output,
+					})
+				);
+				this.setState({
+					exampleCases: exampleCases,
+					name: res.data.data.name,
+					description: res.data.data.description,
+					inputDescription: res.data.data.inputDescription,
+					outputDescription: res.data.data.outputDescription,
+				});
+			})
+			.catch((err) => {
+				swal.fire({
+					title: "Oops !",
+					text: "Could not get Exercise data.",
+					icon: "error",
+					background: "black",
+					color: "white",
+				});
+			});
 	};
 
 	//Función que actualiza los states
@@ -91,12 +118,101 @@ class StudentExercise extends Component {
 		});
 	};
 
+	displayExampleCases = (exampleCases) => {
+		if (exampleCases.length === 0) {
+			return (
+				<th id="noCases" scope="row" colspan="3">
+					No example cases given
+				</th>
+			);
+		}
+
+		return exampleCases.map((example) => (
+			<tr>
+				<th scope="row">{example.number}</th>
+				<td>{example.input}</td>
+				<td>{example.output}</td>
+			</tr>
+		));
+	};
+
 	render() {
 		return (
-			<div class="StudentExercise">
+			<div id="form-view" class="StudentExercise">
 				<NavBar />
 				<div id="container">
 					<h1 id="title">{this.state.name}</h1>
+					<div id="box">
+						<form id="boxform" onSubmit={this.submit}>
+							<p>{this.state.description}</p>
+							{/* <div class="form-group">
+								<input
+									type="text"
+									class="form-control"
+									id="code"
+									placeholder="Code"
+									name="code"
+									aria-label="Code for the new course"
+									onChange={this.handleChange}
+									value={this.state.description}
+									disabled="disabled"
+								/>
+							</div> */}
+
+							<label for="inputDescription">Expected input</label>
+							<div class="form-group">
+								<input
+									type="text"
+									class="form-control"
+									id="inputDescription"
+									aria-label="Expected input description"
+									value={this.state.inputDescription}
+									disabled="disabled"
+								/>
+							</div>
+
+							<label for="outputDescription">
+								Expected output
+							</label>
+							<div class="form-group">
+								<input
+									type="text"
+									class="form-control"
+									id="outputDescription"
+									aria-label="Expected output description"
+									value={this.state.outputDescription}
+									disabled="disabled"
+								/>
+							</div>
+
+							<label for="exapleTable">Examples</label>
+							<table
+								id="exapleTable"
+								class="table table-secondary"
+							>
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Input</th>
+										<th scope="col">Output</th>
+									</tr>
+								</thead>
+								<tbody>
+									{this.displayExampleCases(
+										this.state.exampleCases
+									)}
+								</tbody>
+							</table>
+
+							<button
+								id="solve"
+								type="submit"
+								class="btn btn-primary"
+							>
+								Solve Exercise
+							</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		);
