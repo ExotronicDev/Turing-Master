@@ -44,7 +44,12 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 		}
 		res.json({ success: true, role: "professors", data: professor[0] });
 	} else {
-		return next(new ErrorResponse(`Invalid token. Access has been denied to this route.`, 401));
+		return next(
+			new ErrorResponse(
+				`Invalid token. Access has been denied to this route.`,
+				401
+			)
+		);
 	}
 });
 
@@ -141,7 +146,7 @@ exports.loginProfessor = asyncHandler(async (req, res, next) => {
 		return next(
 			new ErrorResponse(`Please provide an email and password.`, 400)
 		);
-	} 
+	}
 	const control = new ProfessorController();
 	const loggedProfessor = await control.login(email, password);
 	if (!loggedProfessor) {
@@ -699,7 +704,8 @@ exports.simulateTMachine = (req, res, next) => {
 // @access		Private
 exports.createCourse = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
-	const { course } = req.body;
+	const course = req.body;
+	console.log(course);
 	const newCourse = await control.createCourse(course);
 
 	res.json({ success: true, data: newCourse });
@@ -738,14 +744,16 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 // @access		Private
 exports.cloneCourse = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
-	const courseCode = req.params.code
+	const courseCode = req.params.code;
 	const newCourseCode = req.body;
 	const clonedCourse = await control.cloneCourse(courseCode, newCourseCode);
 
 	if (clonedCourse == -1) {
 		return next(new ErrorResponse(`Course does not exist.`, 404));
 	} else if (clonedCourse == -2) {
-		return next(new ErrorResponse(`New code for cloned course already exists.`));
+		return next(
+			new ErrorResponse(`New code for cloned course already exists.`)
+		);
 	}
 
 	res.json({ success: true, data: clonedCourse });
@@ -764,7 +772,10 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
 	}
 
 	const courseChanges = req.body;
-	const updateResponse = await control.updateCourse(courseCode, courseChanges);
+	const updateResponse = await control.updateCourse(
+		courseCode,
+		courseChanges
+	);
 	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
 		return next(
 			new ErrorResponse(
@@ -789,7 +800,11 @@ exports.getCourseStudents = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse(`Course does not exist.`, 404));
 	}
 
-	res.json({ success: true, length: foundStudents.length, data: foundStudents });
+	res.json({
+		success: true,
+		length: foundStudents.length,
+		data: foundStudents,
+	});
 });
 
 // @desc		Enroll Student in Course
