@@ -14,7 +14,7 @@ const {
 const courseRouter = express.Router();
 
 // Course routes
-courseRouter.route("/").get(protect, getCourses).post(protect, createCourse);
+courseRouter.route("/").post(protect, createCourse);
 
 courseRouter
 	.route("/:code")

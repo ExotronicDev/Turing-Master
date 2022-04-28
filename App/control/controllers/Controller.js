@@ -727,7 +727,7 @@ exports.getCourse = asyncHandler(async (req, res, next) => {
 });
 
 // @desc		Get Courses
-// @route		GET /api/courses/
+// @route		GET /api/professors/:id/courses/
 // @access		Private
 exports.getCourses = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();

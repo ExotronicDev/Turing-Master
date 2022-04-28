@@ -26,4 +26,6 @@ professorRouter
     .get(getProfessor)
     .put(protect, updateProfessor)
 
+professorRouter.route("/:id/courses").get(protect, getCourses);
+
 module.exports = professorRouter;
