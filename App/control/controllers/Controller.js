@@ -868,10 +868,6 @@ exports.addExercise = asyncHandler(async (req, res, next) => {
 	*/
 	const newExercise = await control.createExercise(courseCode, exercise);
 
-	if (newExercise.modifiedCount == 0 || !newExercise.acknowledged) {
-		return next(new ErrorResponse(`Could not add Exercise. No changes were made`, 304));
-	}
-
 	res.json({ success: true, data: newExercise });
 });
 
