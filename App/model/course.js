@@ -2,7 +2,7 @@ const { mongoose, slugify } = require("../config/dependencies");
 const { Schema } = mongoose;
 
 const InputCaseSchema = new Schema({
-	number: { type: Number, required: true, index: true, unique: true },
+	number: { type: Number, required: true, index: true },
 	input: { type: String, required: true },
 	output: { type: String, required: true },
 });
@@ -10,7 +10,6 @@ const InputCaseSchema = new Schema({
 const ExerciseSchema = new Schema({
 	name: {
 		type: String,
-		unique: true,
 		index: true,
 		required: true,
 		match: [/^[\w\-\s]+$/, "Please add a valid exercise name."],
