@@ -228,7 +228,11 @@
 
 .StudentExercise #container {
 	margin-top: 7.5%;
-	width: 150%;
+}
+
+.StudentExercise #box {
+	width: 60% !important;
+	margin: 0% 20% 0% 20% !important;
 }
 
 .StudentExercise p {
@@ -240,9 +244,10 @@
 	font-size: 80%;
 }
 
-.StudentExercise input {
+.StudentExercise textarea {
 	width: 85%;
 	margin: 0% 7.5% 0% 7.5%;
+	resize: none;
 }
 
 .StudentExercise .form-check {
