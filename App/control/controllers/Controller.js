@@ -705,8 +705,9 @@ exports.simulateTMachine = (req, res, next) => {
 exports.createCourse = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
 	const course = req.body;
+	const idProfessor = req.user.id;
 	console.log(course);
-	const newCourse = await control.createCourse(course);
+	const newCourse = await control.createCourse(course, idProfessor);
 
 	res.json({ success: true, data: newCourse });
 });

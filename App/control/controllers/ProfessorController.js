@@ -99,12 +99,12 @@ module.exports = class ProfessorController {
         return foundProfessor[0].courses;
     }
 
-    async createCourse(course) {
+    async createCourse(course, idProfessor) {
         const newCourse = new Course({
             code: course.code,
             name: course.name,
             professor: {
-                id: course.professor.id
+                id: idProfessor
             },
             students: [],
             exercises: []
