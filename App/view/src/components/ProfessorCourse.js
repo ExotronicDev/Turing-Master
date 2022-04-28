@@ -19,7 +19,10 @@ class ProfessorCourse extends Component {
 	};
 
 	setLoggedId() {
-		this.state.loggedId = roleChecker.getLoggedId();
+		const id = roleChecker.getLoggedId();
+		this.setState({
+			loggedId: id,
+		});
 		if (this.state.loggedId === undefined) {
 			swal.fire({
 				title: "Oops !",
@@ -54,7 +57,7 @@ class ProfessorCourse extends Component {
 		start += searchString.length;
 		courseCode = currentUrl.substring(start);
 
-		this.state.code = courseCode
+		this.state.code = courseCode;
 	}
 
 	getInfo = () => {
@@ -70,7 +73,7 @@ class ProfessorCourse extends Component {
 					code: res.data.data.code,
 					name: res.data.data.name,
 					exercises: res.data.data.exercises,
-					students: res.data.data.students
+					students: res.data.data.students,
 				});
 			})
 			.catch((err) => {
@@ -142,7 +145,10 @@ class ProfessorCourse extends Component {
 			<div class="ProfessorCourse">
 				<NavBar />
 				<div id="container">
-					<p id="title"> {this.state.code} - {this.state.name} information </p>
+					<p id="title">
+						{" "}
+						{this.state.code} - {this.state.name} information{" "}
+					</p>
 					<form onSubmit={this.submit}>
 						<div class="form-group row align-items-end justify-content-end">
 							<label for="name">Name</label>
@@ -172,77 +178,80 @@ class ProfessorCourse extends Component {
 
 						<div class="form-group row align-items-end justify-content-end">
 							<label for="email">Exercises</label>
-								<div class="accordion" id="courses-accordion">
-									<div class="accordion-item">
-										<h2
-											class="accordion-header"
-											id="courses-heading"
+							<div class="accordion" id="courses-accordion">
+								<div class="accordion-item">
+									<h2
+										class="accordion-header"
+										id="courses-heading"
+									>
+										<button
+											type="button"
+											class="accordion-button collapsed"
+											data-bs-toggle="collapse"
+											data-bs-target="#courses-data"
 										>
-											<button
-												type="button"
-												class="accordion-button collapsed"
-												data-bs-toggle="collapse"
-												data-bs-target="#courses-data"
+											Exercises
+										</button>
+									</h2>
+									<div
+										id="courses-data"
+										class="accordion-collapse collapse show"
+										aria-labelledby="courses-heading"
+										data-bs-parent="#courses-accordion"
+									>
+										<div class="list-group">
+											<a
+												href={
+													this.state.code +
+													"/exercise"
+												}
+												class="list-group-item list-group-item-action"
+												aria-current="true"
 											>
-												Exercises
-											</button>
-										</h2>
-										<div
-											id="courses-data"
-											class="accordion-collapse collapse show"
-											aria-labelledby="courses-heading"
-											data-bs-parent="#courses-accordion"
-										>
-											<div class="list-group">
-												<a
-													href= {this.state.code + "/exercise"}
-													class="list-group-item list-group-item-action"
-													aria-current="true"
-												>
-													Create New Exercise
-												</a>
-												{this.displayExercises(
+												Create New Exercise
+											</a>
+											{this.displayExercises(
 												this.state.exercises
 											)}
-											</div>
 										</div>
 									</div>
 								</div>
+							</div>
 						</div>
 
 						<div class="form-group row align-items-end justify-content-end">
 							<label for="email">Students</label>
-								<div class="accordion" id="courses-accordion">
-									<div class="accordion-item">
-										<h2
-											class="accordion-header"
-											id="courses-heading"
+							<div class="accordion" id="courses-accordion">
+								<div class="accordion-item">
+									<h2
+										class="accordion-header"
+										id="courses-heading"
+									>
+										<button
+											type="button"
+											class="accordion-button collapsed"
+											data-bs-toggle="collapse"
+											data-bs-target="#courses-data"
 										>
-											<button
-												type="button"
-												class="accordion-button collapsed"
-												data-bs-toggle="collapse"
-												data-bs-target="#courses-data"
-											>
-												Students
-											</button>
-										</h2>
-										<div
-											id="courses-data"
-											class="accordion-collapse collapse show"
-											aria-labelledby="courses-heading"
-											data-bs-parent="#courses-accordion"
-										>
-											<div class="list-group">
-												{this.displayStudents(
+											Students
+										</button>
+									</h2>
+									<div
+										id="courses-data"
+										class="accordion-collapse collapse show"
+										aria-labelledby="courses-heading"
+										data-bs-parent="#courses-accordion"
+									>
+										<div class="list-group">
+											{this.displayStudents(
 												this.state.students
 											)}
-											</div>
 										</div>
 									</div>
 								</div>
+							</div>
 						</div>
-						
+
 						<button
 							id="save"
 							type="submit"

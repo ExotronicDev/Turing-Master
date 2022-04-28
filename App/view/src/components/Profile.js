@@ -138,8 +138,6 @@ class Profile extends Component {
 		})
 			.then((res) => {
 				if (res.data.success) {
-					// Should not have ! (not), but works this way
-					// Did it
 					const accountType = isProfessor ? "Teacher" : "Student";
 					swal.fire({
 						title: "Success!",

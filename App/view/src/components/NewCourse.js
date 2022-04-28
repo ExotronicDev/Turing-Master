@@ -29,31 +29,6 @@ class NewCourse extends Component {
 		}
 	}
 
-	// componentDidMount = () => {
-	// 	this.getInfo();
-	// };
-
-	// getInfo = () => {
-	// 	axios({
-	// 		url: "/api/auth/me",
-	// 		method: "GET",
-	// 	})
-	// 		.then((res) => {
-	// 			this.setState({
-	// 				idProfessor: res.data.data.id,
-	// 			});
-	// 		})
-	// 		.catch((err) => {
-	// 			swal.fire({
-	// 				title: "Oops !",
-	// 				text: "Unexpected error, Try Again",
-	// 				icon: "error",
-	// 				background: "black",
-	// 				color: "white",
-	// 			});
-	// 		});
-	// };
-
 	//Función que actualiza los states
 	handleChange = (event) => {
 		const target = event.target;
