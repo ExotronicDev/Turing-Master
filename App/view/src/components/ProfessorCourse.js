@@ -69,8 +69,8 @@ class ProfessorCourse extends Component {
 				this.setState({
 					code: res.data.data.code,
 					name: res.data.data.name,
-					exercises: res.data.exercises,
-					students: res.data.students
+					exercises: res.data.data.exercises,
+					students: res.data.data.students
 				});
 			})
 			.catch((err) => {
@@ -137,54 +137,12 @@ class ProfessorCourse extends Component {
 		));
 	};
 
-	addExercise = () => {
-		swal.fire({
-			title: "Fill the Exercise information",
-			html:
-				'<input id="swal-input1" class="swal2-input" placeholder="Name">' +
-				'<input id="swal-input2" class="swal2-input" placeholder="Description">' +
-				'<input id="swal-input3" class="swal2-input" placeholder="Input">' +
-				'<input id="swal-input4" class="swal2-input" placeholder="Output">' +
-				'<input id="swal-input5" class="swal2-input" placeholder="Example Input">' +
-				'<input id="swal-input6" class="swal2-input" placeholder="Example Output">' ,
-			background: "black",
-			color: "white",
-			confirmButtonText: 'Add',
-			  customClass: {
-				confirmButton: 'btn btn-success',
-			},
-		}).then((result) => {
-			const exercise = {
-				name: document.getElementById('swal-input1').value,
-				description: document.getElementById('swal-input2').value,
-				input: document.getElementById('swal-input3').value,
-				output: document.getElementById('swal-input4').value,
-				inputExample: document.getElementById('swal-input5').value,
-				outputExample: document.getElementById('swal-input6').value,
-			}
-
-			console.log(exercise)
-
-			/* Aqui funcion para insertar ejercicios*/	
-
-			if (result.isConfirmed) {
-			  swal.fire({
-				title: 'Success!',
-				text: 'Exercise Added !',
-				icon:'success',
-				background: "black",
-				color: "white",
-			  })
-			}
-		})
-	}
-
 	render() {
 		return (
 			<div class="ProfessorCourse">
 				<NavBar />
 				<div id="container">
-					<p id="title"> Course {this.state.code} {this.state.name} information </p>
+					<p id="title"> {this.state.code} - {this.state.name} information </p>
 					<form onSubmit={this.submit}>
 						<div class="form-group row align-items-end justify-content-end">
 							<label for="name">Name</label>
@@ -195,8 +153,8 @@ class ProfessorCourse extends Component {
 									id="name"
 									placeholder="Name"
 									name="name"
-									//onChange={this.handleChange}
-									//value={this.state.description}
+									onChange={this.handleChange}
+									value={this.state.name}
 									disabled="disabled"
 								/>
 							</div>
@@ -237,7 +195,7 @@ class ProfessorCourse extends Component {
 										>
 											<div class="list-group">
 												<a
-													onClick={this.addExercise}
+													href= {this.state.code + "/exercise"}
 													class="list-group-item list-group-item-action"
 													aria-current="true"
 												>

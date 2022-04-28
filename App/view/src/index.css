@@ -385,3 +385,45 @@
 .ProfessorCourse input {
 	width: 100%;
 }
+
+/*-----------------ProfessorsExercise----------------- */
+
+.ProfessorsExercise {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.ProfessorsExercise #container {
+	margin-top: 7.5%;
+}
+
+.ProfessorsExercise #edit {
+	text-align: right;
+	padding: 0;
+}
+
+.ProfessorsExercise #save {
+	margin: 5%;
+	width: 30%;
+}
+
+.ProfessorsExercise .row {
+	height: 100%;
+	margin-bottom: 1%;
+}
+
+.ProfessorsExercise label {
+	text-align: center;
+  	color: white;
+
+    font-weight: 500;
+    font-size: 60%;
+}
+
+.ProfessorsExercise input {
+	width: 100%;
+}
