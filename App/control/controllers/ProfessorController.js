@@ -411,7 +411,7 @@ module.exports = class ProfessorController {
 		return testCaseArray;
 	}
 
-/* ----------------------------------------------------------------------------- */
+/* -------------------------------------------------------------- */
     
     createExample(exampleArray, exampleNumber) {
 		const exampleArrayLength = exampleArray.length;
