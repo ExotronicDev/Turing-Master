@@ -369,21 +369,18 @@ module.exports = class ProfessorController {
 		return testCaseArray;
 	}
 
-	updateTestCase(testCaseArray, testCase, newNumber) {
+	updateTestCase(testCaseArray, testCase) {
 		const testCaseArrayLength = testCaseArray.length;
 		var index = -1;
 		if (testCaseArrayLength > 0) {
 			for (let i = 0; i < testCaseArrayLength; i++) {
-				if (testCaseArray[i].number === testCase.number) {
+				if (testCaseArray[i].number == testCase.number) {
 					index = i;
-				}
-				if (testCaseArray[i].number === testCase.number) {
-					return false;
 				}
 			}
 		}
 
-		if (index < -1) {
+		if (index < 0) {
 			return false;
 		}
 
@@ -434,21 +431,18 @@ module.exports = class ProfessorController {
 		return exampleArray;
 	}
 
-	updateExample(exampleArray, example, newNumber) {
+	updateExample(exampleArray, example) {
 		const exampleArrayLength = exampleArray.length;
 		var index = -1;
 		if (exampleArrayLength > 0) {
 			for (let i = 0; i < exampleArrayLength; i++) {
-				if (exampleArray[i].number === example.number) {
+				if (exampleArray[i].number == example.number) {
 					index = i;
-				}
-				if (exampleArray[i].number === example.number) {
-					return false;
 				}
 			}
 		}
 
-		if (index < -1) {
+		if (index < 0) {
 			return false;
 		}
 
