@@ -3,7 +3,7 @@ Despúes instalar todo lo demas: npm i mongoose express nodemon morgan concurren
 
 Para instalar React
 Dentro de la misma carpeta se pone el comando : npx create-react-app my-app (donde my-app es el nombre de la carpeta a crear)
-Dentro de la carpeta creada por React (cd my-app), poner los comandos : npm i sweetalert2 react-router-dom bootstrap js-cookie jwt-decoder (Instalaciones basicas) cdbreact (Para SideBar)
+Dentro de la carpeta creada por React (cd my-app), poner los comandos : npm i sweetalert2 react-router-dom bootstrap js-cookie jwt-decoder (Instalaciones basicas) cdbreact (Para SideBar) react-scripts
 
 * En el caso de no instalar bootstrap con npm:
 Para tener Bootstrap 5.1.3 dentro de react (Skins), ingresar a la carpeta public, luego en el archivo index.html, buscar la línea
