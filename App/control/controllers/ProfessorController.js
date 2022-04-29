@@ -407,8 +407,6 @@ module.exports = class ProfessorController {
 		testCaseArray.splice(index, 1);
 		return testCaseArray;
 	}
-
-/* -------------------------------------------------------------- */
     
     createExample(exampleArray, exampleNumber) {
 		const exampleArrayLength = exampleArray.length;
