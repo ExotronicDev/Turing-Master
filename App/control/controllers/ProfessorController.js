@@ -347,4 +347,132 @@ module.exports = class ProfessorController {
 	//  updateExampleCase
 	//  deleteExampleCase
 	//  Estos no tienen que hacer consultas a la base de datos.
+    
+    createTestCase(testCaseArray, testCaseNumber) {
+		const textCaseArrayLength = testCaseArray.length;
+
+		if (textCaseArrayLength > 0) {
+			for (let i = 0; i < textCaseArrayLength; i++) {
+				if (testCaseArray[i].number == testCaseNumber) {
+					return false;
+				}
+			}
+		}
+
+		const newTextCase = {
+			number: testCaseNumber,
+			input: "",
+			output: "",
+		};
+
+		stateArray.push(newTextCase);
+		return testCaseArray;
+	}
+
+	updateTestCase(testCaseArray, testCase, newNumber) {
+		const testCaseArrayLength = testCaseArray.length;
+		var index = -1;
+		if (testCaseArrayLength > 0) {
+			for (let i = 0; i < testCaseArrayLength; i++) {
+				if (testCaseArray[i].number === testCase.number) {
+					index = i;
+				}
+				if (testCaseArray[i].number === testCase.number) {
+					return false;
+				}
+			}
+		}
+
+		if (index < -1) {
+			return false;
+		}
+
+		testCaseArray[index].number = newNumber;
+		return testCaseArray;
+	}
+    
+    deleteTestCase(testCaseArray, testCase) {
+		const testCaseArrayLength = testCaseArray.length;
+		var index = -1;
+
+		if (testCaseArrayLength > 0) {
+			for (let i = 0; i < testCaseArrayLength; i++) {
+				if (testCaseArray[i].number == testCase.number) {
+					index = i;
+				}
+			}
+		}
+
+		if (index < 0) {
+			return false;
+		}
+
+		testCaseArray.splice(index, 1);
+		return testCaseArray;
+	}
+
+/* ----------------------------------------------------------------------------- */
+    
+    createExample(exampleArray, exampleNumber) {
+		const exampleArrayLength = exampleArray.length;
+
+		if (exampleArrayLength > 0) {
+			for (let i = 0; i < exampleArrayLength; i++) {
+				if (exampleArray[i].number == exampleNumber) {
+					return false;
+				}
+			}
+		}
+
+		const newExample = {
+			number: exampleNumber,
+			input: "",
+			output: "",
+		};
+
+		exampleArray.push(newExample);
+		return exampleArray;
+	}
+
+	updateExample(exampleArray, example, newNumber) {
+		const exampleArrayLength = exampleArray.length;
+		var index = -1;
+		if (exampleArrayLength > 0) {
+			for (let i = 0; i < exampleArrayLength; i++) {
+				if (exampleArray[i].number === example.number) {
+					index = i;
+				}
+				if (exampleArray[i].number === example.number) {
+					return false;
+				}
+			}
+		}
+
+		if (index < -1) {
+			return false;
+		}
+
+		exampleArray[index].number = newNumber;
+		return exampleArray;
+	}
+    
+    deleteTestCase(exampleArray, example) {
+		const exampleArrayLength = exampleArray.length;
+		var index = -1;
+
+		if (exampleArrayLength > 0) {
+			for (let i = 0; i < exampleArrayLength; i++) {
+				if (exampleArray[i].number == example.number) {
+					index = i;
+				}
+			}
+		}
+
+		if (index < 0) {
+			return false;
+		}
+
+		exampleArray.splice(index, 1);
+		return exampleArray;
+	}
 };
