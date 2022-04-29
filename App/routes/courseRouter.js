@@ -33,27 +33,36 @@ courseRouter
 	.get(protect, getCourse)
 	.put(protect, updateCourse)
 	.post(protect, cloneCourse);
-courseRouter.route("/:code/students")
+
+// Course students routes
+courseRouter
+	.route("/:code/students")
 	.get(protect, getCourseStudents)
 	.post(protect, enrollStudent);
 
 // Exercise routes
-courseRouter.route("/:code/exercises").get(protect, getExercises).post(protect, addExercise);
-courseRouter.route("/:code/exercises/:slug")
+courseRouter
+	.route("/:code/exercises")
+	.get(protect, getExercises)
+	.post(protect, addExercise);
+courseRouter
+	.route("/:code/exercises/:slug")
 	.get(protect, getExercise)
 	.put(protect, updateExercise)
 	.post(protect, saveExerciseArrays)
 	.delete(protect, deleteExercise);
 
 // Exercise Test Cases
-courseRouter.route("/:code/exercises/:slug/tests")
+courseRouter
+	.route("/:code/exercises/:slug/tests")
 	.get(protect, getTestCases)
 	.post(protect, createTestCase)
 	.put(protect, updateTestCase)
 	.delete(protect, deleteTestCase);
 
 // Exercise Example Cases
-courseRouter.route("/:code/exercises/:slug/examples")
+courseRouter
+	.route("/:code/exercises/:slug/examples")
 	.get(protect, getExampleCases)
 	.post(protect, createExampleCase)
 	.put(protect, updateExampleCase)
