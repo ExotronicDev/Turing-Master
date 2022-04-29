@@ -328,6 +328,10 @@ module.exports = class TMachineController {
 	//-1: No hay estado inicial.
 	//output: {status: "failed"/"finished", finalState: state, output: cinta}
 	simulate(tMachine, input, blank) {
+		//Este array me servirá para poner el orden de los estados por el cual pasó la simulación.
+		//700 IQ move.
+		let simulationOrder = [];
+
 		//Primero, revisar si el array de estados tiene algo.
 		let stateArray = tMachine.states;
 		if (stateArray.length <= 0) {
@@ -374,6 +378,7 @@ module.exports = class TMachineController {
 
 		const timeoutFlag = +new Date();
 		while (this.hasNextState(currentState, current.getValue())) {
+			simulationOrder.push(currentState.name);
 			//Si han pasado 30 segundos, tiro un timeout.
 			if (+new Date() > timeoutFlag + 30000) {
 				//Ha ocurrido un timeout
@@ -382,6 +387,7 @@ module.exports = class TMachineController {
 					status: "timeout",
 					finalState: currentState,
 					output: currentOutput,
+					simulationSequence: simulationOrder
 				};
 
 				return finalOutput;
@@ -439,6 +445,7 @@ module.exports = class TMachineController {
 					status: "failed",
 					finalState: currentState,
 					output: currentOutput,
+					simulationSequence: simulationOrder
 				};
 				return finalOutput;
 			} else if (
@@ -450,6 +457,7 @@ module.exports = class TMachineController {
 					status: "failed",
 					finalState: currentState,
 					output: currentOutput,
+					simulationSequence: simulationOrder
 				};
 				return finalOutput;
 			}
@@ -464,6 +472,7 @@ module.exports = class TMachineController {
 			status: "finished",
 			finalState: currentState,
 			output: outputString,
+			simulationSequence: simulationOrder
 		};
 		return finalOutput;
 	}

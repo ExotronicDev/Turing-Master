@@ -52,7 +52,7 @@ app.use(xss());
 
 // Rate limiting
 const limiter = rateLimit({
-	windowMs: MAX_REQUESTS_MIN * 60 * 1000, // Requests per min * 60s * 1000ms
+	windowMs: process.env.MAX_REQUESTS_MIN * 60 * 1000, // Requests per min * 60s * 1000ms
 	max: 100,
 });
 app.use(limiter);
