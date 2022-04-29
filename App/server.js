@@ -5,6 +5,12 @@ const {
 	dotenv,
 	colors,
 	cookieParser,
+	mongoSanitize,
+	helmet,
+	xss,
+	rateLimit,
+	hpp,
+	cors,
 } = require("./config/dependencies");
 const errorHandler = require("./middleware/error");
 const connectDB = require("./config/db");
@@ -34,6 +40,28 @@ app.use(cookieParser());
 
 // Logging middleware
 app.use(morgan("dev"));
+
+// Mongo data sanitization
+app.use(mongoSanitize());
+
+// Set security headers
+app.use(helmet());
+
+// Prevent XSS attacks
+app.use(xss());
+
+// Rate limiting
+const limiter = rateLimit({
+	windowMs: MAX_REQUESTS_MIN * 60 * 1000, // Requests per min * 60s * 1000ms
+	max: 100,
+});
+app.use(limiter);
+
+// Prevent HTTP param pollution
+app.use(hpp());
+
+// Enable Cross-Origin Resource Sharing
+app.use(cors());
 
 // Mount routers
 app.use("/api/students", studentsRouter);
