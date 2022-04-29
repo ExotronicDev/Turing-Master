@@ -69,7 +69,7 @@ module.exports = class TMachineController {
 			}
 		}
 
-		if (index < -1) {
+		if (index < 0) {
 			return false;
 		}
 

@@ -31,14 +31,14 @@ tmachinesRouter
 tmachinesRouter.route("/simulate").post(simulateTMachine);
 
 // States routes
-tmachinesRouter.route("/states/post").post(createState);
-tmachinesRouter.route("/states/put").put(updateState);
-tmachinesRouter.route("/states/delete").delete(deleteState);
+tmachinesRouter.route("/states/").post(createState);
+tmachinesRouter.route("/states/").put(updateState);
+tmachinesRouter.route("/states/").delete(deleteState);
 tmachinesRouter.route("/states/initial").put(setInitialState);
 
 // Transitions routes
-tmachinesRouter.route("/states/transitions/post").post(createTransition);
-tmachinesRouter.route("/states/transitions/put").put(updateTransition);
-tmachinesRouter.route("/states/transitions/delete").delete(deleteTransition);
+tmachinesRouter.route("/states/transitions/").post(createTransition);
+tmachinesRouter.route("/states/transitions/").put(updateTransition);
+tmachinesRouter.route("/states/transitions/").delete(deleteTransition);
 
 module.exports = tmachinesRouter;

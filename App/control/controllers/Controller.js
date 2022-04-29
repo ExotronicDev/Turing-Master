@@ -899,7 +899,7 @@ exports.updateExercise = asyncHandler(async (req, res, next) => {
 });
 
 // @desc		Save Exercise Arrays
-// @route		PUT /api/courses/:code/exercises/:slug
+// @route		POST /api/courses/:code/exercises/:slug
 // @access		Private
 exports.saveExerciseArrays = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
@@ -980,3 +980,134 @@ exports.deleteExercise = asyncHandler(async (req, res, next) => {
 
 	res.json({ success: true, data: deleteResponse });
 });
+
+//------------------------Test/Example Cases-----------------------//
+// @desc		Get Exercise Test Cases
+// @route		GET /api/courses/:code/exercises/:slug/tests
+// @access		Private
+exports.getTestCases = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+	const exerciseSlug = req.params.slug;
+
+	const testCases = await control.getTestCases(courseCode, exerciseSlug);
+
+	if (testCases == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	} else if (testCases == -2) {
+		return next(new ErrorResponse(`Exercise does not exist.`, 404));
+	}
+
+	return res.json({ success: true, length: testCases.length, data: testCases });
+});
+
+// @desc		Create Exercise Test Case
+// @route		POST /api/courses/:code/exercises/:slug/tests
+// @access		Private
+exports.createTestCase = (req, res, next) => {
+	const control = new ProfessorController();
+	const { testCases, newTestCase } = req.body;
+	const modifiedTestCases = control.createTestCase(testCases, newTestCase);
+
+	if (modifiedTestCases == -1) {
+		return next(new ErrorResponse(`Test Case "${newTestCase.number}" already exists.`, 409));
+	}
+
+	res.json({ success: true, testCases: modifiedTestCases });
+};
+
+// @desc		Update Exercise Test Case
+// @route		PUT /api/courses/:code/exercises/:slug/tests
+// @access		Private
+exports.updateTestCase = (req, res, next) => {
+	const control = new ProfessorController();
+	const { testCases, modifiedTestCase } = req.body;
+	const modifiedTestCases = control.updateTestCase(testCases, modifiedTestCase);
+
+	if (modifiedTestCases == -1) {
+		return next(new ErrorResponse(`Could not modify test case "${modifiedTestCase.number}"`, 309));
+	}
+
+	res.json({ success: true, testCases: modifiedTestCases });
+};
+
+// @desc		Delete Exercise Test Case
+// @route		DELETE /api/courses/:code/exercises/:slug/tests
+// @access		Private
+exports.deleteTestCase = (req, res, next) => {
+	const control = new ProfessorController();
+	const { testCases, deletedTestCase } = req.body;
+	const modifiedTestCases = control.deleteTestCase(testCases, deletedTestCase);
+
+	if (modifiedTestCases == -1) {
+		return next(new ErrorResponse(`Test Case "${deletedTestCase.number}" does not exist.`, 404));
+	}
+
+	res.json({ success: true, testCases: modifiedTestCases });
+};
+
+// @desc		Get Exercise Example Cases
+// @route		GET /api/courses/:code/exercises/:slug/examples
+// @access		Private
+exports.getExampleCases = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+
+	const courseCode = req.params.code;
+	const exerciseSlug = req.params.slug;
+
+	const exampleCases = await control.getTestCases(courseCode, exerciseSlug);
+
+	if (exampleCases == -1) {
+		return next(new ErrorResponse(`Course does not exist.`, 404));
+	} else if (exampleCases == -2) {
+		return next(new ErrorResponse(`Exercise does not exist.`, 404));
+	}
+
+	return res.json({ success: true, length: exampleCases.length, data: exampleCases });
+});
+
+// @desc		Create Exercise Example Case
+// @route		POST /api/courses/:code/exercises/:slug/examples
+// @access		Private
+exports.createExampleCase = (req, res, next) => {
+	const control = new ProfessorController();
+	const { exampleCases, newExampleCase } = req.body;
+	const modifiedExampleCases = control.createTestCase(exampleCases, newExampleCase);
+
+	if (modifiedExampleCases == -1) {
+		return next(new ErrorResponse(`Test Case "${newExampleCase.number}" already exists.`, 409));
+	}
+
+	res.json({ success: true, testCases: modifiedExampleCases });
+};
+
+// @desc		Update Exercise Example Case
+// @route		PUT /api/courses/:code/exercises/:slug/examples
+// @access		Private
+exports.updateExampleCase = (req, res, next) => {
+	const control = new ProfessorController();
+	const { exampleCases, modifiedExampleCase } = req.body;
+	const modifiedExampleCases = control.updateTestCase(exampleCases, modifiedExampleCase);
+
+	if (modifiedExampleCases == -1) {
+		return next(new ErrorResponse(`Could not modify test case "${modifiedExampleCase.number}"`, 309));
+	}
+
+	res.json({ success: true, testCases: modifiedExampleCases });
+};
+
+// @desc		Delete Exercise Example Case
+// @route		DELETE /api/courses/:code/exercises/:slug/examples
+// @access		Private
+exports.deleteExampleCase = (req, res, next) => {
+	const control = new ProfessorController();
+	const { exampleCases, deletedExampleCase } = req.body;
+	const modifiedExampleCases = control.deleteTestCase(exampleCases, deletedExampleCase);
+
+	if (modifiedExampleCases == -1) {
+		return next(new ErrorResponse(`Test Case "${deletedExampleCase.number}" does not exist.`, 404));
+	}
+
+	res.json({ success: true, testCases: modifiedExampleCases });
+};

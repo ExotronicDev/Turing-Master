@@ -338,34 +338,21 @@ module.exports = class ProfessorController {
 		foundCourse.exercises.splice(foundExerciseIndex, 1);
 		return await this.daoCourse.update({ code: courseCode }, foundCourse);
 	}
-
-	//Falta:
-	//  addTestCase
-	//  updateTestCase
-	//  deleteTestCase
-	//  addExampleCase
-	//  updateExampleCase
-	//  deleteExampleCase
-	//  Estos no tienen que hacer consultas a la base de datos.
     
-    createTestCase(testCaseArray, testCaseNumber) {
+    createTestCase(testCaseArray, testCase) {
 		const textCaseArrayLength = testCaseArray.length;
 
 		if (textCaseArrayLength > 0) {
 			for (let i = 0; i < textCaseArrayLength; i++) {
-				if (testCaseArray[i].number == testCaseNumber) {
-					return false;
+				if (testCaseArray[i].number == testCase.number) {
+					return -1;
 				}
 			}
 		}
 
-		const newTextCase = {
-			number: testCaseNumber,
-			input: "",
-			output: "",
-		};
+		const newTextCase = testCase;
 
-		stateArray.push(newTextCase);
+		testCaseArray.push(newTextCase);
 		return testCaseArray;
 	}
 
@@ -381,7 +368,7 @@ module.exports = class ProfessorController {
 		}
 
 		if (index < 0) {
-			return false;
+			return -1;
 		}
 
 		testCaseArray[index].number = newNumber;
@@ -401,35 +388,55 @@ module.exports = class ProfessorController {
 		}
 
 		if (index < 0) {
-			return false;
+			return -1;
 		}
 
 		testCaseArray.splice(index, 1);
 		return testCaseArray;
 	}
+
+	async getTestCases(courseCode, exerciseSlug) {
+		const queryCourse = await this.daoCourse.find({ code: courseCode });
+
+		if (queryCourse.length == 0) {
+			return -1;
+		}
+
+		const foundCourse = queryCourse[0];
+		let foundExercise = -1;
+		for (let i = 0; i < foundCourse.exercises.length; i++) {
+			if (foundCourse.exercises[i].slugName === exerciseSlug) {
+				foundExercise = foundCourse.exercises[i];
+			}
+		}
+
+		if (foundExercise == -1) {
+			return -2;
+		}
+
+		return foundExercise.testCases;
+	}
+
+/* -------------------------------------------------------------- */
     
-    createExample(exampleArray, exampleNumber) {
+    createExampleCase(exampleArray, exampleCase) {
 		const exampleArrayLength = exampleArray.length;
 
 		if (exampleArrayLength > 0) {
 			for (let i = 0; i < exampleArrayLength; i++) {
-				if (exampleArray[i].number == exampleNumber) {
+				if (exampleArray[i].number == exampleCase.number) {
 					return false;
 				}
 			}
 		}
 
-		const newExample = {
-			number: exampleNumber,
-			input: "",
-			output: "",
-		};
+		const newExample = exampleCase.number;
 
 		exampleArray.push(newExample);
 		return exampleArray;
 	}
 
-	updateExample(exampleArray, example) {
+	updateExampleCase(exampleArray, example) {
 		const exampleArrayLength = exampleArray.length;
 		var index = -1;
 		if (exampleArrayLength > 0) {
@@ -448,7 +455,7 @@ module.exports = class ProfessorController {
 		return exampleArray;
 	}
     
-    deleteTestCase(exampleArray, example) {
+    deleteExampleCase(exampleArray, example) {
 		const exampleArrayLength = exampleArray.length;
 		var index = -1;
 
@@ -466,5 +473,27 @@ module.exports = class ProfessorController {
 
 		exampleArray.splice(index, 1);
 		return exampleArray;
+	}
+
+	async getExampleCases(courseCode, exerciseSlug) {
+		const queryCourse = await this.daoCourse.find({ code: courseCode });
+
+		if (queryCourse.length == 0) {
+			return -1;
+		}
+
+		const foundCourse = queryCourse[0];
+		let foundExercise = -1;
+		for (let i = 0; i < foundCourse.exercises.length; i++) {
+			if (foundCourse.exercises[i].slugName === exerciseSlug) {
+				foundExercise = foundCourse.exercises[i];
+			}
+		}
+
+		if (foundExercise == -1) {
+			return -2;
+		}
+
+		return foundExercise.exampleCases;
 	}
 };
