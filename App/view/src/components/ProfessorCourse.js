@@ -110,7 +110,7 @@ class ProfessorCourse extends Component {
 
 		return exercises.map((exercise) => (
 			<a
-				/*href={"/students/courses/" + exercise.code}*/
+				href={"/professors/course/" + this.state.code + "/exercise/" + exercise.slugName}
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>
@@ -197,26 +197,26 @@ class ProfessorCourse extends Component {
 
 						<div class="form-group row align-items-end justify-content-end">
 							<label for="email">Exercises</label>
-							<div class="accordion" id="courses-accordion">
+							<div class="accordion" id="exercises-accordion">
 								<div class="accordion-item">
 									<h2
 										class="accordion-header"
-										id="courses-heading"
+										id="exercises-heading"
 									>
 										<button
 											type="button"
 											class="accordion-button collapsed"
 											data-bs-toggle="collapse"
-											data-bs-target="#courses-data"
+											data-bs-target="#exercises-data"
 										>
 											Exercises
 										</button>
 									</h2>
 									<div
-										id="courses-data"
+										id="exercises-data"
 										class="accordion-collapse collapse show"
-										aria-labelledby="courses-heading"
-										data-bs-parent="#courses-accordion"
+										aria-labelledby="exercises-heading"
+										data-bs-parent="#exercises-accordion"
 									>
 										<div class="list-group">
 											<a
@@ -262,6 +262,16 @@ class ProfessorCourse extends Component {
 										data-bs-parent="#courses-accordion"
 									>
 										<div class="list-group">
+											<a
+												href={
+													this.state.code +
+													"/students"
+												}
+												class="list-group-item list-group-item-action"
+												aria-current="true"
+											>
+												Manage Students
+											</a>
 											{this.displayStudents(
 												this.state.students
 											)}

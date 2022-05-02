@@ -3,7 +3,7 @@ import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 import roleChecker from "./Routes/roleChecker";
 
-class ProfessorExercise extends Component {
+class NewExercise extends Component {
     state = {
         examples: [],
         tests: [],
@@ -186,23 +186,27 @@ class ProfessorExercise extends Component {
 
 		if (this.state.name === "" || this.state.description === "" || this.state.inputDescription === "" 
 		|| this.state.outputDescription === "") {
-			swal.fire({
-				title: "Error!",
-				text: "You must Fill all the entries !",
-				icon: "warning",
-				background: "black",
-				color: "white",	
-			})
+			return(
+				swal.fire({
+					title: "Error!",
+					text: "You must Fill all the entries !",
+					icon: "warning",
+					background: "black",
+					color: "white",	
+				})
+			)
 		}
 
 		if (this.state.examples.length === 0 || this.state.tests.length === 0) {
-			swal.fire({
-				title: "Error!",
-				text: "You must enter at least one Example and Test !",
-				icon: "warning",
-				background: "black",
-				color: "white",	
-			})
+			return(
+				swal.fire({
+					title: "Error!",
+					text: "You must enter at least one Example and Test !",
+					icon: "warning",
+					background: "black",
+					color: "white",	
+				})
+			)
 		}
 
 		const exercise = {
@@ -229,7 +233,7 @@ class ProfessorExercise extends Component {
 				background: "black",
 				color: "white",
 			}).then(() => {
-				window.location = "/professors/course" + this.state.code;
+				window.location = "/professors/course/" + this.state.code;
 			});
 		})
 		.catch(() => {
@@ -370,4 +374,4 @@ class ProfessorExercise extends Component {
     }
 }
 
-export default ProfessorExercise
+export default NewExercise
