@@ -6,8 +6,130 @@ import roleChecker from "./Routes/roleChecker";
 class ProfessorExercise extends Component {
     state = {
         examples: [],
-        tests: []
+        tests: [],
+		name: "",
+		description: "",
+		inputDescription: "",
+		outputDescription: "",
+		code: "",
+		loggedId: ""
     }
+
+	componentDidMount = () => {
+		this.setLoggedId();
+		this.setCourseCode();
+		//this.getInfo();
+	};
+
+	//Función que actualiza los states
+	handleChange = (event) => {
+		const target = event.target;
+		const id = target.id;
+		const value = target.value;
+
+		this.setState({
+			[id]: value,
+		});
+	};
+
+	setLoggedId() {
+		this.state.loggedId = roleChecker.getLoggedId();
+		if (this.state.loggedId === undefined) {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+	}
+
+	setCourseCode() {
+		let courseCode;
+		const searchString = "/professors/course/";
+		const currentUrl = window.location.href;
+
+		var start = currentUrl.search(searchString);
+		if (start === -1) {
+			swal.fire({
+				title: "Oops !",
+				text: "Invalid URL.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/professors/menu";
+			});
+		}
+		// length of "/students/course/", so searches next to it
+
+		console.log("ME CAGOOOOOOOO", start)
+
+		start += searchString.length;
+		courseCode = currentUrl.substring(start);
+
+		// find first "/" after slicing string
+		const end = courseCode.indexOf("/");
+		if (end === -1) {
+			swal.fire({
+				title: "Oops !",
+				text: "Invalid URL.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/professors/menu";
+			});
+		}
+
+		console.log("HMMMMMMMM", courseCode, "-----", end);
+
+		courseCode = courseCode.substring(0, end);
+		this.state.code = courseCode;
+
+		console.log("PLEASE", courseCode, "----", this.state.code)
+	}
+
+	displayExampleCases = (exampleCases) => {
+		
+		if (exampleCases.length === 0) {
+			return (
+				<th id="noCases" scope="row" colSpan="3">
+					No example cases given
+				</th>
+			);
+		}
+
+		return exampleCases.map((example) => (
+			
+			<tr>
+				<th scope="row">{example.number}</th>
+				<td>{example.input}</td>
+				<td>{example.output}</td>
+			</tr>
+		));
+	};
+
+	displayTestCases = (testCases) => {
+		if (testCases.length === 0) {
+			return (
+				<th id="noCases" scope="row" colSpan="3">
+					No test cases given
+				</th>
+			);
+		}
+
+		return testCases.map((test) => (
+			<tr>
+				<th scope="row">{test.number}</th>
+				<td>{test.input}</td>
+				<td>{test.output}</td>
+			</tr>
+		));
+	};
 
     addExample = (event) => {
         event.preventDefault()
@@ -19,27 +141,18 @@ class ProfessorExercise extends Component {
 			background: "black",
 			color: "white",
 			confirmButtonText: 'Add',
-			  customClass: {
+			customClass: {
 				confirmButton: 'btn btn-success',
 			},
-		}).then((result) => {
+		}).then(() => {
 			const example = {
-				inputExample: document.getElementById('swal-input1').value,
-				outputExample: document.getElementById('swal-input2').value,
-			}
+				number: this.state.examples.length + 1,
+				input: document.getElementById('swal-input1').value,
+				output: document.getElementById('swal-input2').value,
+			}	
 
-            this.state.examples.append(example);
-			/* Aqui funcion para insertar ejercicios*/	
-
-			if (result.isConfirmed) {
-			  swal.fire({
-				title: 'Success!',
-				text: 'Exercise Added !',
-				icon:'success',
-				background: "black",
-				color: "white",
-			  })
-			}
+            this.state.examples.push(example);
+			this.forceUpdate();
 		})
 	}
 
@@ -58,88 +171,130 @@ class ProfessorExercise extends Component {
 			},
 		}).then((result) => {
 			const test = {
-				inputExample: document.getElementById('swal-input1').value,
-				outputExample: document.getElementById('swal-input2').value,
+				number: this.state.tests.length + 1,
+				input: document.getElementById('swal-input1').value,
+				output: document.getElementById('swal-input2').value,
 			}
 
-            this.state.test.append(test);
-			/* Aqui funcion para insertar ejercicios*/	
+			this.state.tests.push(test);
+			this.forceUpdate();
+		})
+	}
 
-			if (result.isConfirmed) {
-			  swal.fire({
-				title: 'Success!',
-				text: 'Exercise Added !',
-				icon:'success',
+	save = (event) => {
+		event.preventDefault();
+
+		if (this.state.name === "" || this.state.description === "" || this.state.inputDescription === "" 
+		|| this.state.outputDescription === "") {
+			swal.fire({
+				title: "Error!",
+				text: "You must Fill all the entries !",
+				icon: "warning",
+				background: "black",
+				color: "white",	
+			})
+		}
+
+		if (this.state.examples.length === 0 || this.state.tests.length === 0) {
+			swal.fire({
+				title: "Error!",
+				text: "You must enter at least one Example and Test !",
+				icon: "warning",
+				background: "black",
+				color: "white",	
+			})
+		}
+
+		const exercise = {
+			name: this.state.name,
+			description: this.state.description,
+			inputDescription: this.state.inputDescription,
+			outputDescription: this.state.outputDescription,
+			exampleCases: this.state.examples,
+			testCases: this.state.tests
+		}
+
+		console.log(exercise)
+
+		axios({
+			url: "/api/courses/" + this.state.code + "/exercises",
+			method: "POST",
+			data: exercise
+		})
+		.then(() => {
+			swal.fire({
+				title: "Success!",
+				text: "Exercise has been added successfully !",
+				icon: "success",
 				background: "black",
 				color: "white",
-			  })
-			}
+			}).then(() => {
+				window.location = "/professors/course" + this.state.code;
+			});
+		})
+		.catch(() => {
+			swal.fire({
+				title: "Oops !",
+				text: "Unexpected error, Try Again",
+				icon: "error",
+				background: "black",
+				color: "white",
+			});
 		})
 	}
 
     render() {
         return (
-            <div id="form-view" class="ProfessorsExercise">
+            <div id="form-view" className="ProfessorsExercise">
 				<NavBar />
 				<div id="container">
                     <h1 id="title"> Fill the Exercise Information</h1>
 					<div id="box">
-						<form id="boxform" onSubmit={this.submit}>
-							{/* <div class="form-group">
-								<input
-									type="text"
-									class="form-control"
-									id="code"
-									placeholder="Code"
-									name="code"
-									aria-label="Code for the new course"
-									onChange={this.handleChange}
-									value={this.state.description}
-									disabled="disabled"
-								/>
-							</div> */}
+						<form id="boxform" onSubmit={this.save}>
                             <label for="name"> Exercise Name</label>
-                            <div class="form-group">
+                            <div className="form-group">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="name"
-									//aria-label="Expected input description"
-									//value={this.state.inputDescription}
+									onChange={this.handleChange}
+									value={this.state.name}
 								/>
 							</div>
 
                             <label for="description">Description</label>
-							<div class="form-group">
+							<div className="form-group">
 								<textarea
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="description"
-									//aria-label="Expected input description"
-									//value={this.state.inputDescription}
+									onChange={this.handleChange}
+									value={this.state.description}
 								/>
 							</div>
 
 							<label for="inputDescription">Expected input</label>
-							<div class="form-group">
+							<div className="form-group">
 								<textarea
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="inputDescription"
-									aria-label="Expected input description"
-									//value={this.state.inputDescription}
+									//aria-label="Expected input description"
+									onChange={this.handleChange}
+									value={this.state.inputDescription}
 								/>
 							</div>
 
 							<label for="outputDescription">
 								Expected output
 							</label>
-							<div class="form-group">
+							<div className="form-group">
 								<textarea
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="outputDescription"
 									aria-label="Expected output description"
+									onChange={this.handleChange}
 									//value={this.state.outputDescription}
 								/>
 							</div>
@@ -147,7 +302,7 @@ class ProfessorExercise extends Component {
 							<label for="exapleTable">Examples</label>
 							<table
 								id="exapleTable"
-								class="table table-secondary"
+								className="table table-secondary"
 							>
 								<thead>
 									<tr>
@@ -157,17 +312,16 @@ class ProfessorExercise extends Component {
 									</tr>
 								</thead>
 								<tbody>
-									{//this.displayExampleCases(
-										//this.state.exampleCases
-									//)
-                                    }
+									{this.displayExampleCases(
+										this.state.examples
+									)}
 								</tbody>
 							</table>
-                            <div class="form-group">             
+                            <div className="form-group">             
                                 <button
                                     id="solve"
                                     onClick={this.addExample}
-                                    class="btn btn-primary"
+                                    className="btn btn-primary"
                                 >
                                     Add Example
                                 </button>
@@ -176,7 +330,7 @@ class ProfessorExercise extends Component {
                             <label for="exapleTable">Test Cases</label>
 							<table
 								id="exapleTable"
-								class="table table-secondary"
+								className="table table-secondary"
 							>
 								<thead>
 									<tr>
@@ -186,17 +340,17 @@ class ProfessorExercise extends Component {
 									</tr>
 								</thead>
 								<tbody>
-									{//this.displayExampleCases(
-										//this.state.exampleCases
-									//)
+									{this.displayTestCases(
+										this.state.tests
+									)
                                     }
 								</tbody>
 							</table>
-                            <div class="form-group">
+                            <div className="form-group">
                                 <button
                                     id="solve"
                                     onClick={this.addTest}
-                                    class="btn btn-primary"
+                                    className="btn btn-primary"
                                 >
                                     Add Case
                                 </button>
@@ -204,7 +358,7 @@ class ProfessorExercise extends Component {
                             <button
 								id="solve"
 								type="submit"
-								class="btn btn-primary"
+								className="btn btn-primary"
 							>
 								Save Exercise
 							</button>

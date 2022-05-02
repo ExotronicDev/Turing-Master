@@ -140,16 +140,35 @@ class ProfessorCourse extends Component {
 		));
 	};
 
+	change = () => {
+		if (document.getElementById("check2").checked) {
+			document.getElementById("save").disabled = "";
+		}
+
+		if (!document.getElementById("check2").checked) {
+			document.getElementById("save").disabled = "disabled";
+		}
+
+		if (document.getElementById("check2").checked) {
+			document.getElementById("name").disabled = "";
+		}
+
+		if (!document.getElementById("check2").checked) {
+			document.getElementById("name").disabled = "disabled";
+		}
+	}
+
+	save = () => {
+
+	}
+
 	render() {
 		return (
 			<div class="ProfessorCourse">
 				<NavBar />
 				<div id="container">
-					<p id="title">
-						{" "}
-						{this.state.code} - {this.state.name} information{" "}
-					</p>
-					<form onSubmit={this.submit}>
+					<p id="title"> {this.state.code} - {this.state.name} </p>
+					<form onSubmit={this.save}>
 						<div class="form-group row align-items-end justify-content-end">
 							<label for="name">Name</label>
 							<div class="col-8">
