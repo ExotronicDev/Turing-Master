@@ -20,6 +20,7 @@ import StudentCourse from "./components/StudentCourse";
 import StudentExercise from "./components/StudentExercise";
 import NewExercise from "./components/NewExercise";
 import ProfessorExercise from "./components/ProfessorExercise";
+import CourseStudents from "./components/CourseStudents";
 
 class App extends Component {
 	render() {
@@ -88,6 +89,11 @@ class App extends Component {
 								exact
 								path="/professors/course/:code/exercise/:name"
 								element={<ProfessorExercise />}
+							/>
+							<Route
+								exact
+								path="/professors/course/:code/students"
+								element={<CourseStudents />}
 							/>
 						</Route>
 					</Routes>

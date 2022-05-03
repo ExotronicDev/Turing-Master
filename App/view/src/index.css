@@ -386,6 +386,48 @@
 	width: 100%;
 }
 
+/*-----------------NewExercise----------------- */
+
+.NewExercise {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.NewExercise #container {
+	margin-top: 7.5%;
+}
+
+.NewExercise #edit {
+	text-align: right;
+	padding: 0;
+}
+
+.NewExercise #save {
+	margin: 5%;
+	width: 30%;
+}
+
+.NewExercise .row {
+	height: 100%;
+	margin-bottom: 1%;
+}
+
+.NewExercise label {
+	text-align: center;
+  	color: white;
+
+    font-weight: 500;
+    font-size: 60%;
+}
+
+.NewExercise input {
+	width: 100%;
+}
+
 /*-----------------ProfessorsExercise----------------- */
 
 .ProfessorsExercise {
@@ -425,5 +467,47 @@
 }
 
 .ProfessorsExercise input {
+	width: 100%;
+}
+
+/*-----------------CourseStudents----------------- */
+
+.CourseStudents {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.CourseStudents #container {
+	margin-top: 7.5%;
+}
+
+.CourseStudents #edit {
+	text-align: right;
+	padding: 0;
+}
+
+.CourseStudents #save {
+	margin: 5%;
+	width: 30%;
+}
+
+.CourseStudents .row {
+	height: 100%;
+	margin-bottom: 1%;
+}
+
+.CourseStudents label {
+	text-align: center;
+  	color: white;
+
+    font-weight: 500;
+    font-size: 60%;
+}
+
+.CourseStudents input {
 	width: 100%;
 }

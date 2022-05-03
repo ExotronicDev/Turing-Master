@@ -218,8 +218,6 @@ class NewExercise extends Component {
 			testCases: this.state.tests
 		}
 
-		console.log(exercise)
-
 		axios({
 			url: "/api/courses/" + this.state.code + "/exercises",
 			method: "POST",
@@ -249,7 +247,7 @@ class NewExercise extends Component {
 
     render() {
         return (
-            <div id="form-view" className="ProfessorsExercise">
+            <div id="form-view" className="NewExercise">
 				<NavBar />
 				<div id="container">
                     <h1 id="title"> Fill the Exercise Information</h1>
