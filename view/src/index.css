@@ -428,9 +428,9 @@
 	width: 100%;
 }
 
-/*-----------------ProfessorsExercise----------------- */
+/*-----------------ProfessorExercise----------------- */
 
-.ProfessorsExercise {
+.ProfessorExercise {
     margin: auto;	
 	text-align: center;
 	align-items: center;
@@ -439,26 +439,27 @@
 	flex-direction: column;
 }
 
-.ProfessorsExercise #container {
-	margin-top: 7.5%;
+.ProfessorExercise #container {
+	margin-top: 15vh;
+	width: 50%;
 }
 
-.ProfessorsExercise #edit {
+.ProfessorExercise #edit {
 	text-align: right;
 	padding: 0;
 }
 
-.ProfessorsExercise #save {
+.ProfessorExercise #save {
 	margin: 5%;
 	width: 30%;
 }
 
-.ProfessorsExercise .row {
+.ProfessorExercise .row {
 	height: 100%;
 	margin-bottom: 1%;
 }
 
-.ProfessorsExercise label {
+.ProfessorExercise label {
 	text-align: center;
   	color: white;
 
@@ -466,7 +467,7 @@
     font-size: 60%;
 }
 
-.ProfessorsExercise input {
+.ProfessorExercise input {
 	width: 100%;
 }
 
