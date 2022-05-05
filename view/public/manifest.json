@@ -3,17 +3,22 @@
   "name": "Turing Master: Turing Machine Simulator",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "TMiconSmall.ico",
+      "sizes": "192x192 96x96 48x48 24x24",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "TMiconBig.ico",
+      "sizes": "256x256 128x128 64x64 32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "TMiconSmall.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "TMiconBig.png",
       "type": "image/png",
       "sizes": "512x512"
     }
