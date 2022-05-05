@@ -401,31 +401,66 @@
 	margin-top: 7.5%;
 }
 
-.NewExercise #edit {
-	text-align: right;
-	padding: 0;
+.NewExercise #box {
+	width: 60% !important;
+	margin: 0% 20% 0% 20% !important;
+}
+
+.NewExercise p {
+	width: 90%;
+	margin: 3% 5% 0% 5%;
+	
+	color: white;
+	font-weight: 500;
+	font-size: 80%;
+}
+
+.NewExercise .form-group>* {
+	width: 85%;
+	margin: 0% 7.5% 0% 7.5%;
+	resize: none;
+}
+
+.NewExercise .form-check {
+	margin-left: 1.5vw;
+	margin-top: 3%;
+	width: 80%;
+}
+
+.NewExercise .form-check-input {
+	margin-left: -13%;
+	align-items: center;
+	height: 3vh;
+	width: 3vw;
+}
+
+.NewExercise .table {
+	margin: 0% 7.5% 0% 7.5%;
+	width: 85%;
+}
+
+.NewExercise th {
+	font-size: 60%;
+}
+
+.NewExercise td {
+	font-size: 60%;
+}
+
+.NewExercise #noCases {
+	color: white;
+}
+
+.NewExercise #add {
+	width: 15%;
+	margin: 3% 42.5% 0% 42.5%;
+	font-size: 50%;
 }
 
 .NewExercise #save {
-	margin: 5%;
-	width: 30%;
-}
-
-.NewExercise .row {
-	height: 100%;
-	margin-bottom: 1%;
-}
-
-.NewExercise label {
-	text-align: center;
-  	color: white;
-
-    font-weight: 500;
-    font-size: 60%;
-}
-
-.NewExercise input {
-	width: 100%;
+	width: 50%;
+	margin: 3% 25% 3% 25%;
+	font-size: 60%;
 }
 
 /*-----------------ProfessorExercise----------------- */

@@ -249,7 +249,7 @@ class NewExercise extends Component {
 					<h1 id="title"> Fill the Exercise Information</h1>
 					<div id="box">
 						<form id="boxform" onSubmit={this.save}>
-							<label for="name"> Exercise Name</label>
+							<label for="name">Exercise Name</label>
 							<div className="form-group">
 								<input
 									type="text"
@@ -317,7 +317,7 @@ class NewExercise extends Component {
 							</table>
 							<div className="form-group">
 								<button
-									id="solve"
+									id="add"
 									onClick={this.addExample}
 									className="btn btn-primary"
 								>
@@ -343,7 +343,7 @@ class NewExercise extends Component {
 							</table>
 							<div className="form-group">
 								<button
-									id="solve"
+									id="add"
 									onClick={this.addTest}
 									className="btn btn-primary"
 								>
@@ -351,7 +351,7 @@ class NewExercise extends Component {
 								</button>
 							</div>
 							<button
-								id="solve"
+								id="save"
 								type="submit"
 								className="btn btn-primary"
 							>
