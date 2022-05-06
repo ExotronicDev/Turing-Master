@@ -70,6 +70,11 @@ class App extends Component {
 							/>
 							<Route
 								exact
+								path="/students/simulator/"
+								element={<Simulator />}
+							/>
+							<Route
+								exact
 								path="/students/simulator/:id"
 								element={<SimulatorRoute />}
 							/>

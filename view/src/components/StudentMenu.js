@@ -138,7 +138,7 @@ class StudentMenu extends Component {
 	change = (event) => {
 		event.preventDefault();
 	  
-		window.location = "/students/simulator/" + this.state.loggedId
+		window.location = "/students/simulator/"
 	}
 
 	render() {

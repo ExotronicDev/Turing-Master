@@ -7,6 +7,7 @@ import ReactFlow, {
   useReactFlow,
 } from 'react-flow-renderer';
 
+import "../index.css"
 
 const flowKey = 'example-flow';
 
@@ -25,7 +26,7 @@ const SaveRestore = () => {
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
 
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, label: "preuba", animated: true, style: { stroke: '#fff' } }, eds)), [setEdges]);
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, label: "prueba", animated: true, style: { stroke: '#fff' } }, eds)), [setEdges]);
   const onSave = useCallback(() => {
     if (rfInstance) {
       const flow = rfInstance.toObject();
@@ -60,6 +61,12 @@ const SaveRestore = () => {
     setNodes((nds) => nds.concat(newNode));
   }, [setNodes]);
 
+  const onDelete = useCallback(() => {
+    setEdges([]);
+    setNodes([]);
+    id = 1;
+  })
+
   const connectionLineStyle = { label: "asdad" }
 
   return (
@@ -71,12 +78,16 @@ const SaveRestore = () => {
       onConnect={onConnect}
       onInit={setRfInstance}
       connectionLineStyle={connectionLineStyle}
+      style={{height:800}}
     >
-      <div className="save__controls">
-        <button onClick={onSave}>save</button>
-        <button onClick={onRestore}>restore</button>
-        <button onClick={onAdd}>add node</button>
-      </div>
+      
+        <div className='save__controls'>
+          <button onClick={onSave}>save</button>
+          <button onClick={onRestore}>restore</button>
+          <button onClick={onAdd}>add node</button>
+          <button onClick={onDelete}>delete</button>
+        </div>
+
     </ReactFlow>
   );
 };
