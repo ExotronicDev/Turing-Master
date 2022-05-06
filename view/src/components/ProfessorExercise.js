@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 import roleChecker from "./Routes/roleChecker";
 import { useParams } from "react-router-dom";
 
-class ProfessorExercise extends React.Component {
+class ProfessorExercise extends Component {
 	state = {
 		name: "",
 		description: "",
@@ -169,6 +170,10 @@ class ProfessorExercise extends React.Component {
 	};
 
 	change = () => {
+		if (document.getElementById("check0").checked) {
+			document.getElementById("name").disabled = "";
+		}
+
 		if (document.getElementById("check1").checked) {
 			document.getElementById("description").disabled = "";
 		}
@@ -179,6 +184,10 @@ class ProfessorExercise extends React.Component {
 
 		if (document.getElementById("check3").checked) {
 			document.getElementById("expectedOutput").disabled = "";
+		}
+
+		if (!document.getElementById("check0").checked) {
+			document.getElementById("name").disabled = "disabled";
 		}
 
 		if (!document.getElementById("check1").checked) {
@@ -406,7 +415,7 @@ class ProfessorExercise extends React.Component {
 											data-bs-toggle="collapse"
 											data-bs-target="#tests-data"
 										>
-											Test
+											Tests
 										</button>
 									</h2>
 									<div

@@ -49,11 +49,8 @@ class StudentMenu extends Component {
 				this.setState({
 					courses: courses,
 				});
-				console.log(this.state.courses);
-				console.log("Data courses lista");
 			})
 			.catch((err) => {
-				console.log(err);
 				swal.fire({
 					title: "Error!",
 					text: err,
@@ -83,11 +80,8 @@ class StudentMenu extends Component {
 				this.setState({
 					tMachines: tMachines,
 				});
-				console.log(this.state.tMachines);
-				console.log("Data lista");
 			})
 			.catch((err) => {
-				console.log(err);
 				swal.fire({
 					title: "Error!",
 					text: "Unexpected error, Try Again",
@@ -165,7 +159,7 @@ class StudentMenu extends Component {
 									</h2>
 									<div
 										id="courses-data"
-										class="accordion-collapse collapse"
+										class="accordion-collapse collapse show"
 										aria-labelledby="courses-heading"
 										data-bs-parent="#courses-accordion"
 									>
@@ -196,7 +190,7 @@ class StudentMenu extends Component {
 									</h2>
 									<div
 										id="tmachines-data"
-										class="accordion-collapse collapse"
+										class="accordion-collapse collapse show"
 										aria-labelledby="tmachines-heading"
 										data-bs-parent="#tmachines-accordion"
 									>

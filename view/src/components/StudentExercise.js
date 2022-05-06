@@ -101,12 +101,6 @@ class StudentExercise extends Component {
 	}
 
 	getInfo = () => {
-		console.log(
-			"Course",
-			this.state.courseCode,
-			"Exercise",
-			this.state.slugName
-		);
 		let apiUrl =
 			"/api/courses/" +
 			this.state.courseCode +

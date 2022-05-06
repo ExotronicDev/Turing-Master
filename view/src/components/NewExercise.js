@@ -82,13 +82,8 @@ class NewExercise extends Component {
 				window.location = "/professors/menu";
 			});
 		}
-
-		console.log("HMMMMMMMM", courseCode, "-----", end);
-
 		courseCode = courseCode.substring(0, end);
 		this.state.code = courseCode;
-
-		console.log("PLEASE", courseCode, "----", this.state.code);
 	}
 
 	displayExampleCases = (exampleCases) => {

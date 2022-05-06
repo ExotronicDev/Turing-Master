@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
@@ -67,8 +68,6 @@ class ProfessorCourse extends Component {
 			method: "GET",
 		})
 			.then((res) => {
-				const isProfessor =
-					res.data.role === "professors" ? true : false;
 				this.setState({
 					code: res.data.data.code,
 					name: res.data.data.name,
@@ -110,7 +109,12 @@ class ProfessorCourse extends Component {
 
 		return exercises.map((exercise) => (
 			<a
-				href={"/professors/course/" + this.state.code + "/exercise/" + exercise.slugName}
+				href={
+					"/professors/course/" +
+					this.state.code +
+					"/exercise/" +
+					exercise.slugName
+				}
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>
@@ -156,18 +160,19 @@ class ProfessorCourse extends Component {
 		if (!document.getElementById("check2").checked) {
 			document.getElementById("name").disabled = "disabled";
 		}
-	}
+	};
 
-	save = () => {
-
-	}
+	save = () => {};
 
 	render() {
 		return (
 			<div class="ProfessorCourse">
 				<NavBar />
 				<div id="container">
-					<p id="title"> {this.state.code} - {this.state.name} </p>
+					<p id="title">
+						{" "}
+						{this.state.code} - {this.state.name}{" "}
+					</p>
 					<form onSubmit={this.save}>
 						<div class="form-group row align-items-end justify-content-end">
 							<label for="name">Name</label>
