@@ -106,9 +106,9 @@ module.exports = class ProfessorController {
 
 	async createCourse(course, idProfessor) {
 		course.professor = {
-			id: idProfessor 
+			id: idProfessor,
 		};
-		
+
 		const newCourse = new Course(course);
 
 		let saveResponse = await this.daoCourse.save(newCourse);
@@ -160,6 +160,7 @@ module.exports = class ProfessorController {
 	async enrollStudent(idStudent, courseCode) {
 		const queryStudent = await this.daoStudent.find({ id: idStudent });
 		const queryCourse = await this.daoCourse.find({ code: courseCode });
+		console.log(await this.daoStudent.getAll());
 
 		if (queryStudent.length == 0) {
 			return -1;
@@ -338,8 +339,8 @@ module.exports = class ProfessorController {
 		foundCourse.exercises.splice(foundExerciseIndex, 1);
 		return await this.daoCourse.update({ code: courseCode }, foundCourse);
 	}
-    
-    createTestCase(testCaseArray, testCase) {
+
+	createTestCase(testCaseArray, testCase) {
 		const textCaseArrayLength = testCaseArray.length;
 
 		if (textCaseArrayLength > 0) {
@@ -374,8 +375,8 @@ module.exports = class ProfessorController {
 		testCaseArray[index].number = newNumber;
 		return testCaseArray;
 	}
-    
-    deleteTestCase(testCaseArray, testCase) {
+
+	deleteTestCase(testCaseArray, testCase) {
 		const testCaseArrayLength = testCaseArray.length;
 		var index = -1;
 
@@ -417,9 +418,9 @@ module.exports = class ProfessorController {
 		return foundExercise.testCases;
 	}
 
-/* -------------------------------------------------------------- */
-    
-    createExampleCase(exampleArray, exampleCase) {
+	/* -------------------------------------------------------------- */
+
+	createExampleCase(exampleArray, exampleCase) {
 		const exampleArrayLength = exampleArray.length;
 
 		if (exampleArrayLength > 0) {
@@ -454,8 +455,8 @@ module.exports = class ProfessorController {
 		exampleArray[index].number = newNumber;
 		return exampleArray;
 	}
-    
-    deleteExampleCase(exampleArray, example) {
+
+	deleteExampleCase(exampleArray, example) {
 		const exampleArrayLength = exampleArray.length;
 		var index = -1;
 

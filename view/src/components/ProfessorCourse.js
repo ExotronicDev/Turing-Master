@@ -113,7 +113,7 @@ class ProfessorCourse extends Component {
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>
-				{student.name} - {student.lastName}
+				{student.firstName} {student.lastName} - {student.id}
 			</a>
 		));
 	};
