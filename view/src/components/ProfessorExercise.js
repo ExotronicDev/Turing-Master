@@ -206,30 +206,24 @@ class ProfessorExercise extends Component {
 		event.preventDefault();
 
 		if (
+			this.state.name === "" ||
 			this.state.description === "" ||
 			this.state.expectedInput === "" ||
 			this.state.expectedOutput === ""
 		) {
 			return swal.fire({
 				title: "Error!",
-				text: "Cannot leave blank spaces !",
+				text: "Cannot leave blank spaces!",
 				icon: "warning",
 				background: "black",
 				color: "white",
 			});
 		}
 
-		const exercise = {
-			name: this.state.name,
-			description: this.state.description,
-			inputDescription: this.state.expectedInput,
-			outputDescription: this.state.expectedOutput,
-			exampleCases: this.state.examples,
-			testCases: this.state.tests,
-		};
+		const exercise = this.state;
 
 		axios({
-			url: "/api/courses/" + this.state.code + "/exercises",
+			url: "/api/courses/" + this.props.match.params.code + "/exercises",
 			method: "POST",
 			data: exercise,
 		})
@@ -241,14 +235,15 @@ class ProfessorExercise extends Component {
 					background: "black",
 					color: "white",
 				}).then(() => {
-					window.location = "/professors/course/" + this.state.code;
+					window.location =
+						"/professors/course/" + this.props.match.params.code;
 				});
 			})
-			.catch(() => {
+			.catch((err) => {
 				swal.fire({
-					title: "Oops !",
-					text: "Unexpected error, Try Again",
-					icon: "error",
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
 					background: "black",
 					color: "white",
 				});
@@ -260,7 +255,7 @@ class ProfessorExercise extends Component {
 			<div className="ProfessorExercise">
 				<NavBar />
 				<div id="container">
-					<h1 id="title"> Exercise Information</h1>
+					<h1 id="title">Exercise Information</h1>
 
 					<form id="boxform" onSubmit={this.save}>
 						<div class="form-group row justify-content-end">
