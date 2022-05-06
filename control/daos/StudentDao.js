@@ -2,7 +2,7 @@ const student = require("../../model/student");
 
 module.exports = class StudentDao {
 	async find(filter) {
-		return await student.find(filter);
+		return await student.find(filter).sort("firstName");
 	}
 
 	async findWithPassword(filter) {
@@ -23,6 +23,6 @@ module.exports = class StudentDao {
 	}
 
 	async getAll() {
-		return await student.find({});
+		return await student.find({}).sort("firstName");
 	}
 };

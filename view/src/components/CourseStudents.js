@@ -6,13 +6,14 @@ import roleChecker from "./Routes/roleChecker";
 class CourseStudents extends Component {
 	state = {
 		students: [],
-		studentsCourse: [],
+		courseStudents: [],
 		loggedId: "",
 	};
 
 	componentDidMount = () => {
 		this.setLoggedId();
 		this.getStudents();
+		this.getCourseStudents();
 	};
 
 	setLoggedId() {
@@ -46,11 +47,11 @@ class CourseStudents extends Component {
 
 	change = (student, index) => {
 		if (document.getElementById(index).checked) {
-			this.state.studentsCourse.push(student);
+			this.state.courseStudents.push(student);
 		}
 
 		if (!document.getElementById(index).checked) {
-			this.state.studentsCourse.filter((thisStudent, index, object) => {
+			this.state.courseStudents.filter((thisStudent, index, object) => {
 				if (thisStudent.id === student.id) {
 					object.splice(index, 1);
 				}
@@ -59,18 +60,21 @@ class CourseStudents extends Component {
 	};
 
 	displayStudents = (students) => {
-		return students.map((student, index) => (
-			<div class="form-group row align-items-center justify-content-center">
-				<div class="col-3 align-items-right justify-content-right">
-					<label aria-current="true">
-						{student.id} - {student.firstName} {student.lastName}
-					</label>
-				</div>
+		if (students.length === 0) {
+			return (
+				<th id="noStudents" scope="row" colspan="3">
+					No students registered
+				</th>
+			);
+		}
 
-				<div class="col-1" id="edit">
-					<label for="check1">Add</label>
-				</div>
-				<div class="col-1" id="check">
+		return students.map((student, index) => (
+			<tr>
+				<td>{student.id}</td>
+				<td>
+					{student.firstName} {student.lastName}
+				</td>
+				<td>
 					<input
 						id={index}
 						type="checkbox"
@@ -78,8 +82,8 @@ class CourseStudents extends Component {
 							this.change(student, index);
 						}}
 					></input>
-				</div>
-			</div>
+				</td>
+			</tr>
 		));
 	};
 
@@ -91,9 +95,31 @@ class CourseStudents extends Component {
 				<NavBar />
 				<div id="container">
 					<h1 id="title"> Students </h1>
-					<div class="form-group row align-items-end justify-content-end">
-						<form id="boxform" onSubmit={this.save}>
-							{this.displayStudents(this.state.students)}
+					<div id="box">
+						<form id="boxform" onSubmit={this.submit}>
+							<table
+								id="studentTable"
+								class="table table-secondary"
+							>
+								<thead>
+									<tr>
+										<th scope="col">ID</th>
+										<th scope="col">Name</th>
+										<th scope="col">Enrolled</th>
+									</tr>
+								</thead>
+								<tbody>
+									{this.displayStudents(this.state.students)}
+								</tbody>
+							</table>
+
+							<button
+								id="save"
+								type="submit"
+								class="btn btn-primary"
+							>
+								Save Changes
+							</button>
 						</form>
 					</div>
 				</div>

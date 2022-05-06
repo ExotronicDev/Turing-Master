@@ -163,9 +163,9 @@ class StudentExercise extends Component {
 								/>
 							</div>
 
-							<label for="exapleTable">Examples</label>
+							<label for="exampleTable">Examples</label>
 							<table
-								id="exapleTable"
+								id="exampleTable"
 								class="table table-secondary"
 							>
 								<thead>
