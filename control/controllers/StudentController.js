@@ -179,4 +179,16 @@ module.exports = class StudentController {
 
 		return await daoTMachine.find({ owner: { id: student.id } });
 	}
+
+	async getCourses(idStudent) {
+		const query = await this.dao.find({ id: idStudent });
+
+		if (query.length == 0) {
+			return -1;
+		}
+
+		const foundStudent = query[0];
+
+		return foundStudent.courses;
+	}
 };

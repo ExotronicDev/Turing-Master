@@ -374,6 +374,21 @@ exports.getStudentTMachines = asyncHandler(async (req, res, next) => {
 	});
 });
 
+//  @desc       Get Student Courses
+//  @route      GET /api/students/:id/courses
+//  @access     Private
+exports.getStudentCourses = asyncHandler(async (req, res, next) => {
+	const control = new StudentController();
+	const idStudent = req.params.id;
+	const foundCourses = await control.getCourses(idStudent);
+
+	if (foundCourses == -1) {
+		return next(new ErrorResponse(`Student does not exist.`, 404));
+	}
+
+	res.json({ success: true, length: foundCourses.length, data: foundCourses });
+});
+
 //-----------------Counter-----------------//
 
 exports.getCounter = asyncHandler(async (req, res, next) => {

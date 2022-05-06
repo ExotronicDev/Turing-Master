@@ -11,6 +11,7 @@ const {
 	updateStudent,
 	deleteStudent,
 	getStudentTMachines,
+	getStudentCourses,
 } = require("../control/controllers/Controller");
 
 // Create router
@@ -35,5 +36,8 @@ studentsRouter
 
 // Student TMachines routes
 studentsRouter.route("/:id/tmachines").get(protect, getStudentTMachines);
+
+// Student Courses routes
+studentsRouter.route("/:id/courses").get(protect, getStudentCourses);
 
 module.exports = studentsRouter;
