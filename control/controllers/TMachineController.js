@@ -386,8 +386,7 @@ module.exports = class TMachineController {
 				let finalOutput = {
 					status: "timeout",
 					finalState: currentState,
-					output: currentOutput,
-					simulationSequence: simulationOrder
+					output: currentOutput
 				};
 
 				return finalOutput;
