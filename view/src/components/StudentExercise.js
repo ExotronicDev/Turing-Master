@@ -11,13 +11,11 @@ class StudentExercise extends Component {
 		inputDescription: "",
 		outputDescription: "",
 		exampleCases: [],
-		courseCode: "",
 		loggedId: "",
 	};
 
 	componentDidMount = () => {
 		this.setLoggedId();
-		this.setCourseCode();
 		this.setExerciseName();
 		this.getInfo();
 	};
@@ -37,48 +35,10 @@ class StudentExercise extends Component {
 		}
 	}
 
-	setCourseCode() {
-		let courseCode;
-		const searchString = "/students/course/";
-		const currentUrl = window.location.href;
-
-		var start = currentUrl.search(searchString);
-		if (start === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/students/menu";
-			});
-		}
-		start += searchString.length;
-		courseCode = currentUrl.substring(start);
-
-		// find first "/" after slicing string
-		const end = courseCode.indexOf("/");
-		if (end === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/students/menu";
-			});
-		}
-
-		courseCode = courseCode.substring(0, end);
-		this.state.courseCode = courseCode;
-	}
-
 	setExerciseName() {
 		let name;
 		const searchString =
-			"/students/course/" + this.state.courseCode + "/exercise/";
+			"/students/course/" + this.props.match.params.code + "/exercise/";
 		const currentUrl = window.location.href;
 
 		var start = currentUrl.search(searchString);
@@ -91,7 +51,8 @@ class StudentExercise extends Component {
 				color: "white",
 			}).then(() => {
 				// Or menu
-				window.location = "/students/course/" + this.state.courseCode;
+				window.location =
+					"/students/course/" + this.props.match.params.code;
 			});
 		}
 		start += searchString.length;
@@ -103,7 +64,7 @@ class StudentExercise extends Component {
 	getInfo = () => {
 		let apiUrl =
 			"/api/courses/" +
-			this.state.courseCode +
+			this.props.match.params.code +
 			"/exercises/" +
 			this.state.slugName;
 		axios({

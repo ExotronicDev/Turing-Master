@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
 import roleChecker from "./Routes/roleChecker";
-import { useParams } from "react-router-dom";
 
 class ProfessorExercise extends Component {
 	state = {
@@ -447,11 +446,4 @@ class ProfessorExercise extends Component {
 	}
 }
 
-export default withRouter(ProfessorExercise);
-
-export function withRouter(Children) {
-	return (props) => {
-		const match = { params: useParams() };
-		return <Children {...props} match={match} />;
-	};
-}
+export default ProfessorExercise;

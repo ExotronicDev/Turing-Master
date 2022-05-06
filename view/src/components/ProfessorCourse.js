@@ -14,7 +14,6 @@ class ProfessorCourse extends Component {
 	};
 
 	componentDidMount = () => {
-		this.setCourseCode();
 		this.setLoggedId();
 		this.getInfo();
 	};
@@ -37,34 +36,9 @@ class ProfessorCourse extends Component {
 		}
 	}
 
-	setCourseCode() {
-		let courseCode;
-		const searchString = "/professors/course/";
-		const currentUrl = window.location.href;
-
-		var start = currentUrl.search(searchString);
-		if (start === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/professors/menu";
-			});
-		}
-		// length of "/students/course/", so searches next to it
-		start += searchString.length;
-		courseCode = currentUrl.substring(start);
-
-		this.state.code = courseCode;
-	}
-
 	getInfo = () => {
-		// let apiUrl = "/api/courses/" + this.state.loggedId + "/courses";
 		axios({
-			url: "/api/courses/" + this.state.code,
+			url: "/api/courses/" + this.props.match.params.code,
 			method: "GET",
 		})
 			.then((res) => {

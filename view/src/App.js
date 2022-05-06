@@ -1,26 +1,41 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { withParams } from "./components/Routes/withParams";
 import "./App.css";
 
-//Views
+//---------------Shared Views---------------//
+import PublicRoutes from "./components/Routes/PublicRoutes";
 import Home from "./components/Home";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import StudentMenu from "./components/StudentMenu";
 import Profile from "./components/Profile";
-import Simulator from "./components/Simulator";
-import ProfessorMenu from "./components/ProfessorMenu";
-import ProfessorCourse from "./components/ProfessorCourse";
-import NewCourse from "./components/NewCourse";
 
+//---------------Student Views---------------//
 import StudentRoutes from "./components/Routes/StudentRoutes";
-import ProfessorRoutes from "./components/Routes/ProfessorRoutes";
-import PublicRoutes from "./components/Routes/PublicRoutes";
+import StudentMenu from "./components/StudentMenu";
 import StudentCourse from "./components/StudentCourse";
 import StudentExercise from "./components/StudentExercise";
+import Simulator from "./components/Simulator";
+
+//---------------Professor Views---------------//
+import ProfessorRoutes from "./components/Routes/ProfessorRoutes";
+import ProfessorMenu from "./components/ProfessorMenu";
+import NewCourse from "./components/NewCourse";
+import ProfessorCourse from "./components/ProfessorCourse";
+import CourseStudents from "./components/CourseStudents";
 import NewExercise from "./components/NewExercise";
 import ProfessorExercise from "./components/ProfessorExercise";
-import CourseStudents from "./components/CourseStudents";
+
+//---------------Params Student Routes---------------//
+const StudentCourseRoute = withParams(StudentCourse);
+const StudentExerciseRoute = withParams(StudentExercise);
+const SimulatorRoute = withParams(Simulator);
+
+//---------------Params Professor Routes---------------//
+const ProfessorCourseRoute = withParams(ProfessorCourse);
+const CourseStudentsRoute = withParams(CourseStudents);
+const NewExerciseRoute = withParams(NewExercise);
+const ProfessorExerciseRoute = withParams(ProfessorExercise);
 
 class App extends Component {
 	render() {
@@ -46,17 +61,17 @@ class App extends Component {
 							<Route
 								exact
 								path="/students/course/:code"
-								element={<StudentCourse />}
+								element={<StudentCourseRoute />}
 							/>
 							<Route
 								exact
 								path="/students/course/:code/exercise/:name"
-								element={<StudentExercise />}
+								element={<StudentExerciseRoute />}
 							/>
 							<Route
 								exact
 								path="/students/simulator/:id"
-								element={<Simulator />}
+								element={<SimulatorRoute />}
 							/>
 						</Route>
 
@@ -78,22 +93,22 @@ class App extends Component {
 							<Route
 								exact
 								path="/professors/course/:code"
-								element={<ProfessorCourse />}
-							/>
-							<Route
-								exact
-								path="/professors/course/:code/exercise"
-								element={<NewExercise />}
-							/>
-							<Route
-								exact
-								path="/professors/course/:code/exercise/:name"
-								element={<ProfessorExercise />}
+								element={<ProfessorCourseRoute />}
 							/>
 							<Route
 								exact
 								path="/professors/course/:code/students"
-								element={<CourseStudents />}
+								element={<CourseStudentsRoute />}
+							/>
+							<Route
+								exact
+								path="/professors/course/:code/exercise"
+								element={<NewExerciseRoute />}
+							/>
+							<Route
+								exact
+								path="/professors/course/:code/exercise/:name"
+								element={<ProfessorExerciseRoute />}
 							/>
 						</Route>
 					</Routes>

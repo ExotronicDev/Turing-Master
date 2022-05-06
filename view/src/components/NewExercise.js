@@ -11,14 +11,11 @@ class NewExercise extends Component {
 		description: "",
 		inputDescription: "",
 		outputDescription: "",
-		code: "",
 		loggedId: "",
 	};
 
 	componentDidMount = () => {
 		this.setLoggedId();
-		this.setCourseCode();
-		//this.getInfo();
 	};
 
 	//Función que actualiza los states
@@ -45,45 +42,6 @@ class NewExercise extends Component {
 				window.location = "/login";
 			});
 		}
-	}
-
-	setCourseCode() {
-		let courseCode;
-		const searchString = "/professors/course/";
-		const currentUrl = window.location.href;
-
-		var start = currentUrl.search(searchString);
-		if (start === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/professors/menu";
-			});
-		}
-		// length of "/students/course/", so searches next to it
-
-		start += searchString.length;
-		courseCode = currentUrl.substring(start);
-
-		// find first "/" after slicing string
-		const end = courseCode.indexOf("/");
-		if (end === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/professors/menu";
-			});
-		}
-		courseCode = courseCode.substring(0, end);
-		this.state.code = courseCode;
 	}
 
 	displayExampleCases = (exampleCases) => {
@@ -210,7 +168,7 @@ class NewExercise extends Component {
 		};
 
 		axios({
-			url: "/api/courses/" + this.state.code + "/exercises",
+			url: "/api/courses/" + this.props.match.params.code + "/exercises",
 			method: "POST",
 			data: exercise,
 		})
@@ -222,7 +180,8 @@ class NewExercise extends Component {
 					background: "black",
 					color: "white",
 				}).then(() => {
-					window.location = "/professors/course/" + this.state.code;
+					window.location =
+						"/professors/course/" + this.props.match.params.code;
 				});
 			})
 			.catch(() => {
