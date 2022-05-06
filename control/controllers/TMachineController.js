@@ -378,15 +378,17 @@ module.exports = class TMachineController {
 
 		const timeoutFlag = +new Date();
 		while (this.hasNextState(currentState, current.getValue())) {
-			simulationOrder.push(currentState.name);
+			let copyOutput = outputTape;
+			let currentTape = this.getOutputString(copyOutput);
+			simulationOrder.push({state: currentState.name, tape: currentTape});
 			//Si han pasado 30 segundos, tiro un timeout.
-			if (+new Date() > timeoutFlag + 30000) {
+			if (+new Date() > timeoutFlag + 15000) {
 				//Ha ocurrido un timeout
 				let currentOutput = this.getOutputString(outputTape);
 				let finalOutput = {
 					status: "timeout",
-					finalState: currentState,
-					output: currentOutput
+					output: currentOutput,
+					simulationSequence: simulationOrder
 				};
 
 				return finalOutput;
@@ -442,7 +444,6 @@ module.exports = class TMachineController {
 				let currentOutput = this.getOutputString(outputTape);
 				let finalOutput = {
 					status: "failed",
-					finalState: currentState,
 					output: currentOutput,
 					simulationSequence: simulationOrder
 				};
@@ -454,7 +455,6 @@ module.exports = class TMachineController {
 				let currentOutput = this.getOutputString(outputTape);
 				let finalOutput = {
 					status: "failed",
-					finalState: currentState,
 					output: currentOutput,
 					simulationSequence: simulationOrder
 				};
@@ -467,9 +467,10 @@ module.exports = class TMachineController {
 		//Ahora tengo que armar el output.
 		let outputString = this.getOutputString(outputTape);
 
+		simulationOrder.push({state: currentState.name, tape: outputString});
+
 		let finalOutput = {
 			status: "finished",
-			finalState: currentState,
 			output: outputString,
 			simulationSequence: simulationOrder
 		};
