@@ -32,32 +32,26 @@ class StudentCourse extends Component {
 	}
 
 	getInfo = () => {
-		// let apiUrl = "/api/courses/" + this.state.loggedId + "/courses";
-		// axios({
-		// 	url: "/api/auth/me",
-		// 	method: "GET",
-		// })
-		// 	.then((res) => {
-		// 		const isProfessor =
-		// 			res.data.role === "professors" ? true : false;
-		// 		this.setState({
-		// 			firstName: res.data.data.firstName,
-		// 			lastName: res.data.data.lastName,
-		// 			id: res.data.data.id,
-		// 			email: res.data.data.email,
-		// 			password: res.data.data.password,
-		// 			isProfessor: isProfessor,
-		// 		});
-		// 	})
-		// 	.catch((err) => {
-		// 		swal.fire({
-		// 			title: "Oops !",
-		// 			text: "Unexpected error, Try Again",
-		// 			icon: "error",
-		// 			background: "black",
-		// 			color: "white",
-		// 		});
-		// 	});
+		axios({
+			url: "/api/courses/" + this.props.match.params.code,
+			method: "GET",
+		})
+			.then((res) => {
+				this.setState({
+					code: res.data.data.code,
+					name: res.data.data.name,
+					exercises: res.data.data.exercises,
+				});
+			})
+			.catch((err) => {
+				swal.fire({
+					title: "Error!",
+					text: err,
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+			});
 	};
 
 	//Función que actualiza los states
@@ -71,12 +65,73 @@ class StudentCourse extends Component {
 		});
 	};
 
+	displayExercises = (exercises) => {
+		if (exercises.length === 0) {
+			return (
+				// eslint-disable-next-line jsx-a11y/anchor-is-valid
+				<a class="list-group-item list-group-item-action disabled">
+					No Exercises available
+				</a>
+			);
+		}
+
+		return exercises.map((exercise) => (
+			<a
+				href={
+					"/students/course/" +
+					this.props.match.params.code +
+					"/exercise/" +
+					exercise.slugName
+				}
+				class="list-group-item list-group-item-action"
+				aria-current="true"
+			>
+				{exercise.name}
+			</a>
+		));
+	};
+
 	render() {
 		return (
 			<div class="StudentCourse">
 				<NavBar />
 				<div id="container">
-					<h1 id="title">Course</h1>
+					<h1 id="title">
+						{this.state.code} - {this.state.name}
+					</h1>
+					<div class="row">
+						<div class="col">
+							<div class="accordion" id="exercises-accordion">
+								<div class="accordion-item">
+									<h2
+										class="accordion-header"
+										id="exercises-heading"
+									>
+										<button
+											type="button"
+											class="accordion-button collapsed"
+											data-bs-toggle="collapse"
+											data-bs-target="#exercises-data"
+										>
+											Exercises
+										</button>
+									</h2>
+									<div
+										id="exercises-data"
+										class="accordion-collapse collapse show"
+										aria-labelledby="exercises-heading"
+										data-bs-parent="#exercises-accordion"
+									>
+										<div class="list-group">
+											{this.displayExercises(
+												this.state.exercises
+											)}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		);

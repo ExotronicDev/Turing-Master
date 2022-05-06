@@ -5,12 +5,12 @@ import roleChecker from "./Routes/roleChecker";
 
 class NewExercise extends Component {
 	state = {
-		examples: [],
-		tests: [],
 		name: "",
 		description: "",
 		inputDescription: "",
 		outputDescription: "",
+		exampleCases: [],
+		testCases: [],
 		loggedId: "",
 	};
 
@@ -95,12 +95,12 @@ class NewExercise extends Component {
 			},
 		}).then(() => {
 			const example = {
-				number: this.state.examples.length + 1,
+				number: this.state.exampleCases.length + 1,
 				input: document.getElementById("swal-input1").value,
 				output: document.getElementById("swal-input2").value,
 			};
 
-			this.state.examples.push(example);
+			this.state.exampleCases.push(example);
 			this.forceUpdate();
 		});
 	};
@@ -120,12 +120,12 @@ class NewExercise extends Component {
 			},
 		}).then((result) => {
 			const test = {
-				number: this.state.tests.length + 1,
+				number: this.state.testCases.length + 1,
 				input: document.getElementById("swal-input1").value,
 				output: document.getElementById("swal-input2").value,
 			};
 
-			this.state.tests.push(test);
+			this.state.testCases.push(test);
 			this.forceUpdate();
 		});
 	};
@@ -148,7 +148,10 @@ class NewExercise extends Component {
 			});
 		}
 
-		if (this.state.examples.length === 0 || this.state.tests.length === 0) {
+		if (
+			this.state.exampleCases.length === 0 ||
+			this.state.testCases.length === 0
+		) {
 			return swal.fire({
 				title: "Error!",
 				text: "You must enter at least one Example and Test !",
@@ -158,14 +161,7 @@ class NewExercise extends Component {
 			});
 		}
 
-		const exercise = {
-			name: this.state.name,
-			description: this.state.description,
-			inputDescription: this.state.inputDescription,
-			outputDescription: this.state.outputDescription,
-			exampleCases: this.state.examples,
-			testCases: this.state.tests,
-		};
+		const exercise = this.state;
 
 		axios({
 			url: "/api/courses/" + this.props.match.params.code + "/exercises",
@@ -251,7 +247,7 @@ class NewExercise extends Component {
 								/>
 							</div>
 
-							<label for="exapleTable">Examples</label>
+							<label for="exapleTable">exampleCases</label>
 							<table
 								id="exapleTable"
 								className="table table-secondary"
@@ -265,7 +261,7 @@ class NewExercise extends Component {
 								</thead>
 								<tbody>
 									{this.displayExampleCases(
-										this.state.examples
+										this.state.exampleCases
 									)}
 								</tbody>
 							</table>
@@ -292,7 +288,9 @@ class NewExercise extends Component {
 									</tr>
 								</thead>
 								<tbody>
-									{this.displayTestCases(this.state.tests)}
+									{this.displayTestCases(
+										this.state.testCases
+									)}
 								</tbody>
 							</table>
 							<div className="form-group">

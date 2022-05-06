@@ -57,9 +57,6 @@ class NewCourse extends Component {
 		var course = {
 			code: this.state.code,
 			name: this.state.name,
-			// professor: {
-			//     id: this.state.idProfessor
-			// },
 		};
 
 		axios({

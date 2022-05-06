@@ -12,7 +12,10 @@ const ExerciseSchema = new Schema({
 		type: String,
 		index: true,
 		required: true,
-		match: [/^[\w\-\s]+$/, "Please add a valid exercise name."],
+		match: [
+			/^[A-Za-zÀ-ÖØ-öø-ÿ\-\s]+$/,
+			"Please add a valid exercise name.",
+		],
 	},
 	slugName: { type: String, index: true },
 	description: { type: String, required: true },

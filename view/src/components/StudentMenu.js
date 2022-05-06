@@ -12,6 +12,7 @@ class StudentMenu extends Component {
 
 	componentDidMount = () => {
 		this.setLoggedId();
+		this.getCourses();
 		this.getTMachines();
 	};
 
@@ -125,7 +126,7 @@ class StudentMenu extends Component {
 
 		return courses.map((course) => (
 			<a
-				href={"/students/courses/" + course.code}
+				href={"/students/course/" + course.code}
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>

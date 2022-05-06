@@ -51,9 +51,9 @@ class ProfessorCourse extends Component {
 			})
 			.catch((err) => {
 				swal.fire({
-					title: "Oops !",
-					text: "Unexpected error, Try Again",
-					icon: "error",
+					title: "Error!",
+					text: err,
+					icon: "warning",
 					background: "black",
 					color: "white",
 				});
