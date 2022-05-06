@@ -135,6 +135,12 @@ class StudentMenu extends Component {
 		));
 	};
 
+	change = (event) => {
+		event.preventDefault();
+	  
+		window.location = "/students/simulator/" + this.state.loggedId
+	}
+
 	render() {
 		return (
 			<div class="StudentMenu">
@@ -197,7 +203,7 @@ class StudentMenu extends Component {
 									>
 										<div class="list-group">
 											<a
-												href="/students/tmachines/"
+												onClick={this.change}
 												class="list-group-item list-group-item-action"
 												aria-current="true"
 											>
