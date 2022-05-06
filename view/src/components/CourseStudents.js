@@ -32,44 +32,12 @@ class CourseStudents extends Component {
 	state = {
 		students: [],
 		courseStudents: [],
-		loggedId: "",
 	};
 
 	componentDidMount = () => {
-		this.setLoggedId();
 		const students = this.getStudents();
 		const courseStudents = this.getCourseStudents();
 		this.setCourseStudents(students, courseStudents);
-	};
-
-	setLoggedId() {
-		const id = roleChecker.getLoggedId();
-		this.setState({
-			loggedId: id,
-		});
-		if (this.state.loggedId === undefined) {
-			swal.fire({
-				title: "Oops !",
-				text: "User does not have access to this page. Please login to access.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/login";
-			});
-		}
-	}
-
-	getStudents = () => {
-		axios({
-			url: "/api/students",
-			method: "GET",
-		}).then((res) => {
-			this.setState({
-				students: res.data.data,
-			});
-			return res.data.data;
-		});
 	};
 
 	getCourseStudents = () => {
@@ -80,30 +48,24 @@ class CourseStudents extends Component {
 			this.setState({
 				courseStudents: res.data.data,
 			});
+			console.log(this.state.courseStudents);
 			return res.data.data;
 		});
 	};
 
-	containsId(id, students) {
-		for (let i = 0; i < students.length; i++) {
-			let student = students[i];
-			console.log(id, student.id, student.id === id);
-			if (student.id === id) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	inCourse(student, courseStudents) {
-		console.log("Entra");
-		if (this.containsId(student.id, courseStudents)) {
-			console.log("Sale true");
-			return true;
-		}
-		console.log("Sale false");
-		return false;
-	}
+	getStudents = () => {
+		axios({
+			url: "/api/students",
+			method: "GET",
+		}).then((res) => {
+			// this.setState({
+			// 	students: res.data.data,
+			// });
+			this.state.students = res.data.data;
+			console.log(this.state.students);
+			return res.data.data;
+		});
+	};
 
 	setCourseStudents = (students, courseStudents) => {
 		students.forEach((student) => {
@@ -113,10 +75,23 @@ class CourseStudents extends Component {
 			} else {
 				student.inCourse = false;
 			}
+			// console.log(student);
 		});
-		this.state.students = students;
-		return students;
+		// this.state.students = students;
+		// return students;
 	};
+
+	inCourse(student, courseStudents) {
+		const id = student.id;
+		for (let i = 0; i < courseStudents.length; i++) {
+			let student = courseStudents[i];
+			console.log(id, student.id, student.id === id);
+			if (student.id === id) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	change = (student, index) => {
 		if (document.getElementById(index).checked) {
@@ -153,7 +128,7 @@ class CourseStudents extends Component {
 					<Checkbox
 						isChecked={student.inCourse}
 						student={student}
-						index={index}
+						index={index + index}
 					/>
 				</td>
 			</tr>

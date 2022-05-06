@@ -13,28 +13,11 @@ class Profile extends Component {
 		newPassword: "",
 		confirmPassword: "",
 		isProfessor: false,
-		loggedId: "",
 	};
 
 	componentDidMount = () => {
-		this.setLoggedId();
 		this.getInfo();
 	};
-
-	setLoggedId() {
-		this.state.loggedId = roleChecker.getLoggedId();
-		if (this.state.loggedId === undefined) {
-			swal.fire({
-				title: "Oops !",
-				text: "User does not have access to this page. Please login to access.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/login";
-			});
-		}
-	}
 
 	getInfo = () => {
 		axios({
