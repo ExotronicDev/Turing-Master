@@ -740,26 +740,6 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 	res.json({ success: true, length: queryResult.length, data: queryResult });
 });
 
-// @desc		Clone Course
-// @route		POST /api/courses/:code/clone
-// @access		Private
-exports.cloneCourse = asyncHandler(async (req, res, next) => {
-	const control = new ProfessorController();
-	const courseCode = req.params.code;
-	const newCourseCode = req.body;
-	const clonedCourse = await control.cloneCourse(courseCode, newCourseCode);
-
-	if (clonedCourse == -1) {
-		return next(new ErrorResponse(`Course does not exist.`, 404));
-	} else if (clonedCourse == -2) {
-		return next(
-			new ErrorResponse(`New code for cloned course already exists.`)
-		);
-	}
-
-	res.json({ success: true, data: clonedCourse });
-});
-
 // @desc		Update Course
 // @route		POST /api/courses/:code/update
 // @access		Private
@@ -790,7 +770,7 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
 });
 
 // @desc		Get Course Students
-// @route		GET /api/courses/:code/getStudents
+// @route		GET /api/courses/:code/students
 // @access		Private
 exports.getCourseStudents = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
@@ -809,13 +789,13 @@ exports.getCourseStudents = asyncHandler(async (req, res, next) => {
 });
 
 // @desc		Enroll Student in Course
-// @route		POST /api/courses/:code/enrollStudent
+// @route		POST /api/courses/:code/students
 // @access		Private
 exports.enrollStudent = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
 
 	const courseCode = req.params.code;
-	const idStudent = req.body;
+	const idStudent = req.body.idProfessor;
 
 	const enrollResponse = await control.enrollStudent(idStudent, courseCode);
 
