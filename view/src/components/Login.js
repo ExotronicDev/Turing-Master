@@ -27,7 +27,6 @@ class Login extends Component {
 
 	submit = (event) => {
 		event.preventDefault();
-		console.log(process.env);
 		if (this.state.email === "" || this.state.password === "") {
 			swal.fire({
 				title: "You must fill all fields",
@@ -64,7 +63,6 @@ class Login extends Component {
 				}
 			})
 			.catch((err) => {
-				console.log(err.response);
 				swal.fire({
 					title: "Error!",
 					text: err.response.data.error,

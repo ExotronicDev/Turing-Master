@@ -22,7 +22,6 @@ function NavBar() {
 				}
 			})
 			.catch((err) => {
-				console.log(err.response);
 				swal.fire({
 					title: "Error!",
 					text: err.response.data.error,
@@ -56,7 +55,6 @@ function NavBar() {
 				}
 			})
 			.catch((err) => {
-				console.log(err.response);
 				swal.fire({
 					title: "Error!",
 					text: err.response.data.error,

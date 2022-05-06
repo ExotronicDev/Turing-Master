@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
@@ -13,7 +14,6 @@ class ProfessorCourse extends Component {
 	};
 
 	componentDidMount = () => {
-		this.setCourseCode();
 		this.setLoggedId();
 		this.getInfo();
 	};
@@ -36,39 +36,12 @@ class ProfessorCourse extends Component {
 		}
 	}
 
-	setCourseCode() {
-		let courseCode;
-		const searchString = "/professors/course/";
-		const currentUrl = window.location.href;
-
-		var start = currentUrl.search(searchString);
-		if (start === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/professors/menu";
-			});
-		}
-		// length of "/students/course/", so searches next to it
-		start += searchString.length;
-		courseCode = currentUrl.substring(start);
-
-		this.state.code = courseCode;
-	}
-
 	getInfo = () => {
-		// let apiUrl = "/api/courses/" + this.state.loggedId + "/courses";
 		axios({
-			url: "/api/courses/" + this.state.code,
+			url: "/api/courses/" + this.props.match.params.code,
 			method: "GET",
 		})
 			.then((res) => {
-				const isProfessor =
-					res.data.role === "professors" ? true : false;
 				this.setState({
 					code: res.data.data.code,
 					name: res.data.data.name,
@@ -110,7 +83,12 @@ class ProfessorCourse extends Component {
 
 		return exercises.map((exercise) => (
 			<a
-				href={"/professors/course/" + this.state.code + "/exercise/" + exercise.slugName}
+				href={
+					"/professors/course/" +
+					this.state.code +
+					"/exercise/" +
+					exercise.slugName
+				}
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>
@@ -156,18 +134,19 @@ class ProfessorCourse extends Component {
 		if (!document.getElementById("check2").checked) {
 			document.getElementById("name").disabled = "disabled";
 		}
-	}
+	};
 
-	save = () => {
-
-	}
+	save = () => {};
 
 	render() {
 		return (
 			<div class="ProfessorCourse">
 				<NavBar />
 				<div id="container">
-					<p id="title"> {this.state.code} - {this.state.name} </p>
+					<p id="title">
+						{" "}
+						{this.state.code} - {this.state.name}{" "}
+					</p>
 					<form onSubmit={this.save}>
 						<div class="form-group row align-items-end justify-content-end">
 							<label for="name">Name</label>

@@ -48,11 +48,8 @@ class ProfessorMenu extends Component {
 				this.setState({
 					courses: courses,
 				});
-				console.log(this.state.courses);
-				console.log("Data lista");
 			})
 			.catch((err) => {
-				console.log(err);
 				swal.fire({
 					title: "Error!",
 					text: err,

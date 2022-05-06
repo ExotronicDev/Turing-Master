@@ -4,21 +4,18 @@ import NavBar from "./NavBar/NavBar";
 import roleChecker from "./Routes/roleChecker";
 
 class NewExercise extends Component {
-    state = {
-        examples: [],
-        tests: [],
+	state = {
+		examples: [],
+		tests: [],
 		name: "",
 		description: "",
 		inputDescription: "",
 		outputDescription: "",
-		code: "",
-		loggedId: ""
-    }
+		loggedId: "",
+	};
 
 	componentDidMount = () => {
 		this.setLoggedId();
-		this.setCourseCode();
-		//this.getInfo();
 	};
 
 	//Función que actualiza los states
@@ -47,54 +44,7 @@ class NewExercise extends Component {
 		}
 	}
 
-	setCourseCode() {
-		let courseCode;
-		const searchString = "/professors/course/";
-		const currentUrl = window.location.href;
-
-		var start = currentUrl.search(searchString);
-		if (start === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/professors/menu";
-			});
-		}
-		// length of "/students/course/", so searches next to it
-
-		console.log("ME CAGOOOOOOOO", start)
-
-		start += searchString.length;
-		courseCode = currentUrl.substring(start);
-
-		// find first "/" after slicing string
-		const end = courseCode.indexOf("/");
-		if (end === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/professors/menu";
-			});
-		}
-
-		console.log("HMMMMMMMM", courseCode, "-----", end);
-
-		courseCode = courseCode.substring(0, end);
-		this.state.code = courseCode;
-
-		console.log("PLEASE", courseCode, "----", this.state.code)
-	}
-
 	displayExampleCases = (exampleCases) => {
-		
 		if (exampleCases.length === 0) {
 			return (
 				<th id="noCases" scope="row" colSpan="3">
@@ -104,7 +54,6 @@ class NewExercise extends Component {
 		}
 
 		return exampleCases.map((example) => (
-			
 			<tr>
 				<th scope="row">{example.number}</th>
 				<td>{example.input}</td>
@@ -131,82 +80,82 @@ class NewExercise extends Component {
 		));
 	};
 
-    addExample = (event) => {
-        event.preventDefault()
+	addExample = (event) => {
+		event.preventDefault();
 		swal.fire({
 			title: "Fill the Example information",
 			html:
 				'<input id="swal-input1" class="swal2-input" placeholder="Example Input">' +
-				'<input id="swal-input2" class="swal2-input" placeholder="Example Output">' ,
+				'<input id="swal-input2" class="swal2-input" placeholder="Example Output">',
 			background: "black",
 			color: "white",
-			confirmButtonText: 'Add',
+			confirmButtonText: "Add",
 			customClass: {
-				confirmButton: 'btn btn-success',
+				confirmButton: "btn btn-success",
 			},
 		}).then(() => {
 			const example = {
 				number: this.state.examples.length + 1,
-				input: document.getElementById('swal-input1').value,
-				output: document.getElementById('swal-input2').value,
-			}	
+				input: document.getElementById("swal-input1").value,
+				output: document.getElementById("swal-input2").value,
+			};
 
-            this.state.examples.push(example);
+			this.state.examples.push(example);
 			this.forceUpdate();
-		})
-	}
+		});
+	};
 
-    addTest = (event) => {
-        event.preventDefault()
+	addTest = (event) => {
+		event.preventDefault();
 		swal.fire({
 			title: "Fill the Test information",
 			html:
 				'<input id="swal-input1" class="swal2-input" placeholder="Test Input">' +
-				'<input id="swal-input2" class="swal2-input" placeholder="Test Output">' ,
+				'<input id="swal-input2" class="swal2-input" placeholder="Test Output">',
 			background: "black",
 			color: "white",
-			confirmButtonText: 'Add',
-			  customClass: {
-				confirmButton: 'btn btn-success',
+			confirmButtonText: "Add",
+			customClass: {
+				confirmButton: "btn btn-success",
 			},
 		}).then((result) => {
 			const test = {
 				number: this.state.tests.length + 1,
-				input: document.getElementById('swal-input1').value,
-				output: document.getElementById('swal-input2').value,
-			}
+				input: document.getElementById("swal-input1").value,
+				output: document.getElementById("swal-input2").value,
+			};
 
 			this.state.tests.push(test);
 			this.forceUpdate();
-		})
-	}
+		});
+	};
 
 	save = (event) => {
 		event.preventDefault();
 
-		if (this.state.name === "" || this.state.description === "" || this.state.inputDescription === "" 
-		|| this.state.outputDescription === "") {
-			return(
-				swal.fire({
-					title: "Error!",
-					text: "You must Fill all the entries !",
-					icon: "warning",
-					background: "black",
-					color: "white",	
-				})
-			)
+		if (
+			this.state.name === "" ||
+			this.state.description === "" ||
+			this.state.inputDescription === "" ||
+			this.state.outputDescription === ""
+		) {
+			return swal.fire({
+				title: "Error!",
+				text: "You must Fill all the entries !",
+				icon: "warning",
+				background: "black",
+				color: "white",
+			});
 		}
 
 		if (this.state.examples.length === 0 || this.state.tests.length === 0) {
-			return(
-				swal.fire({
-					title: "Error!",
-					text: "You must enter at least one Example and Test !",
-					icon: "warning",
-					background: "black",
-					color: "white",	
-				})
-			)
+			return swal.fire({
+				title: "Error!",
+				text: "You must enter at least one Example and Test !",
+				icon: "warning",
+				background: "black",
+				color: "white",
+			});
 		}
 
 		const exercise = {
@@ -215,46 +164,47 @@ class NewExercise extends Component {
 			inputDescription: this.state.inputDescription,
 			outputDescription: this.state.outputDescription,
 			exampleCases: this.state.examples,
-			testCases: this.state.tests
-		}
+			testCases: this.state.tests,
+		};
 
 		axios({
-			url: "/api/courses/" + this.state.code + "/exercises",
+			url: "/api/courses/" + this.props.match.params.code + "/exercises",
 			method: "POST",
-			data: exercise
+			data: exercise,
 		})
-		.then(() => {
-			swal.fire({
-				title: "Success!",
-				text: "Exercise has been added successfully !",
-				icon: "success",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/professors/course/" + this.state.code;
+			.then(() => {
+				swal.fire({
+					title: "Success!",
+					text: "Exercise has been added successfully !",
+					icon: "success",
+					background: "black",
+					color: "white",
+				}).then(() => {
+					window.location =
+						"/professors/course/" + this.props.match.params.code;
+				});
+			})
+			.catch(() => {
+				swal.fire({
+					title: "Oops !",
+					text: "Unexpected error, Try Again",
+					icon: "error",
+					background: "black",
+					color: "white",
+				});
 			});
-		})
-		.catch(() => {
-			swal.fire({
-				title: "Oops !",
-				text: "Unexpected error, Try Again",
-				icon: "error",
-				background: "black",
-				color: "white",
-			});
-		})
-	}
+	};
 
-    render() {
-        return (
-            <div id="form-view" className="NewExercise">
+	render() {
+		return (
+			<div id="form-view" className="NewExercise">
 				<NavBar />
 				<div id="container">
-                    <h1 id="title"> Fill the Exercise Information</h1>
+					<h1 id="title"> Fill the Exercise Information</h1>
 					<div id="box">
 						<form id="boxform" onSubmit={this.save}>
-                            <label for="name"> Exercise Name</label>
-                            <div className="form-group">
+							<label for="name">Exercise Name</label>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -264,7 +214,7 @@ class NewExercise extends Component {
 								/>
 							</div>
 
-                            <label for="description">Description</label>
+							<label for="description">Description</label>
 							<div className="form-group">
 								<textarea
 									type="text"
@@ -319,17 +269,17 @@ class NewExercise extends Component {
 									)}
 								</tbody>
 							</table>
-                            <div className="form-group">             
-                                <button
-                                    id="solve"
-                                    onClick={this.addExample}
-                                    className="btn btn-primary"
-                                >
-                                    Add Example
-                                </button>
-                            </div>
+							<div className="form-group">
+								<button
+									id="add"
+									onClick={this.addExample}
+									className="btn btn-primary"
+								>
+									Add Example
+								</button>
+							</div>
 
-                            <label for="exapleTable">Test Cases</label>
+							<label for="exapleTable">Test Cases</label>
 							<table
 								id="exapleTable"
 								className="table table-secondary"
@@ -342,23 +292,20 @@ class NewExercise extends Component {
 									</tr>
 								</thead>
 								<tbody>
-									{this.displayTestCases(
-										this.state.tests
-									)
-                                    }
+									{this.displayTestCases(this.state.tests)}
 								</tbody>
 							</table>
-                            <div className="form-group">
-                                <button
-                                    id="solve"
-                                    onClick={this.addTest}
-                                    className="btn btn-primary"
-                                >
-                                    Add Case
-                                </button>
-                            </div>
-                            <button
-								id="solve"
+							<div className="form-group">
+								<button
+									id="add"
+									onClick={this.addTest}
+									className="btn btn-primary"
+								>
+									Add Case
+								</button>
+							</div>
+							<button
+								id="save"
 								type="submit"
 								className="btn btn-primary"
 							>
@@ -368,8 +315,8 @@ class NewExercise extends Component {
 					</div>
 				</div>
 			</div>
-        )
-    }
+		);
+	}
 }
 
-export default NewExercise
+export default NewExercise;

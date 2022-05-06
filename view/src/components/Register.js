@@ -102,7 +102,6 @@ class Register extends Component {
 				}
 			})
 			.catch((err) => {
-				console.log(err.response);
 				swal.fire({
 					title: "Error!",
 					text: err.response.data.error,
