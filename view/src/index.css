@@ -1,0 +1,550 @@
+/*-----------------Home----------------- */
+
+.Home {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.Home button {
+	width: 15vw;
+	position: relative;
+	flex-direction: row;
+
+	font-family: "Arial";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 100%;
+}
+
+.Home .title {
+	position: relative;
+	margin-top: 15vh;
+	margin-bottom: 5vh;
+
+	font-family: "Fira Sans";
+	font-style: normal;
+	font-weight: 600;
+	font-size: 5vw;
+
+	color: white;
+}
+
+.Home #container {
+    width: 70%;
+}
+
+.Home #background {
+	display: flex;
+	flex-direction: column;
+	padding-top: 21vh;
+	background-image: url("./TitleBackground.png");	
+	background-size: 100% 100%;
+}
+
+.Home #options {
+	display: flex;
+}
+
+.Home #options form {
+	width: 50%;
+	margin-top: 5vh;
+}
+
+.Home #login {
+	margin-left: 15vw;
+}
+
+.Home #register {
+	margin-right: 15vw;
+}
+
+/*-----------------Register----------------- */
+
+.Register {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.Register input {
+	width: 85%;
+	margin: 0% 7.5% 0% 7.5%;
+}
+
+.Register .form-check {
+	margin-left: 1.5vw;
+	margin-top: 3%;
+	width: 80%;
+}
+
+.Register .form-check-input {
+	margin-left: -13%;
+	align-items: center;
+	height: 3vh;
+	width: 3vw;
+}
+
+.Register button {
+	width: 85%;
+	margin: 2% 7.5% 5% 7.5%;
+	font-size: 50%;
+}
+
+.Register #professor-label {
+	margin-left: -0.7vw;
+	font-weight: 400;
+	float: left;
+}
+
+.Register #passwordHelpInline {
+	color: white;
+	font-style: italic;
+	font-size: 40%;
+}
+
+/*-----------------Login----------------- */
+
+.Login .form-check {
+	margin-left: 1.7vw;
+	margin-top: 4%;
+	width: 60%;
+}
+
+.Login .form-check-input {
+	margin-top: 1%;
+	margin-left: -30%;
+	width: 3vw;
+}
+
+.Login #container {
+	margin-top: 10%;
+	width: 80%;
+}
+
+.Login button {
+	width: 85%;
+	margin: 2% 7.5% 5% 7.5%;
+	font-size: 50%;
+}
+
+.Login #professor-label {
+	padding-left: 6.5%;
+	margin-left: -0.7vw;
+	font-weight: 400;
+	float: left;
+}
+
+/*-----------------Profile----------------- */
+
+.Profile {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-attachment: fixed;
+}
+
+.Profile #container {
+	margin-top: 15vh;
+	width: 50%;
+}
+
+.Profile #edit {
+	text-align: right;
+	padding: 0;
+}
+
+.Profile #save {
+	margin: 5%;
+	width: 30%;
+}
+
+.Profile .row {
+	height: 100%;
+	margin-bottom: 1%;
+}
+
+.Profile label {
+	text-align: center;
+  	color: white;
+
+    font-weight: 500;
+    font-size: 60%;
+}
+
+.Profile input {
+	width: 100%;
+}
+
+/*-----------------StudentMenu----------------- */
+
+.StudentMenu {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.StudentMenu #container {
+	margin-top: 15vh;
+    width: 70%;
+}
+
+/*-----------------StudentCourse----------------- */
+
+.StudentCourse {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.StudentCourse #container {
+	margin-top: 7.5%;
+    width: 70%;
+}
+
+/*-----------------StudentExercise----------------- */
+
+.StudentExercise {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.StudentExercise #container {
+	margin-top: 7.5%;
+}
+
+.StudentExercise #box {
+	width: 60% !important;
+	margin: 0% 20% 0% 20% !important;
+}
+
+.StudentExercise p {
+	width: 90%;
+	margin: 3% 5% 0% 5%;
+	
+	color: white;
+	font-weight: 500;
+	font-size: 80%;
+}
+
+.StudentExercise textarea {
+	width: 85%;
+	margin: 0% 7.5% 0% 7.5%;
+	resize: none;
+}
+
+.StudentExercise .form-check {
+	margin-left: 1.5vw;
+	margin-top: 3%;
+	width: 80%;
+}
+
+.StudentExercise .form-check-input {
+	margin-left: -13%;
+	align-items: center;
+	height: 3vh;
+	width: 3vw;
+}
+
+.StudentExercise .table {
+	margin: 0% 7.5% 0% 7.5%;
+	width: 85%;
+}
+
+.StudentExercise th {
+	font-size: 60%;
+}
+
+.StudentExercise td {
+	font-size: 60%;
+}
+
+.StudentExercise #noCases {
+	color: white;
+}
+
+.StudentExercise #solve {
+	width: 50%;
+	margin: 3% 25% 3% 25%;
+	font-size: 50%;
+}
+
+/*-----------------Simulator----------------- */
+
+.Simulator {
+	width: 100wh;
+	height: 100vh;
+	background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+	opacity: 0.9;
+	background-size: 400% 400%;
+}
+
+/*-----------------ProfessorMenu----------------- */
+
+.ProfessorMenu {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.ProfessorMenu #container {
+	margin-top: 15vh;
+    width: 70%;
+}
+
+
+/*-----------------NewCourse----------------- */
+
+.NewCourse input {
+	width: 85%;
+	margin: 0% 7.5% 0% 7.5%;
+}
+
+.NewCourse .form-check {
+	margin-left: 1.5vw;
+	margin-top: 3%;
+	width: 80%;
+}
+
+.NewCourse .form-check-input {
+	margin-left: -13%;
+	align-items: center;
+	height: 3vh;
+	width: 3vw;
+}
+
+.NewCourse #container {
+	margin-top: 10%;
+}
+
+.NewCourse #create {
+	width: 85%;
+	margin: 5% 7.5% 5% 7.5%;
+	font-size: 50%;
+}
+
+/*-----------------ProfessorCourse----------------- */
+
+.ProfessorCourse {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.ProfessorCourse #container {
+	margin-top: 15vh;
+	width: 50%;
+}
+
+.ProfessorCourse #edit {
+	text-align: right;
+	padding: 0;
+}
+
+.ProfessorCourse #save {
+	margin: 5%;
+	width: 30%;
+}
+
+.ProfessorCourse .row {
+	height: 100%;
+	margin-bottom: 1%;
+}
+
+.ProfessorCourse label {
+	text-align: center;
+  	color: white;
+
+    font-weight: 500;
+    font-size: 60%;
+}
+
+.ProfessorCourse input {
+	width: 100%;
+}
+
+/*-----------------NewExercise----------------- */
+
+.NewExercise {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.NewExercise #container {
+	margin-top: 7.5%;
+}
+
+.NewExercise #box {
+	width: 60% !important;
+	margin: 0% 20% 0% 20% !important;
+}
+
+.NewExercise p {
+	width: 90%;
+	margin: 3% 5% 0% 5%;
+	
+	color: white;
+	font-weight: 500;
+	font-size: 80%;
+}
+
+.NewExercise .form-group>* {
+	width: 85%;
+	margin: 0% 7.5% 0% 7.5%;
+	resize: none;
+}
+
+.NewExercise .form-check {
+	margin-left: 1.5vw;
+	margin-top: 3%;
+	width: 80%;
+}
+
+.NewExercise .form-check-input {
+	margin-left: -13%;
+	align-items: center;
+	height: 3vh;
+	width: 3vw;
+}
+
+.NewExercise .table {
+	margin: 0% 7.5% 0% 7.5%;
+	width: 85%;
+}
+
+.NewExercise th {
+	font-size: 60%;
+}
+
+.NewExercise td {
+	font-size: 60%;
+}
+
+.NewExercise #noCases {
+	color: white;
+}
+
+.NewExercise #add {
+	width: 15%;
+	margin: 3% 42.5% 0% 42.5%;
+	font-size: 50%;
+}
+
+.NewExercise #save {
+	width: 50%;
+	margin: 3% 25% 3% 25%;
+	font-size: 60%;
+}
+
+/*-----------------ProfessorExercise----------------- */
+
+.ProfessorExercise {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.ProfessorExercise #container {
+	margin-top: 15vh;
+	width: 50%;
+}
+
+.ProfessorExercise #edit {
+	text-align: right;
+	padding: 0;
+}
+
+.ProfessorExercise #save {
+	margin: 5%;
+	width: 30%;
+}
+
+.ProfessorExercise .row {
+	height: 100%;
+	margin-bottom: 1%;
+}
+
+.ProfessorExercise label {
+	text-align: center;
+  	color: white;
+
+    font-weight: 500;
+    font-size: 60%;
+}
+
+.ProfessorExercise input {
+	width: 100%;
+}
+
+/*-----------------CourseStudents----------------- */
+
+.CourseStudents {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.CourseStudents #container {
+	margin-top: 7.5%;
+}
+
+.CourseStudents #edit {
+	text-align: right;
+	padding: 0;
+}
+
+.CourseStudents #save {
+	margin: 5%;
+	width: 30%;
+}
+
+.CourseStudents .row {
+	height: 100%;
+	margin-bottom: 1%;
+}
+
+.CourseStudents label {
+	text-align: left;
+  	color: white;
+
+    font-weight: 500;
+    font-size: 60%;
+}
+
+.CourseStudents input {
+	width: 100%;
+}
