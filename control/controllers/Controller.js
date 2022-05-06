@@ -795,7 +795,7 @@ exports.enrollStudent = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
 
 	const courseCode = req.params.code;
-	const idStudent = req.body.idProfessor;
+	const idStudent = req.body.idStudent;
 
 	const enrollResponse = await control.enrollStudent(idStudent, courseCode);
 
