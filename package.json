@@ -5,11 +5,8 @@
   "main": "server.js",
   "homepage": "https://turingmaster.herokuapp.com/",
   "scripts": {
-    "first-install": "npm install && cd view && npm install && cd ..",
-    "install-view": "cd view && npm install",
-    "heroku-postbuild": "npm run install-view && npm run build",
     "start": "npm run app",
-    "backend": "nodemon server.js",
+    "backend": "node server.js",
     "frontend": "cd view && npm start",
     "build": "cd view && npm run build",
     "app": "concurrently -n 'Back-end,Front-end' -c 'red,blue' \"npm run backend\" \"npm run frontend\""
