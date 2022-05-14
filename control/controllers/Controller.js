@@ -66,7 +66,7 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
 	if (foundStudent.length != 0) {
 		return next(
 			new ErrorResponse(
-				`Student is alreday registered. Please login with the existing account or create a new one.`,
+				`Student is already registered. Please login with the existing account or create a new one.`,
 				409
 			)
 		);
@@ -386,7 +386,11 @@ exports.getStudentCourses = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse(`Student does not exist.`, 404));
 	}
 
-	res.json({ success: true, length: foundCourses.length, data: foundCourses });
+	res.json({
+		success: true,
+		length: foundCourses.length,
+		data: foundCourses,
+	});
 });
 
 //-----------------Counter-----------------//
@@ -837,7 +841,9 @@ exports.cloneCourse = asyncHandler(async (req, res, next) => {
 	if (cloneResponse == -1) {
 		return next(new ErrorResponse(`Course does not exist.`, 404));
 	} else if (cloneResponse == -2) {
-		return next(new ErrorResponse(`New code for cloned course already exists.`, 409));
+		return next(
+			new ErrorResponse(`New code for cloned course already exists.`, 409)
+		);
 	}
 
 	res.json({ success: true, data: cloneResponse });
@@ -884,10 +890,19 @@ exports.updateExercise = asyncHandler(async (req, res, next) => {
 		outputDescription:
 	}
 	*/
-	const updateResponse = await control.updateExercise(exerciseSlug, courseCode, exerciseChanges);
+	const updateResponse = await control.updateExercise(
+		exerciseSlug,
+		courseCode,
+		exerciseChanges
+	);
 
 	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
-		return next(new ErrorResponse(`Exercise could not be updated. No changes were made to the Exercise.`, 304));
+		return next(
+			new ErrorResponse(
+				`Exercise could not be updated. No changes were made to the Exercise.`,
+				304
+			)
+		);
 	}
 
 	res.json({ success: true, data: updateResponse });
@@ -910,10 +925,19 @@ exports.saveExerciseArrays = asyncHandler(async (req, res, next) => {
 		testCases:
 	}
 	*/
-	const updateResponse = await control.updateExercise(exerciseSlug, courseCode, exerciseChanges);
+	const updateResponse = await control.updateExercise(
+		exerciseSlug,
+		courseCode,
+		exerciseChanges
+	);
 
 	if (updateResponse.modifiedCount == 0 || !updateResponse.acknowledged) {
-		return next(new ErrorResponse(`Exercise could not be updated. No changes were made to the Exercise.`, 304));
+		return next(
+			new ErrorResponse(
+				`Exercise could not be updated. No changes were made to the Exercise.`,
+				304
+			)
+		);
 	}
 
 	res.json({ success: true, data: updateResponse });
@@ -953,7 +977,11 @@ exports.getExercises = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse(`Course does not exist.`, 404));
 	}
 
-	res.json({ success: true, length: storedExercises.length, data: storedExercises });
+	res.json({
+		success: true,
+		length: storedExercises.length,
+		data: storedExercises,
+	});
 });
 
 // @desc		Delete Exercise
@@ -965,7 +993,10 @@ exports.deleteExercise = asyncHandler(async (req, res, next) => {
 	const courseCode = req.params.code;
 	const exerciseSlug = req.params.slug;
 
-	const deleteResponse = await control.deleteExercise(courseCode, exerciseSlug);
+	const deleteResponse = await control.deleteExercise(
+		courseCode,
+		exerciseSlug
+	);
 
 	if (deleteResponse == -1) {
 		return next(new ErrorResponse(`Course does not exist.`, 404));
@@ -994,7 +1025,11 @@ exports.getTestCases = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse(`Exercise does not exist.`, 404));
 	}
 
-	return res.json({ success: true, length: testCases.length, data: testCases });
+	return res.json({
+		success: true,
+		length: testCases.length,
+		data: testCases,
+	});
 });
 
 // @desc		Create Exercise Test Case
@@ -1006,7 +1041,12 @@ exports.createTestCase = (req, res, next) => {
 	const modifiedTestCases = control.createTestCase(testCases, newTestCase);
 
 	if (modifiedTestCases == -1) {
-		return next(new ErrorResponse(`Test Case "${newTestCase.number}" already exists.`, 409));
+		return next(
+			new ErrorResponse(
+				`Test Case "${newTestCase.number}" already exists.`,
+				409
+			)
+		);
 	}
 
 	res.json({ success: true, testCases: modifiedTestCases });
@@ -1018,10 +1058,18 @@ exports.createTestCase = (req, res, next) => {
 exports.updateTestCase = (req, res, next) => {
 	const control = new ProfessorController();
 	const { testCases, modifiedTestCase } = req.body;
-	const modifiedTestCases = control.updateTestCase(testCases, modifiedTestCase);
+	const modifiedTestCases = control.updateTestCase(
+		testCases,
+		modifiedTestCase
+	);
 
 	if (modifiedTestCases == -1) {
-		return next(new ErrorResponse(`Could not modify test case "${modifiedTestCase.number}"`, 309));
+		return next(
+			new ErrorResponse(
+				`Could not modify test case "${modifiedTestCase.number}"`,
+				309
+			)
+		);
 	}
 
 	res.json({ success: true, testCases: modifiedTestCases });
@@ -1033,10 +1081,18 @@ exports.updateTestCase = (req, res, next) => {
 exports.deleteTestCase = (req, res, next) => {
 	const control = new ProfessorController();
 	const { testCases, deletedTestCase } = req.body;
-	const modifiedTestCases = control.deleteTestCase(testCases, deletedTestCase);
+	const modifiedTestCases = control.deleteTestCase(
+		testCases,
+		deletedTestCase
+	);
 
 	if (modifiedTestCases == -1) {
-		return next(new ErrorResponse(`Test Case "${deletedTestCase.number}" does not exist.`, 404));
+		return next(
+			new ErrorResponse(
+				`Test Case "${deletedTestCase.number}" does not exist.`,
+				404
+			)
+		);
 	}
 
 	res.json({ success: true, testCases: modifiedTestCases });
@@ -1059,7 +1115,11 @@ exports.getExampleCases = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse(`Exercise does not exist.`, 404));
 	}
 
-	return res.json({ success: true, length: exampleCases.length, data: exampleCases });
+	return res.json({
+		success: true,
+		length: exampleCases.length,
+		data: exampleCases,
+	});
 });
 
 // @desc		Create Exercise Example Case
@@ -1068,10 +1128,18 @@ exports.getExampleCases = asyncHandler(async (req, res, next) => {
 exports.createExampleCase = (req, res, next) => {
 	const control = new ProfessorController();
 	const { exampleCases, newExampleCase } = req.body;
-	const modifiedExampleCases = control.createTestCase(exampleCases, newExampleCase);
+	const modifiedExampleCases = control.createTestCase(
+		exampleCases,
+		newExampleCase
+	);
 
 	if (modifiedExampleCases == -1) {
-		return next(new ErrorResponse(`Test Case "${newExampleCase.number}" already exists.`, 409));
+		return next(
+			new ErrorResponse(
+				`Test Case "${newExampleCase.number}" already exists.`,
+				409
+			)
+		);
 	}
 
 	res.json({ success: true, testCases: modifiedExampleCases });
@@ -1083,10 +1151,18 @@ exports.createExampleCase = (req, res, next) => {
 exports.updateExampleCase = (req, res, next) => {
 	const control = new ProfessorController();
 	const { exampleCases, modifiedExampleCase } = req.body;
-	const modifiedExampleCases = control.updateTestCase(exampleCases, modifiedExampleCase);
+	const modifiedExampleCases = control.updateTestCase(
+		exampleCases,
+		modifiedExampleCase
+	);
 
 	if (modifiedExampleCases == -1) {
-		return next(new ErrorResponse(`Could not modify test case "${modifiedExampleCase.number}"`, 309));
+		return next(
+			new ErrorResponse(
+				`Could not modify test case "${modifiedExampleCase.number}"`,
+				309
+			)
+		);
 	}
 
 	res.json({ success: true, testCases: modifiedExampleCases });
@@ -1098,10 +1174,18 @@ exports.updateExampleCase = (req, res, next) => {
 exports.deleteExampleCase = (req, res, next) => {
 	const control = new ProfessorController();
 	const { exampleCases, deletedExampleCase } = req.body;
-	const modifiedExampleCases = control.deleteTestCase(exampleCases, deletedExampleCase);
+	const modifiedExampleCases = control.deleteTestCase(
+		exampleCases,
+		deletedExampleCase
+	);
 
 	if (modifiedExampleCases == -1) {
-		return next(new ErrorResponse(`Test Case "${deletedExampleCase.number}" does not exist.`, 404));
+		return next(
+			new ErrorResponse(
+				`Test Case "${deletedExampleCase.number}" does not exist.`,
+				404
+			)
+		);
 	}
 
 	res.json({ success: true, testCases: modifiedExampleCases });

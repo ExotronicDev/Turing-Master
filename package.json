@@ -5,7 +5,7 @@
   "main": "server.js",
   "homepage": "https://turingmaster.herokuapp.com/",
   "scripts": {
-    "start": "npm run app",
+    "start": "npm backend",
     "backend": "node server.js",
     "frontend": "cd view && npm start",
     "build": "cd view && npm run build",
