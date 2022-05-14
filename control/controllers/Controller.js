@@ -66,7 +66,7 @@ exports.registerStudent = asyncHandler(async (req, res, next) => {
 	if (foundStudent.length != 0) {
 		return next(
 			new ErrorResponse(
-				`Student is alreday registered. Please login with the existing account or create a new one.`,
+				`Student is already registered. Please login with the existing account or create a new one.`,
 				409
 			)
 		);
