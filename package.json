@@ -10,6 +10,7 @@
     "frontend": "cd view && npm start",
     "build": "cd view && npm run build",
     "static": "Xcopy /e /y view\\build static\\build\\",
+    "build-prod": "npm run build && npm run static",
     "app": "concurrently -n 'Back-end,Front-end' -c 'red,blue' \"npm run backend\" \"npm run frontend\""
   },
   "repository": {
