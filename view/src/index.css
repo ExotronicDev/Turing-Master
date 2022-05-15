@@ -507,6 +507,11 @@
 	width: 100%;
 }
 
+.ProfessorExercise textarea {	
+	height: auto;
+	resize: none;
+}
+
 /*-----------------CourseStudents----------------- */
 
 .CourseStudents {

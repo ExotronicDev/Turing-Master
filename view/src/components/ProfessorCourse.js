@@ -149,7 +149,7 @@ class ProfessorCourse extends Component {
 					</p>
 					<form onSubmit={this.save}>
 						<div class="form-group row align-items-end justify-content-end">
-							<label for="name">Name</label>
+							<label for="name">Course name</label>
 							<div class="col-8">
 								<input
 									type="text"
