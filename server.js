@@ -90,7 +90,7 @@ const server = app.listen(
 if (process.env.NODE_ENV === "production") {
 	const build = path.join(__dirname, "static", "build");
 	app.use(express.static(build));
-	app.get("/*", async (req, res) => {
+	app.get("*", async (req, res) => {
 		res.sendFile(path.join(build, "index.html"));
 	});
 }
