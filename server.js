@@ -79,16 +79,8 @@ const server = app.listen(
 	console.log(`Server initialized on port: ${process.env.PORT}.`.yellow.bold)
 );
 
-// if (process.env.NODE_ENV === "production") {
-// 	// Build react for Heroku
-// 	const reactBuild = path.join(__dirname, "view", "build");
-// 	app.use(express.static(reactBuild));
-// 	app.get("*", async (req, res) => {
-// 		res.sendFile(path.join(reactBuild, "index.html"));
-// 	});
-// }
 if (process.env.NODE_ENV === "production") {
-	const build = path.join(__dirname, "static", "build");
+	const build = path.join(__dirname, "public", "build");
 	app.use(express.static(build));
 	app.get("*", async (req, res) => {
 		res.sendFile(path.join(build, "index.html"));
