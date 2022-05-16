@@ -11,6 +11,11 @@ class NewExercise extends Component {
 		outputDescription: "",
 		exampleCases: [],
 		testCases: [],
+		loggedId: "",
+	};
+
+	componentDidMount = () => {
+		this.setLoggedId();
 	};
 
 	//Función que actualiza los states
@@ -23,6 +28,21 @@ class NewExercise extends Component {
 			[id]: value,
 		});
 	};
+
+	setLoggedId() {
+		this.state.loggedId = roleChecker.getLoggedId();
+		if (this.state.loggedId === undefined) {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+	}
 
 	displayExampleCases = (exampleCases) => {
 		if (exampleCases.length === 0) {

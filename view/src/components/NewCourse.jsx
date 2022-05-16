@@ -7,7 +7,27 @@ class NewCourse extends Component {
 	state = {
 		code: "",
 		name: "",
+		loggedId: "",
 	};
+
+	componentDidMount = () => {
+		this.setLoggedId();
+	};
+
+	setLoggedId() {
+		this.state.loggedId = roleChecker.getLoggedId();
+		if (this.state.loggedId === undefined) {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+	}
 
 	//Función que actualiza los states
 	handleChange = (event) => {

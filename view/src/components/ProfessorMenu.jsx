@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
@@ -7,12 +6,28 @@ import roleChecker from "./Routes/roleChecker";
 class ProfessorMenu extends Component {
 	state = {
 		courses: [],
-		loggedId: roleChecker.getLoggedId(),
+		loggedId: "",
 	};
 
 	componentDidMount = () => {
+		this.setLoggedId();
 		this.getCourses();
 	};
+
+	setLoggedId() {
+		this.state.loggedId = roleChecker.getLoggedId();
+		if (this.state.loggedId === undefined) {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+	}
 
 	getCourses = () => {
 		let apiUrl = "/api/professors/" + this.state.loggedId + "/courses";
@@ -48,6 +63,7 @@ class ProfessorMenu extends Component {
 	displayCourses = (courses) => {
 		if (courses.length === 0) {
 			return (
+				// eslint-disable-next-line jsx-a11y/anchor-is-valid
 				<a class="list-group-item list-group-item-action disabled">
 					No Courses registered
 				</a>

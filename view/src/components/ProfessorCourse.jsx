@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
+import roleChecker from "./Routes/roleChecker";
 
 class ProfessorCourse extends Component {
 	state = {
@@ -9,11 +10,31 @@ class ProfessorCourse extends Component {
 		name: "",
 		students: [],
 		exercises: [],
+		loggedId: "",
 	};
 
 	componentDidMount = () => {
+		this.setLoggedId();
 		this.getInfo();
 	};
+
+	setLoggedId() {
+		const id = roleChecker.getLoggedId();
+		this.setState({
+			loggedId: id,
+		});
+		if (this.state.loggedId === undefined) {
+			swal.fire({
+				title: "Oops !",
+				text: "User does not have access to this page. Please login to access.",
+				icon: "error",
+				background: "black",
+				color: "white",
+			}).then(() => {
+				window.location = "/login";
+			});
+		}
+	}
 
 	getInfo = () => {
 		axios({
@@ -53,6 +74,7 @@ class ProfessorCourse extends Component {
 	displayExercises = (exercises) => {
 		if (exercises.length === 0) {
 			return (
+				// eslint-disable-next-line jsx-a11y/anchor-is-valid
 				<a class="list-group-item list-group-item-action disabled">
 					No Exercises registered
 				</a>
@@ -78,6 +100,7 @@ class ProfessorCourse extends Component {
 	displayStudents = (students) => {
 		if (students.length === 0) {
 			return (
+				// eslint-disable-next-line jsx-a11y/anchor-is-valid
 				<a class="list-group-item list-group-item-action disabled">
 					No Students registered
 				</a>
@@ -86,10 +109,11 @@ class ProfessorCourse extends Component {
 
 		return students.map((student) => (
 			<a
+				/*href={"/students/courses/" + exercise.code}*/
 				class="list-group-item list-group-item-action"
 				aria-current="true"
 			>
-				{student.firstName} {student.lastName} - {student.id}
+				{student.name} - {student.lastName}
 			</a>
 		));
 	};
@@ -121,7 +145,7 @@ class ProfessorCourse extends Component {
 				<div id="container">
 					<p id="title">
 						{" "}
-						{this.state.code} - {this.state.name}
+						{this.state.code} - {this.state.name}{" "}
 					</p>
 					<form onSubmit={this.save}>
 						<div class="form-group row align-items-end justify-content-end">
