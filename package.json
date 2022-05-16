@@ -8,10 +8,10 @@
     "start": "node server.js",
     "backend": "nodemon server.js",
     "frontend": "cd view && npm start",
-    "build": "cd view && npm run build",
+    "build-react": "cd view && npm run build",
     "clean-build": "cd view\\build\\static && del css\\*.map && del js\\*.map",
     "public-build": "Xcopy /e /y view\\build public\\build\\",
-    "build-prod": "npm run build && npm run clean-build && npm run public-build",
+    "build-prod": "npm run build-react && npm run clean-build && npm run public-build",
     "app": "concurrently -n 'Back-end,Front-end' -c 'red,blue' \"npm run backend\" \"npm run frontend\""
   },
   "repository": {
