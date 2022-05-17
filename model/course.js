@@ -13,7 +13,7 @@ const ExerciseSchema = new Schema({
 		index: true,
 		required: true,
 		match: [
-			/^[A-Za-zÀ-ÖØ-öø-ÿ\-\s]+$/,
+			/^[_0-9A-Za-zÀ-ÖØ-öø-ÿ\-\s]+$/,
 			"Please add a valid exercise name.",
 		],
 	},

@@ -7,32 +7,12 @@ class CourseStudents extends Component {
 	state = {
 		students: [],
 		courseStudents: [],
-		loggedId: "",
 	};
 
 	componentDidMount = () => {
-		this.setLoggedId();
 		this.getStudents();
 		this.getCourseStudents();
 	};
-
-	setLoggedId() {
-		const id = roleChecker.getLoggedId();
-		this.setState({
-			loggedId: id,
-		});
-		if (this.state.loggedId === undefined) {
-			swal.fire({
-				title: "Oops !",
-				text: "User does not have access to this page. Please login to access.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				window.location = "/login";
-			});
-		}
-	}
 
 	getStudents = () => {
 		axios({
