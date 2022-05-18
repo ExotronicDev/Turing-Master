@@ -32,8 +32,7 @@ const TMachineSchema = new Schema({
 		id: { type: Number, required: true }
 	},
 	solution: {
-		id: { type:  mongoose.Schema.Types.ObjectId },
-		default: null
+		id: { type:  mongoose.Schema.Types.ObjectId, default: null },
 	},
 	states: [StateSchema]
 });
