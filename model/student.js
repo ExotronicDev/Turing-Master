@@ -44,6 +44,11 @@ const StudentSchema = new Schema({
 			name: { type: String },
 		},
 	],
+	solutions: [
+		{
+			id: { type: mongoose.Schema.Types.ObjectId }
+		}
+	]
 });
 
 // Encrypt password with bcrypt

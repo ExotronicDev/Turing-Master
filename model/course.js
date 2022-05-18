@@ -23,6 +23,9 @@ const ExerciseSchema = new Schema({
 	outputDescription: { type: String, required: true },
 	exampleCases: [InputCaseSchema],
 	testCases: [InputCaseSchema],
+	solutions: [{
+		id: { type: mongoose.Schema.Types.ObjectId }
+	}]
 });
 
 const StudentSchemaAux = new Schema({

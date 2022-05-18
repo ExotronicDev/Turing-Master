@@ -31,6 +31,10 @@ const TMachineSchema = new Schema({
 	owner: {
 		id: { type: Number, required: true }
 	},
+	solution: {
+		id: { type:  mongoose.Schema.Types.ObjectId },
+		default: null
+	},
 	states: [StateSchema]
 });
 
