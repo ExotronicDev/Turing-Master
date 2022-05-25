@@ -56,7 +56,7 @@ class ProfessorCourse extends Component {
 		if (exercises.length === 0) {
 			return (
 				// eslint-disable-next-line jsx-a11y/anchor-is-valid
-				<a class="list-group-item list-group-item-action disabled">
+				<a className="list-group-item list-group-item-action disabled">
 					No Exercises registered
 				</a>
 			);
@@ -70,7 +70,7 @@ class ProfessorCourse extends Component {
 					"/exercise/" +
 					exercise.slugName
 				}
-				class="list-group-item list-group-item-action"
+				className="list-group-item list-group-item-action"
 				aria-current="true"
 			>
 				{exercise.name}
@@ -82,7 +82,7 @@ class ProfessorCourse extends Component {
 		if (students.length === 0) {
 			return (
 				// eslint-disable-next-line jsx-a11y/anchor-is-valid
-				<a class="list-group-item list-group-item-action disabled">
+				<a className="list-group-item list-group-item-action disabled">
 					No Students registered
 				</a>
 			);
@@ -91,7 +91,7 @@ class ProfessorCourse extends Component {
 		return students.map((student) => (
 			<a
 				/*href={"/students/courses/" + exercise.code}*/
-				class="list-group-item list-group-item-action"
+				className="list-group-item list-group-item-action"
 				aria-current="true"
 			>
 				{student.name} - {student.lastName}
@@ -121,7 +121,7 @@ class ProfessorCourse extends Component {
 
 	render() {
 		return (
-			<div class="ProfessorCourse">
+			<div className="ProfessorCourse">
 				<NavBar />
 				<div id="container">
 					<p id="title">
@@ -129,12 +129,12 @@ class ProfessorCourse extends Component {
 						{this.state.code} - {this.state.name}{" "}
 					</p>
 					<form onSubmit={this.save}>
-						<div class="form-group row align-items-end justify-content-end">
+						<div className="form-group row align-items-end justify-content-end">
 							<label for="name">Course name</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="name"
 									placeholder="Name"
 									name="name"
@@ -143,10 +143,10 @@ class ProfessorCourse extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col-1" id="edit">
+							<div className="col-1" id="edit">
 								<label for="check">Edit</label>
 							</div>
-							<div class="col-1" id="check">
+							<div className="col-1" id="check">
 								<input
 									id="check2"
 									type="checkbox"
@@ -155,17 +155,17 @@ class ProfessorCourse extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row align-items-end justify-content-end">
+						<div className="form-group row align-items-end justify-content-end">
 							<label for="email">Exercises</label>
-							<div class="accordion" id="exercises-accordion">
-								<div class="accordion-item">
+							<div className="accordion" id="exercises-accordion">
+								<div className="accordion-item">
 									<h2
-										class="accordion-header"
+										className="accordion-header"
 										id="exercises-heading"
 									>
 										<button
 											type="button"
-											class="accordion-button collapsed"
+											className="accordion-button collapsed"
 											data-bs-toggle="collapse"
 											data-bs-target="#exercises-data"
 										>
@@ -174,17 +174,17 @@ class ProfessorCourse extends Component {
 									</h2>
 									<div
 										id="exercises-data"
-										class="accordion-collapse collapse show"
+										className="accordion-collapse collapse show"
 										aria-labelledby="exercises-heading"
 										data-bs-parent="#exercises-accordion"
 									>
-										<div class="list-group">
+										<div className="list-group">
 											<a
 												href={
 													this.state.code +
 													"/exercise"
 												}
-												class="list-group-item list-group-item-action"
+												className="list-group-item list-group-item-action"
 												aria-current="true"
 											>
 												Create New Exercise
@@ -198,17 +198,17 @@ class ProfessorCourse extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row align-items-end justify-content-end">
+						<div className="form-group row align-items-end justify-content-end">
 							<label for="email">Students</label>
-							<div class="accordion" id="courses-accordion">
-								<div class="accordion-item">
+							<div className="accordion" id="courses-accordion">
+								<div className="accordion-item">
 									<h2
-										class="accordion-header"
+										className="accordion-header"
 										id="courses-heading"
 									>
 										<button
 											type="button"
-											class="accordion-button collapsed"
+											className="accordion-button collapsed"
 											data-bs-toggle="collapse"
 											data-bs-target="#courses-data"
 										>
@@ -217,17 +217,17 @@ class ProfessorCourse extends Component {
 									</h2>
 									<div
 										id="courses-data"
-										class="accordion-collapse collapse show"
+										className="accordion-collapse collapse show"
 										aria-labelledby="courses-heading"
 										data-bs-parent="#courses-accordion"
 									>
-										<div class="list-group">
+										<div className="list-group">
 											<a
 												href={
 													this.state.code +
 													"/students"
 												}
-												class="list-group-item list-group-item-action"
+												className="list-group-item list-group-item-action"
 												aria-current="true"
 											>
 												Manage Students
@@ -244,7 +244,7 @@ class ProfessorCourse extends Component {
 						<button
 							id="save"
 							type="submit"
-							class="btn btn-primary"
+							className="btn btn-primary"
 							disabled="disabled"
 						>
 							Save Changes

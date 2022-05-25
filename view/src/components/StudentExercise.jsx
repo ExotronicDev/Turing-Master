@@ -87,7 +87,7 @@ class StudentExercise extends Component {
 
 	render() {
 		return (
-			<div id="form-view" class="StudentExercise">
+			<div id="form-view" className="StudentExercise">
 				<NavBar />
 				<div id="container">
 					<h1 id="title">{this.state.name}</h1>
@@ -96,10 +96,10 @@ class StudentExercise extends Component {
 							<p>{this.state.description}</p>
 
 							<label for="inputDescription">Expected input</label>
-							<div class="form-group">
+							<div className="form-group">
 								<textarea
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="inputDescription"
 									aria-label="Expected input description"
 									value={this.state.inputDescription}
@@ -110,10 +110,10 @@ class StudentExercise extends Component {
 							<label for="outputDescription">
 								Expected output
 							</label>
-							<div class="form-group">
+							<div className="form-group">
 								<textarea
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="outputDescription"
 									aria-label="Expected output description"
 									value={this.state.outputDescription}
@@ -124,7 +124,7 @@ class StudentExercise extends Component {
 							<label for="exampleTable">Examples</label>
 							<table
 								id="exampleTable"
-								class="table table-secondary"
+								className="table table-secondary"
 							>
 								<thead>
 									<tr>
@@ -143,7 +143,7 @@ class StudentExercise extends Component {
 							<button
 								id="solve"
 								type="submit"
-								class="btn btn-primary"
+								className="btn btn-primary"
 							>
 								Solve Exercise
 							</button>

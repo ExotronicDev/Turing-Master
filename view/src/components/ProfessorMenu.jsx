@@ -50,7 +50,7 @@ class ProfessorMenu extends Component {
 		if (courses.length === 0) {
 			return (
 				// eslint-disable-next-line jsx-a11y/anchor-is-valid
-				<a class="list-group-item list-group-item-action disabled">
+				<a className="list-group-item list-group-item-action disabled">
 					No Courses registered
 				</a>
 			);
@@ -59,7 +59,7 @@ class ProfessorMenu extends Component {
 		return courses.map((course) => (
 			<a
 				href={"/professors/course/" + course.code}
-				class="list-group-item list-group-item-action"
+				className="list-group-item list-group-item-action"
 				aria-current="true"
 			>
 				{course.code} - {course.name}
@@ -69,21 +69,21 @@ class ProfessorMenu extends Component {
 
 	render() {
 		return (
-			<div class="ProfessorMenu">
+			<div className="ProfessorMenu">
 				<NavBar />
 				<div id="container">
 					<h1 id="title">Professor Menu</h1>
-					<div class="row">
-						<div class="col">
-							<div class="accordion" id="courses-accordion">
-								<div class="accordion-item">
+					<div className="row">
+						<div className="col">
+							<div className="accordion" id="courses-accordion">
+								<div className="accordion-item">
 									<h2
-										class="accordion-header"
+										className="accordion-header"
 										id="courses-heading"
 									>
 										<button
 											type="button"
-											class="accordion-button collapsed"
+											className="accordion-button collapsed"
 											data-bs-toggle="collapse"
 											data-bs-target="#courses-data"
 										>
@@ -92,14 +92,14 @@ class ProfessorMenu extends Component {
 									</h2>
 									<div
 										id="courses-data"
-										class="accordion-collapse collapse show"
+										className="accordion-collapse collapse show"
 										aria-labelledby="courses-heading"
 										data-bs-parent="#courses-accordion"
 									>
-										<div class="list-group">
+										<div className="list-group">
 											<a
 												href="/professors/course/"
-												class="list-group-item list-group-item-action"
+												className="list-group-item list-group-item-action"
 												aria-current="true"
 											>
 												Create New Course

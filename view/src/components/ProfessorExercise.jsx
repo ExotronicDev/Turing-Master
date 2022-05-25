@@ -1,3 +1,4 @@
+/* eslint-disable react/no-direct-mutation-state */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
@@ -130,7 +131,7 @@ class ProfessorExercise extends Component {
 						example.output
 					);
 				}}
-				class="list-group-item list-group-item-action"
+				className="list-group-item list-group-item-action"
 				aria-current="true"
 			>
 				#{example.number} Input: {example.input} - Output:{" "}
@@ -145,7 +146,7 @@ class ProfessorExercise extends Component {
 				onClick={() => {
 					this.editTest(test.number, test.input, test.output);
 				}}
-				class="list-group-item list-group-item-action"
+				className="list-group-item list-group-item-action"
 				aria-current="true"
 			>
 				#{test.number} Input: {test.input} - Output: {test.output}
@@ -243,12 +244,12 @@ class ProfessorExercise extends Component {
 					<h1 id="title">Exercise Information</h1>
 
 					<form id="boxform" onSubmit={this.save}>
-						<div class="form-group row justify-content-end">
+						<div className="form-group row justify-content-end">
 							<label for="name">Name</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="name"
 									placeholder="Name"
 									name="name"
@@ -257,10 +258,10 @@ class ProfessorExercise extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col-1" id="edit">
+							<div className="col-1" id="edit">
 								<label for="check1">Edit</label>
 							</div>
-							<div class="col-1" id="check">
+							<div className="col-1" id="check">
 								<input
 									id="check0"
 									type="checkbox"
@@ -269,12 +270,12 @@ class ProfessorExercise extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row justify-content-end">
+						<div className="form-group row justify-content-end">
 							<label for="name">Description</label>
-							<div class="col-8">
+							<div className="col-8">
 								<textarea
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="description"
 									placeholder="Description"
 									name="description"
@@ -283,10 +284,10 @@ class ProfessorExercise extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col-1" id="edit">
+							<div className="col-1" id="edit">
 								<label for="check1">Edit</label>
 							</div>
-							<div class="col-1" id="check">
+							<div className="col-1" id="check">
 								<input
 									id="check1"
 									type="checkbox"
@@ -295,12 +296,12 @@ class ProfessorExercise extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row justify-content-end">
+						<div className="form-group row justify-content-end">
 							<label for="expectedInput">Expected input</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="expectedInput"
 									placeholder="Expected input"
 									name="expectedInput"
@@ -309,10 +310,10 @@ class ProfessorExercise extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col-1" id="edit">
+							<div className="col-1" id="edit">
 								<label for="check2">Edit</label>
 							</div>
-							<div class="col-1" id="check">
+							<div className="col-1" id="check">
 								<input
 									id="check2"
 									type="checkbox"
@@ -321,12 +322,12 @@ class ProfessorExercise extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row justify-content-end">
+						<div className="form-group row justify-content-end">
 							<label for="expectedOutput">Expected output</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="expectedOutput"
 									placeholder="Expected output"
 									name="expectedOutput"
@@ -335,10 +336,10 @@ class ProfessorExercise extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col-1" id="edit">
+							<div className="col-1" id="edit">
 								<label for="check3">Edit</label>
 							</div>
-							<div class="col-1" id="check">
+							<div className="col-1" id="check">
 								<input
 									id="check3"
 									type="checkbox"
@@ -347,17 +348,17 @@ class ProfessorExercise extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row align-items-end justify-content-end">
+						<div className="form-group row align-items-end justify-content-end">
 							<label for="examples-accordion">Examples</label>
-							<div class="accordion" id="examples-accordion">
-								<div class="accordion-item">
+							<div className="accordion" id="examples-accordion">
+								<div className="accordion-item">
 									<h2
-										class="accordion-header"
+										className="accordion-header"
 										id="examples-heading"
 									>
 										<button
 											type="button"
-											class="accordion-button collapsed"
+											className="accordion-button collapsed"
 											data-bs-toggle="collapse"
 											data-bs-target="#examples-data"
 										>
@@ -366,11 +367,11 @@ class ProfessorExercise extends Component {
 									</h2>
 									<div
 										id="examples-data"
-										class="accordion-collapse collapse show"
+										className="accordion-collapse collapse show"
 										aria-labelledby="examples-heading"
 										data-bs-parent="#examples-accordion"
 									>
-										<div class="list-group">
+										<div className="list-group">
 											{this.displayExamples(
 												this.state.examples
 											)}
@@ -380,17 +381,17 @@ class ProfessorExercise extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row align-items-end justify-content-end">
+						<div className="form-group row align-items-end justify-content-end">
 							<label for="tests-accordion">Tests</label>
-							<div class="accordion" id="tests-accordion">
-								<div class="accordion-item">
+							<div className="accordion" id="tests-accordion">
+								<div className="accordion-item">
 									<h2
-										class="accordion-header"
+										className="accordion-header"
 										id="tests-heading"
 									>
 										<button
 											type="button"
-											class="accordion-button collapsed"
+											className="accordion-button collapsed"
 											data-bs-toggle="collapse"
 											data-bs-target="#tests-data"
 										>
@@ -399,11 +400,11 @@ class ProfessorExercise extends Component {
 									</h2>
 									<div
 										id="tests-data"
-										class="accordion-collapse collapse show"
+										className="accordion-collapse collapse show"
 										aria-labelledby="tests-heading"
 										data-bs-parent="#tests-accordion"
 									>
-										<div class="list-group">
+										<div className="list-group">
 											{this.displayTests(
 												this.state.tests
 											)}

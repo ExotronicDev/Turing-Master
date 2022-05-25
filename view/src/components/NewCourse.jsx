@@ -77,17 +77,17 @@ class NewCourse extends Component {
 
 	render() {
 		return (
-			<div id="form-view" class="NewCourse">
+			<div id="form-view" className="NewCourse">
 				<NavBar />
 				<div id="container">
 					<p id="title">Fill in the information for the new Course</p>
 					<div id="box">
 						<form id="boxform" onSubmit={this.submit}>
 							<label for="firstName">Course Code</label>
-							<div class="form-group">
+							<div className="form-group">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="code"
 									placeholder="Code"
 									name="code"
@@ -98,10 +98,10 @@ class NewCourse extends Component {
 							</div>
 
 							<label for="lastName">Course Name</label>
-							<div class="form-group">
+							<div className="form-group">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="name"
 									placeholder="Name"
 									name="name"
@@ -114,7 +114,7 @@ class NewCourse extends Component {
 							<button
 								id="create"
 								type="submit"
-								class="btn btn-primary"
+								className="btn btn-primary"
 							>
 								Create Course
 							</button>

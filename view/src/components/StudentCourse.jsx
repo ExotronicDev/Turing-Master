@@ -53,7 +53,7 @@ class StudentCourse extends Component {
 		if (exercises.length === 0) {
 			return (
 				// eslint-disable-next-line jsx-a11y/anchor-is-valid
-				<a class="list-group-item list-group-item-action disabled">
+				<a className="list-group-item list-group-item-action disabled">
 					No Exercises available
 				</a>
 			);
@@ -67,7 +67,7 @@ class StudentCourse extends Component {
 					"/exercise/" +
 					exercise.slugName
 				}
-				class="list-group-item list-group-item-action"
+				className="list-group-item list-group-item-action"
 				aria-current="true"
 			>
 				{exercise.name}
@@ -77,23 +77,23 @@ class StudentCourse extends Component {
 
 	render() {
 		return (
-			<div class="StudentCourse">
+			<div className="StudentCourse">
 				<NavBar />
 				<div id="container">
 					<h1 id="title">
 						{this.state.code} - {this.state.name}
 					</h1>
-					<div class="row">
-						<div class="col">
-							<div class="accordion" id="exercises-accordion">
-								<div class="accordion-item">
+					<div className="row">
+						<div className="col">
+							<div className="accordion" id="exercises-accordion">
+								<div className="accordion-item">
 									<h2
-										class="accordion-header"
+										className="accordion-header"
 										id="exercises-heading"
 									>
 										<button
 											type="button"
-											class="accordion-button collapsed"
+											className="accordion-button collapsed"
 											data-bs-toggle="collapse"
 											data-bs-target="#exercises-data"
 										>
@@ -102,11 +102,11 @@ class StudentCourse extends Component {
 									</h2>
 									<div
 										id="exercises-data"
-										class="accordion-collapse collapse show"
+										className="accordion-collapse collapse show"
 										aria-labelledby="exercises-heading"
 										data-bs-parent="#exercises-accordion"
 									>
-										<div class="list-group">
+										<div className="list-group">
 											{this.displayExercises(
 												this.state.exercises
 											)}

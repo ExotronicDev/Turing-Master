@@ -66,8 +66,6 @@ class CourseStudents extends Component {
 		));
 	};
 
-	save = () => {};
-
 	render() {
 		return (
 			<div className="CourseStudents">
@@ -78,7 +76,7 @@ class CourseStudents extends Component {
 						<form id="boxform" onSubmit={this.submit}>
 							<table
 								id="studentTable"
-								class="table table-secondary"
+								className="table table-secondary"
 							>
 								<thead>
 									<tr>
@@ -95,7 +93,7 @@ class CourseStudents extends Component {
 							<button
 								id="save"
 								type="submit"
-								class="btn btn-primary"
+								className="btn btn-primary"
 							>
 								Save Changes
 							</button>
