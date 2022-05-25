@@ -65,7 +65,7 @@ class Login extends Component {
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: err.response.data.error,
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",

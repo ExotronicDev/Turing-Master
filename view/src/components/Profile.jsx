@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class Profile extends Component {
 	state = {
@@ -38,11 +37,13 @@ class Profile extends Component {
 			})
 			.catch((err) => {
 				swal.fire({
-					title: "Oops !",
-					text: err,
-					icon: "error",
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
 					background: "black",
 					color: "white",
+				}).then(() => {
+					window.location = "/";
 				});
 			});
 	};
@@ -133,15 +134,6 @@ class Profile extends Component {
 						color: "white",
 					}).then(() => {
 						window.location = isProfessor + "menu";
-					});
-				} else {
-					// No necesario
-					swal.fire({
-						title: "Error !",
-						text: res.data.error,
-						icon: "warning",
-						background: "black",
-						color: "white",
 					});
 				}
 			})

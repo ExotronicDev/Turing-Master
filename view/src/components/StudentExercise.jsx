@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class StudentExercise extends Component {
 	state = {
@@ -14,42 +13,16 @@ class StudentExercise extends Component {
 	};
 
 	componentDidMount = () => {
-		this.setExerciseName();
+		// this.setExerciseName();
 		this.getInfo();
 	};
-
-	setExerciseName() {
-		let name;
-		const searchString =
-			"/students/course/" + this.props.match.params.code + "/exercise/";
-		const currentUrl = window.location.href;
-
-		var start = currentUrl.search(searchString);
-		if (start === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				// Or menu
-				window.location =
-					"/students/course/" + this.props.match.params.code;
-			});
-		}
-		start += searchString.length;
-		name = currentUrl.substring(start);
-
-		this.state.slugName = name;
-	}
 
 	getInfo = () => {
 		let apiUrl =
 			"/api/courses/" +
 			this.props.match.params.code +
 			"/exercises/" +
-			this.state.slugName;
+			this.props.match.params.name;
 		axios({
 			url: apiUrl,
 			method: "GET",
@@ -72,11 +45,13 @@ class StudentExercise extends Component {
 			})
 			.catch((err) => {
 				swal.fire({
-					title: "Oops !",
-					text: "Could not get Exercise data.",
-					icon: "error",
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
 					background: "black",
 					color: "white",
+				}).then(() => {
+					window.location = "/students/menu";
 				});
 			});
 	};

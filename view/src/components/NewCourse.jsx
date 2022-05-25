@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class NewCourse extends Component {
 	state = {

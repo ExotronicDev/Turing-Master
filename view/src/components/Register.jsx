@@ -91,20 +91,12 @@ class Register extends Component {
 					}).then(() => {
 						window.location = "/";
 					});
-				} else {
-					swal.fire({
-						title: "Error!",
-						text: res.data.error,
-						icon: "warning",
-						background: "black",
-						color: "white",
-					});
 				}
 			})
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: err.response.data.error,
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",

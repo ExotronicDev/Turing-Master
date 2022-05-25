@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class StudentCourse extends Component {
 	state = {
@@ -29,10 +28,12 @@ class StudentCourse extends Component {
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: err,
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",
+				}).then(() => {
+					window.location = "/students/menu";
 				});
 			});
 	};

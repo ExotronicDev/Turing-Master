@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class ProfessorExercise extends Component {
 	state = {
@@ -48,13 +47,15 @@ class ProfessorExercise extends Component {
 					tests: res.data.data.testCases,
 				});
 			})
-			.catch(() => {
+			.catch((err) => {
 				swal.fire({
-					title: "Oops !",
-					text: "Unexpected error, Try Again",
-					icon: "error",
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
 					background: "black",
 					color: "white",
+				}).then(() => {
+					window.location = "/professors/menu";
 				});
 			});
 	};

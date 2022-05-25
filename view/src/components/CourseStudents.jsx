@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class CourseStudents extends Component {
 	state = {
@@ -11,7 +10,7 @@ class CourseStudents extends Component {
 
 	componentDidMount = () => {
 		this.getStudents();
-		this.getCourseStudents();
+		// this.getCourseStudents();
 	};
 
 	getStudents = () => {

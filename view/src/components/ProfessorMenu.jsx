@@ -36,10 +36,12 @@ class ProfessorMenu extends Component {
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: err,
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",
+				}).then(() => {
+					window.location = "/";
 				});
 			});
 	};

@@ -38,7 +38,7 @@ class StudentMenu extends Component {
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: err,
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",
@@ -69,10 +69,12 @@ class StudentMenu extends Component {
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: "Unexpected error, Try Again",
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",
+				}).then(() => {
+					window.location = "/";
 				});
 			});
 	};
