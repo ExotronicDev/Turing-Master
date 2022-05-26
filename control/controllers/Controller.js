@@ -835,7 +835,10 @@ exports.cloneCourse = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
 
 	const courseCode = req.params.code;
-	const newCourseCode = req.body;
+	const newCourseCode = req.body.newCourseCode;
+
+	console.log(courseCode);
+	console.log(newCourseCode);
 
 	const cloneResponse = await control.cloneCourse(courseCode, newCourseCode);
 
