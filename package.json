@@ -11,7 +11,7 @@
     "build-react": "cd view && npm run build",
     "build-public": "rmdir /q /s public && Xcopy /e /y view\\build public\\",
     "build-prod": "npm run build-react && npm run build-public",
-    "app": "concurrently -n 'Back-end,Front-end' -c 'red,blue' \"npm run backend\" \"npm run frontend\""
+    "dev": "concurrently -n 'Back-end,Front-end' -c 'red,blue' \"npm run backend\" \"npm run frontend\""
   },
   "repository": {
     "type": "git",

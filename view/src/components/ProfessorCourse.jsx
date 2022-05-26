@@ -9,6 +9,7 @@ class ProfessorCourse extends Component {
 		name: "",
 		students: [],
 		exercises: [],
+		cloning: false,
 	};
 
 	componentDidMount = () => {
@@ -117,7 +118,74 @@ class ProfessorCourse extends Component {
 		}
 	};
 
-	save = () => {};
+	cloneCourse = (event) => {
+		event.preventDefault();
+		swal.fire({
+			title: "Are you sure you want to clone the current Course?",
+			input: "text",
+			inputLabel:
+				"The Course name, professor and exercises will be copied. You will new a new Course code for the cloned Course.",
+			// inputValue: inputValue,
+			inputPlaceholder: "Enter the new Course code",
+			showCancelButton: true,
+			confirmButtonText: "Clone",
+			customClass: {
+				confirmButton: "btn btn-success",
+				cancelButton: "btn btn-danger",
+			},
+			inputValidator: (value) => {
+				if (!value) {
+					return "You need to enter a new Course code!";
+				}
+			},
+			background: "black",
+			color: "white",
+		})
+			.then((result) => {
+				if (result.isConfirmed) {
+					axios({
+						url: "/api/courses/" + this.props.match.params.code,
+						method: "POST",
+						data: { newCourseCode: result.value },
+					})
+						.then(() =>
+							swal.fire({
+								title: "Success!",
+								text: "Course has been cloned successfully!",
+								icon: "success",
+								background: "black",
+								color: "white",
+							})
+						)
+						.then(() => (window.location = "/professors/menu"));
+				}
+			})
+			.catch((err) => {
+				if (err.response.status === 500)
+					err.response.data.error = err.response.statusText;
+				swal.fire({
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+			});
+		// const example = {
+		// 	number: number,
+		// 	input: document.getElementById("swal-input1").value,
+		// 	output: document.getElementById("swal-input2").value,
+		// };
+
+		// 	this.state.examples[example.number - 1] = example;
+		// 	this.forceUpdate();
+		// }
+		// });
+		// axios({
+		// 	url: "/api/courses/" + this.props.match.params.code,
+		// 	method: "POST",
+		// });
+	};
 
 	render() {
 		return (
@@ -241,14 +309,24 @@ class ProfessorCourse extends Component {
 							</div>
 						</div>
 
-						<button
-							id="save"
-							type="submit"
-							className="btn btn-primary"
-							disabled="disabled"
-						>
-							Save Changes
-						</button>
+						<div className="course-options">
+							<button
+								id="clone"
+								className="btn btn-primary"
+								onClick={this.cloneCourse}
+							>
+								Clone Course
+							</button>
+
+							<button
+								id="save"
+								type="submit"
+								className="btn btn-primary"
+								disabled="disabled"
+							>
+								Save Changes
+							</button>
+						</div>
 					</form>
 				</div>
 			</div>
