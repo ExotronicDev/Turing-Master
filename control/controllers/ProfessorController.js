@@ -209,6 +209,16 @@ module.exports = class ProfessorController {
 			exercises: foundCourse.exercises,
 		});
 
+		const query3 = await this.daoProfessor.find({ id: foundCourse.professor.id });
+		const foundProfessor = query3[0];
+
+		foundProfessor.courses.push({
+			code: newCourseCode,
+			name: foundCourse.name
+		});
+
+		await this.daoProfessor.update({ id: foundCourse.professor.id }, foundProfessor);
+
 		return await this.daoCourse.save(clonedCourse);
 	}
 
