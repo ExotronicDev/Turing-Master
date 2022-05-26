@@ -65,7 +65,7 @@ class Login extends Component {
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: err.response.data.error,
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",
@@ -75,21 +75,21 @@ class Login extends Component {
 
 	render() {
 		return (
-			<div id="form-view" class="Login">
+			<div id="form-view" className="Login">
 				<div id="container">
 					<p id="title">User info</p>
 					<div id="box">
 						<form id="boxform" onSubmit={this.submit}>
 							<label for="email">Email</label>
-							<div class="input-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text">
-										<i class="fa fa-user" />
+							<div className="input-group">
+								<div className="input-group-prepend">
+									<span className="input-group-text">
+										<i className="fa fa-user" />
 									</span>
 								</div>
 								<input
 									type="email"
-									class="form-control"
+									className="form-control"
 									id="email"
 									placeholder="email@example.com"
 									name="email"
@@ -100,15 +100,15 @@ class Login extends Component {
 							</div>
 
 							<label for="password">Password</label>
-							<div class="input-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text">
-										<i class="fa fa-lock"></i>
+							<div className="input-group">
+								<div className="input-group-prepend">
+									<span className="input-group-text">
+										<i className="fa fa-lock"></i>
 									</span>
 								</div>
 								<input
 									type="password"
-									class="form-control"
+									className="form-control"
 									id="password"
 									name="password"
 									aria-label="Your user password"
@@ -117,9 +117,9 @@ class Login extends Component {
 								/>
 							</div>
 
-							<div class="form-check form-switch">
+							<div className="form-check form-switch">
 								<input
-									class="form-check-input"
+									className="form-check-input"
 									type="checkbox"
 									id="isProfessor"
 									aria-label="Professor Switch"
@@ -127,7 +127,7 @@ class Login extends Component {
 									value={this.state.isProfessor}
 								/>
 								<label
-									class="form-check-label"
+									className="form-check-label"
 									id="professor-label"
 									for="isProfessor"
 								>
@@ -135,7 +135,7 @@ class Login extends Component {
 								</label>
 							</div>
 
-							<button type="submit" class="btn btn-primary">
+							<button type="submit" className="btn btn-primary">
 								Login
 							</button>
 						</form>

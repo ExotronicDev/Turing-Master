@@ -527,31 +527,13 @@
 	margin-top: 7.5%;
 }
 
-.CourseStudents #edit {
-	text-align: right;
-	padding: 0;
-}
-
 .CourseStudents #save {
 	margin: 5%;
 	width: 30%;
 }
 
-.CourseStudents .row {
-	height: 100%;
-	margin-bottom: 1%;
-}
-
-.CourseStudents label {
-	text-align: left;
-  	color: white;
-
-    font-weight: 500;
-    font-size: 60%;
-}
-
-.CourseStudents input {
-	width: 100%;
+.CourseStudents #noStudents {
+	color: white;
 }
 
 /*------------------Simulator/SideBar-----------------------*/

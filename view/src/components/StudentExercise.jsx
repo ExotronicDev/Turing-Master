@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class StudentExercise extends Component {
 	state = {
@@ -14,42 +13,16 @@ class StudentExercise extends Component {
 	};
 
 	componentDidMount = () => {
-		this.setExerciseName();
+		// this.setExerciseName();
 		this.getInfo();
 	};
-
-	setExerciseName() {
-		let name;
-		const searchString =
-			"/students/course/" + this.props.match.params.code + "/exercise/";
-		const currentUrl = window.location.href;
-
-		var start = currentUrl.search(searchString);
-		if (start === -1) {
-			swal.fire({
-				title: "Oops !",
-				text: "Invalid URL.",
-				icon: "error",
-				background: "black",
-				color: "white",
-			}).then(() => {
-				// Or menu
-				window.location =
-					"/students/course/" + this.props.match.params.code;
-			});
-		}
-		start += searchString.length;
-		name = currentUrl.substring(start);
-
-		this.state.slugName = name;
-	}
 
 	getInfo = () => {
 		let apiUrl =
 			"/api/courses/" +
 			this.props.match.params.code +
 			"/exercises/" +
-			this.state.slugName;
+			this.props.match.params.name;
 		axios({
 			url: apiUrl,
 			method: "GET",
@@ -72,11 +45,13 @@ class StudentExercise extends Component {
 			})
 			.catch((err) => {
 				swal.fire({
-					title: "Oops !",
-					text: "Could not get Exercise data.",
-					icon: "error",
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
 					background: "black",
 					color: "white",
+				}).then(() => {
+					window.location = "/students/menu";
 				});
 			});
 	};
@@ -112,7 +87,7 @@ class StudentExercise extends Component {
 
 	render() {
 		return (
-			<div id="form-view" class="StudentExercise">
+			<div id="form-view" className="StudentExercise">
 				<NavBar />
 				<div id="container">
 					<h1 id="title">{this.state.name}</h1>
@@ -121,10 +96,10 @@ class StudentExercise extends Component {
 							<p>{this.state.description}</p>
 
 							<label for="inputDescription">Expected input</label>
-							<div class="form-group">
+							<div className="form-group">
 								<textarea
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="inputDescription"
 									aria-label="Expected input description"
 									value={this.state.inputDescription}
@@ -135,10 +110,10 @@ class StudentExercise extends Component {
 							<label for="outputDescription">
 								Expected output
 							</label>
-							<div class="form-group">
+							<div className="form-group">
 								<textarea
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="outputDescription"
 									aria-label="Expected output description"
 									value={this.state.outputDescription}
@@ -149,7 +124,7 @@ class StudentExercise extends Component {
 							<label for="exampleTable">Examples</label>
 							<table
 								id="exampleTable"
-								class="table table-secondary"
+								className="table table-secondary"
 							>
 								<thead>
 									<tr>
@@ -168,7 +143,7 @@ class StudentExercise extends Component {
 							<button
 								id="solve"
 								type="submit"
-								class="btn btn-primary"
+								className="btn btn-primary"
 							>
 								Solve Exercise
 							</button>

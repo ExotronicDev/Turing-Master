@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class CourseStudents extends Component {
 	state = {
@@ -11,7 +10,7 @@ class CourseStudents extends Component {
 
 	componentDidMount = () => {
 		this.getStudents();
-		this.getCourseStudents();
+		// this.getCourseStudents();
 	};
 
 	getStudents = () => {
@@ -67,8 +66,6 @@ class CourseStudents extends Component {
 		));
 	};
 
-	save = () => {};
-
 	render() {
 		return (
 			<div className="CourseStudents">
@@ -79,7 +76,7 @@ class CourseStudents extends Component {
 						<form id="boxform" onSubmit={this.submit}>
 							<table
 								id="studentTable"
-								class="table table-secondary"
+								className="table table-secondary"
 							>
 								<thead>
 									<tr>
@@ -96,7 +93,7 @@ class CourseStudents extends Component {
 							<button
 								id="save"
 								type="submit"
-								class="btn btn-primary"
+								className="btn btn-primary"
 							>
 								Save Changes
 							</button>

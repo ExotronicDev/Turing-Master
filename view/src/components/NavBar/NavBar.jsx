@@ -66,24 +66,24 @@ function NavBar() {
 	};
 
 	return (
-		<nav class="Navbar">
-			<div class="navbar-logo" onClick={menu}>
+		<nav className="Navbar">
+			<div className="navbar-logo" onClick={menu}>
 				Turing Master
 			</div>
 			<div id="background"></div>
-			<ul class="navMenu">
-				<li class="nav-item" key="1">
+			<ul className="navMenu">
+				<li className="nav-item" key="1">
 					<button
-						class="nav-link"
+						className="nav-link"
 						aria-details="Profile details"
 						onClick={profile}
 					>
 						Profile
 					</button>
 				</li>
-				<li class="nav-item" key="2">
+				<li className="nav-item" key="2">
 					<button
-						class="nav-link"
+						className="nav-link"
 						aria-details="Logout your account"
 						onClick={logout}
 					>

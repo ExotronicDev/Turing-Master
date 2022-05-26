@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class NewExercise extends Component {
 	state = {
@@ -121,7 +120,7 @@ class NewExercise extends Component {
 		) {
 			return swal.fire({
 				title: "Error!",
-				text: "You must Fill all the entries !",
+				text: "You must Fill all the entries!",
 				icon: "warning",
 				background: "black",
 				color: "white",
@@ -134,7 +133,7 @@ class NewExercise extends Component {
 		) {
 			return swal.fire({
 				title: "Error!",
-				text: "You must enter at least one Example and Test !",
+				text: "You must enter at least one Example and Test!",
 				icon: "warning",
 				background: "black",
 				color: "white",
@@ -151,7 +150,7 @@ class NewExercise extends Component {
 			.then(() => {
 				swal.fire({
 					title: "Success!",
-					text: "Exercise has been added successfully !",
+					text: "Exercise has been added successfully!",
 					icon: "success",
 					background: "black",
 					color: "white",
@@ -160,11 +159,13 @@ class NewExercise extends Component {
 						"/professors/course/" + this.props.match.params.code;
 				});
 			})
-			.catch(() => {
+			.catch((err) => {
+				if (err.response.status === 500)
+					err.response.data.error = err.response.statusText;
 				swal.fire({
-					title: "Oops !",
-					text: "Unexpected error, Try Again",
-					icon: "error",
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
 					background: "black",
 					color: "white",
 				});

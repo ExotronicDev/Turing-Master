@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
-import roleChecker from "./Routes/roleChecker";
 
 class Profile extends Component {
 	state = {
@@ -38,11 +37,13 @@ class Profile extends Component {
 			})
 			.catch((err) => {
 				swal.fire({
-					title: "Oops !",
-					text: err,
-					icon: "error",
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
 					background: "black",
 					color: "white",
+				}).then(() => {
+					window.location = "/";
 				});
 			});
 	};
@@ -134,15 +135,6 @@ class Profile extends Component {
 					}).then(() => {
 						window.location = isProfessor + "menu";
 					});
-				} else {
-					// No necesario
-					swal.fire({
-						title: "Error !",
-						text: res.data.error,
-						icon: "warning",
-						background: "black",
-						color: "white",
-					});
 				}
 			})
 			.catch((err) => {
@@ -189,17 +181,17 @@ class Profile extends Component {
 
 	render() {
 		return (
-			<div class="Profile">
+			<div className="Profile">
 				<NavBar />
 				<div id="container">
 					<p id="title"> Your information</p>
 					<form onSubmit={this.submit}>
-						<div class="form-group row align-items-end justify-content-end">
+						<div className="form-group row align-items-end justify-content-end">
 							<label for="firstName">First Name</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="firstName"
 									placeholder="First Name"
 									name="firstName"
@@ -208,10 +200,10 @@ class Profile extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col-1" id="edit">
+							<div className="col-1" id="edit">
 								<label for="check">Edit</label>
 							</div>
-							<div class="col-1" id="check">
+							<div className="col-1" id="check">
 								<input
 									id="checkF"
 									type="checkbox"
@@ -220,12 +212,12 @@ class Profile extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row align-items-end justify-content-end">
+						<div className="form-group row align-items-end justify-content-end">
 							<label for="lastName">Last Name</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="lastName"
 									placeholder="Last Name"
 									name="lastName"
@@ -234,10 +226,10 @@ class Profile extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col-1" id="edit">
+							<div className="col-1" id="edit">
 								<label for="check">Edit</label>
 							</div>
-							<div class="col-1" id="check">
+							<div className="col-1" id="check">
 								<input
 									id="check2"
 									type="checkbox"
@@ -246,12 +238,12 @@ class Profile extends Component {
 							</div>
 						</div>
 
-						<div class="form-group row align-items-end justify-content-end">
+						<div className="form-group row align-items-end justify-content-end">
 							<label for="email">Email</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="email"
-									class="form-control"
+									className="form-control"
 									id="email"
 									placeholder="email@example.com"
 									name="email"
@@ -260,10 +252,10 @@ class Profile extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col-1" id="edit">
+							<div className="col-1" id="edit">
 								<label for="check">Edit</label>
 							</div>
-							<div class="col-1" id="check">
+							<div className="col-1" id="check">
 								<input
 									id="check3"
 									type="checkbox"
@@ -271,12 +263,12 @@ class Profile extends Component {
 								></input>
 							</div>
 						</div>
-						<div class="form-group row align-items-end justify-content-end">
+						<div className="form-group row align-items-end justify-content-end">
 							<label for="email">Password</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="password"
-									class="form-control"
+									className="form-control"
 									id="password"
 									placeholder="Old Password"
 									name="password"
@@ -285,10 +277,10 @@ class Profile extends Component {
 									disabled="disabled"
 								/>
 							</div>
-							<div class="col-1" id="edit">
+							<div className="col-1" id="edit">
 								<label for="check">Edit</label>
 							</div>
-							<div class="col-1" id="check">
+							<div className="col-1" id="check">
 								<input
 									id="check4"
 									type="checkbox"
@@ -296,12 +288,12 @@ class Profile extends Component {
 								></input>
 							</div>
 						</div>
-						<div class="form-group row align-items-end justify-content-center">
+						<div className="form-group row align-items-end justify-content-center">
 							<label for="email">New Password</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="password"
-									class="form-control"
+									className="form-control"
 									id="newPassword"
 									placeholder="New Password"
 									name="newPassword"
@@ -311,12 +303,12 @@ class Profile extends Component {
 								/>
 							</div>
 						</div>
-						<div class="form-group row align-items-end justify-content-center">
+						<div className="form-group row align-items-end justify-content-center">
 							<label for="email">Confirm New Password</label>
-							<div class="col-8">
+							<div className="col-8">
 								<input
 									type="password"
-									class="form-control"
+									className="form-control"
 									id="confirmPassword"
 									placeholder="Confirm Password"
 									name="confirmPassword"
@@ -329,7 +321,7 @@ class Profile extends Component {
 						<button
 							id="save"
 							type="submit"
-							class="btn btn-primary"
+							className="btn btn-primary"
 							disabled="disabled"
 						>
 							Save Changes

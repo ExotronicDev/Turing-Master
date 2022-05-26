@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import roleChecker from "./Routes/roleChecker";
@@ -38,7 +39,7 @@ class StudentMenu extends Component {
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: err,
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",
@@ -69,10 +70,12 @@ class StudentMenu extends Component {
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: "Unexpected error, Try Again",
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",
+				}).then(() => {
+					window.location = "/";
 				});
 			});
 	};
@@ -80,8 +83,7 @@ class StudentMenu extends Component {
 	displayTMachines = (tMachines) => {
 		if (tMachines.length === 0) {
 			return (
-				// eslint-disable-next-line jsx-a11y/anchor-is-valid
-				<a class="list-group-item list-group-item-action disabled">
+				<a className="list-group-item list-group-item-action disabled">
 					No Turing Machines registered
 				</a>
 			);
@@ -90,7 +92,7 @@ class StudentMenu extends Component {
 		return tMachines.map((tMachine) => (
 			<a
 				href={"/students/simulator/" + tMachine.id}
-				class="list-group-item list-group-item-action"
+				className="list-group-item list-group-item-action"
 				aria-current="true"
 			>
 				{tMachine.id} - {tMachine.description}
@@ -101,8 +103,7 @@ class StudentMenu extends Component {
 	displayCourses = (courses) => {
 		if (courses.length === 0) {
 			return (
-				// eslint-disable-next-line jsx-a11y/anchor-is-valid
-				<a class="list-group-item list-group-item-action disabled">
+				<a className="list-group-item list-group-item-action disabled">
 					No Courses enrolled
 				</a>
 			);
@@ -111,7 +112,7 @@ class StudentMenu extends Component {
 		return courses.map((course) => (
 			<a
 				href={"/students/course/" + course.code}
-				class="list-group-item list-group-item-action"
+				className="list-group-item list-group-item-action"
 				aria-current="true"
 			>
 				{course.code} - {course.name}
@@ -127,21 +128,21 @@ class StudentMenu extends Component {
 
 	render() {
 		return (
-			<div class="StudentMenu">
+			<div className="StudentMenu">
 				<NavBar />
 				<div id="container">
 					<h1 id="title">Student Menu</h1>
-					<div class="row">
-						<div class="col-6">
-							<div class="accordion" id="courses-accordion">
-								<div class="accordion-item">
+					<div className="row">
+						<div className="col-6">
+							<div className="accordion" id="courses-accordion">
+								<div className="accordion-item">
 									<h2
-										class="accordion-header"
+										className="accordion-header"
 										id="courses-heading"
 									>
 										<button
 											type="button"
-											class="accordion-button collapsed"
+											className="accordion-button collapsed"
 											data-bs-toggle="collapse"
 											data-bs-target="#courses-data"
 										>
@@ -150,11 +151,11 @@ class StudentMenu extends Component {
 									</h2>
 									<div
 										id="courses-data"
-										class="accordion-collapse collapse show"
+										className="accordion-collapse collapse show"
 										aria-labelledby="courses-heading"
 										data-bs-parent="#courses-accordion"
 									>
-										<div class="list-group">
+										<div className="list-group">
 											{this.displayCourses(
 												this.state.courses
 											)}
@@ -163,16 +164,16 @@ class StudentMenu extends Component {
 								</div>
 							</div>
 						</div>
-						<div class="col-6">
-							<div class="accordion" id="tmachines-accordion">
-								<div class="accordion-item">
+						<div className="col-6">
+							<div className="accordion" id="tmachines-accordion">
+								<div className="accordion-item">
 									<h2
-										class="accordion-header"
+										className="accordion-header"
 										id="tmachines-heading"
 									>
 										<button
 											type="button"
-											class="accordion-button collapsed"
+											className="accordion-button collapsed"
 											data-bs-toggle="collapse"
 											data-bs-target="#tmachines-data"
 										>
@@ -181,14 +182,14 @@ class StudentMenu extends Component {
 									</h2>
 									<div
 										id="tmachines-data"
-										class="accordion-collapse collapse show"
+										className="accordion-collapse collapse show"
 										aria-labelledby="tmachines-heading"
 										data-bs-parent="#tmachines-accordion"
 									>
-										<div class="list-group">
+										<div className="list-group">
 											<a
 												onClick={this.change}
-												class="list-group-item list-group-item-action"
+												className="list-group-item list-group-item-action"
 												aria-current="true"
 											>
 												Create New Turing Machine

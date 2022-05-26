@@ -8,16 +8,16 @@ class Home extends Component {
 
 	render() {
 		return (
-			<div class="Home">
+			<div className="Home">
 				<div id="container">
-					<h1 class="title">Turing Master</h1>
+					<h1 className="title">Turing Master</h1>
 					<div id="background"></div>
 					<div id="options">
 						<form action="/login">
 							<button
 								id="login"
 								type="submit"
-								class="btn btn-primary btn-lg"
+								className="btn btn-primary btn-lg"
 							>
 								{" "}
 								Login{" "}
@@ -27,7 +27,7 @@ class Home extends Component {
 							<button
 								id="register"
 								type="submit"
-								class="btn btn-primary btn-lg"
+								className="btn btn-primary btn-lg"
 							>
 								{" "}
 								Register{" "}

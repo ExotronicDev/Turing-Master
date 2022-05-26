@@ -91,20 +91,12 @@ class Register extends Component {
 					}).then(() => {
 						window.location = "/";
 					});
-				} else {
-					swal.fire({
-						title: "Error!",
-						text: res.data.error,
-						icon: "warning",
-						background: "black",
-						color: "white",
-					});
 				}
 			})
 			.catch((err) => {
 				swal.fire({
 					title: "Error!",
-					text: err.response.data.error,
+					text: err.response.data.error || err.response.statusText,
 					icon: "warning",
 					background: "black",
 					color: "white",
@@ -114,16 +106,16 @@ class Register extends Component {
 
 	render() {
 		return (
-			<div id="form-view" class="Register">
+			<div id="form-view" className="Register">
 				<div id="container">
 					<p id="title">Fill in your account information</p>
 					<div id="box">
 						<form id="boxform" onSubmit={this.submit}>
 							<label for="firstName">First Name</label>
-							<div class="form-group">
+							<div className="form-group">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="firstName"
 									placeholder="First Name"
 									name="firstName"
@@ -134,10 +126,10 @@ class Register extends Component {
 							</div>
 
 							<label for="lastName">Last Name</label>
-							<div class="form-group">
+							<div className="form-group">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="lastName"
 									placeholder="Last Name"
 									name="lastName"
@@ -148,10 +140,10 @@ class Register extends Component {
 							</div>
 
 							<label for="id">ID</label>
-							<div class="form-group">
+							<div className="form-group">
 								<input
 									type="text"
-									class="form-control"
+									className="form-control"
 									id="id"
 									placeholder="Identification"
 									name="id"
@@ -162,10 +154,10 @@ class Register extends Component {
 							</div>
 
 							<label for="email">Email</label>
-							<div class="form-group">
+							<div className="form-group">
 								<input
 									type="email"
-									class="form-control"
+									className="form-control"
 									id="email"
 									placeholder="email@example.com"
 									name="email"
@@ -176,10 +168,10 @@ class Register extends Component {
 							</div>
 
 							<label for="password">Password</label>
-							<div class="form-group">
+							<div className="form-group">
 								<input
 									type="password"
-									class="form-control"
+									className="form-control"
 									id="password"
 									name="password"
 									aria-label="Your user password"
@@ -192,10 +184,10 @@ class Register extends Component {
 							</div>
 
 							<label for="confirm">Confirm Password</label>
-							<div class="form-group">
+							<div className="form-group">
 								<input
 									type="password"
-									class="form-control"
+									className="form-control"
 									id="confirm"
 									name="confirm"
 									aria-label="Confirm your user password"
@@ -204,9 +196,9 @@ class Register extends Component {
 								/>
 							</div>
 
-							<div class="form-check form-switch">
+							<div className="form-check form-switch">
 								<input
-									class="form-check-input"
+									className="form-check-input"
 									type="checkbox"
 									id="isProfessor"
 									aria-label="Professor Switch"
@@ -214,7 +206,7 @@ class Register extends Component {
 									value={this.state.isProfessor}
 								/>
 								<label
-									class="form-check-label"
+									className="form-check-label"
 									id="professor-label"
 									for="isProfessor"
 								>
@@ -222,7 +214,7 @@ class Register extends Component {
 								</label>
 							</div>
 
-							<button type="submit" class="btn btn-primary">
+							<button type="submit" className="btn btn-primary">
 								Register
 							</button>
 						</form>
