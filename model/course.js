@@ -5,6 +5,7 @@ const InputCaseSchema = new Schema({
 	number: { type: Number, required: true, index: true },
 	input: { type: String, required: true },
 	output: { type: String, required: true },
+	isState: { type: Boolean, required: true }
 });
 
 const ExerciseSchema = new Schema({

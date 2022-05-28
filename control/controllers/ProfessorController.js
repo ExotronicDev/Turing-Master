@@ -4,12 +4,18 @@ const Course = require("../../model/course");
 const ProfessorDao = require("../daos/ProfessorDao");
 const CourseDao = require("../daos/CourseDao");
 const StudentDao = require("../daos/StudentDao");
+const SolutionDao = require("../daos/SolutionDao");
+const TMachineDao = require("../daos/TMachineDao")
+
+const TMachineController = require("./TMachineController");
 
 module.exports = class ProfessorController {
 	constructor() {
 		this.daoProfessor = new ProfessorDao();
 		this.daoCourse = new CourseDao();
 		this.daoStudent = new StudentDao();
+		this.daoSolution = new SolutionDao();
+		this.daoTMachine = new TMachineDao();
 	}
 
 	//Autenticación de profesores.
@@ -506,5 +512,67 @@ module.exports = class ProfessorController {
 		}
 
 		return foundExercise.exampleCases;
+	}
+
+	async evaluateSolution(testCases, solutionId) {
+		//testCases es un array con objetos del siguiente formato:
+		// number, input, output, isState
+
+		const querySolution = await this.daoSolution.find({ _id: solutionId });
+		
+		//No hay una solution con ese id. Error
+		if (querySolution.length == 0) {
+			return -1;
+		}
+
+		let solution = querySolution[0];
+		const queryTM = await this.daoTMachine.find({ id: solution.tMachine.id });
+		let tMachine = queryTM[0];
+
+		//Preparo el controlador para el simulador
+		const TMController = new TMachineController();
+
+		//Constante para saber cuantos ejercicios hay.
+		const totalTests = testCases.length;
+		//Variable para saber cuantos ejercicios logró resolver.
+		let testSuccesses = 0;
+
+		for (let i = 0; i < totalTests; i++) {
+			const input = testCases[i].input;
+			const expectedOutput = testCases[i].output;
+			const checkState = testCases[i].isState;
+			const blank = " ";
+
+			let simulationResult = TMController.simulate(tMachine, input, blank);
+
+			// Casos fallidos.
+			if (simulationResult == -1 || simulationResult == -2) {
+				//No hay nada que simular.
+				continue;
+			} else if (simulationResult.status === "failed" || simulationResult.status === "timeout") {
+				//Simulation con error de lógica o timeout.
+				continue;
+			}
+
+			//Hay que revisar el estado en lugar de la cinta.
+			if (checkState) {
+				const sequenceLength = simulationResult.simulationSequence.length;
+				const lastState = simulationResult.simulationSequence[sequenceLength - 1];
+
+				//Comparo el nombre de los estados en minusculas para evitar ser tan picky.
+				if (expectedOutput.toLowerCase() === lastState.state.toLowerCase()) {
+					testSuccesses++;
+				}
+			} else {
+				//Aquí se revisa el output de la cinta
+				const simulatedOutput = simulationResult.output;
+				if (expectedOutput === simulatedOutput) {
+					testSuccesses++;
+				}
+			}
+		}
+
+		const solutionScore = testSuccesses / totalTests;
+		return solutionScore;
 	}
 };
