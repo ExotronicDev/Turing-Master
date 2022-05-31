@@ -10,7 +10,7 @@ class CourseStudents extends Component {
 
 	componentDidMount = () => {
 		this.getStudents();
-		// this.getCourseStudents();
+		this.getCourseStudents();
 	};
 
 	getStudents = () => {
@@ -24,21 +24,42 @@ class CourseStudents extends Component {
 		});
 	};
 
-	change = (student, index) => {
-		if (document.getElementById(index).checked) {
-			this.state.courseStudents.push(student);
-		}
-
-		if (!document.getElementById(index).checked) {
-			this.state.courseStudents.filter((thisStudent, index, object) => {
-				if (thisStudent.id === student.id) {
-					object.splice(index, 1);
-				}
+	getCourseStudents = () => {
+		axios({
+			url: "/api/courses/" + this.props.match.params.code + "/students",
+			method: "GET",
+		}).then((res) => {
+			this.setState({
+				courseStudents: res.data.data,
 			});
-		}
+		});
 	};
 
-	displayStudents = (students) => {
+	change = (student) => {
+		if (document.getElementById("student-box-" + student.id).checked) {
+			this.state.courseStudents.push(student);
+		} else if (
+			!document.getElementById("student-box-" + student.id).checked
+		) {
+			this.deleteStudent(student);
+		}
+		this.forceUpdate();
+	};
+
+	isInCourse = (student, courseStudents) => {
+		for (const stud of courseStudents) {
+			if (stud.id === student.id) return true;
+		}
+		return false;
+	};
+
+	deleteStudent = (student) => {
+		this.state.courseStudents = this.state.courseStudents.filter(
+			(element) => student.id !== element.id
+		);
+	};
+
+	displayStudents = (students, courseStudents) => {
 		if (students.length === 0) {
 			return (
 				<th id="noStudents" scope="row" colspan="3">
@@ -47,7 +68,7 @@ class CourseStudents extends Component {
 			);
 		}
 
-		return students.map((student, index) => (
+		return students.map((student) => (
 			<tr>
 				<td>{student.id}</td>
 				<td>
@@ -55,15 +76,48 @@ class CourseStudents extends Component {
 				</td>
 				<td>
 					<input
-						id={index}
+						id={"student-box-" + student.id}
 						type="checkbox"
 						onChange={() => {
-							this.change(student, index);
+							this.change(student);
 						}}
+						checked={this.isInCourse(student, courseStudents)}
 					></input>
 				</td>
 			</tr>
 		));
+	};
+
+	save = (event) => {
+		event.preventDefault();
+		axios({
+			url: "/api/courses/" + this.props.match.params.code + "/students",
+			method: "POST",
+			data: this.state.courseStudents,
+		})
+			.then(() => {
+				swal.fire({
+					title: "Success!",
+					text: "Students have been modified successfully!",
+					icon: "success",
+					background: "black",
+					color: "white",
+				}).then(() => {
+					window.location =
+						"/professors/course/" + this.props.match.params.code;
+				});
+			})
+			.catch((err) => {
+				if (err.response.status === 500)
+					err.response.data.error = err.response.statusText;
+				swal.fire({
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+			});
 	};
 
 	render() {
@@ -86,7 +140,10 @@ class CourseStudents extends Component {
 									</tr>
 								</thead>
 								<tbody>
-									{this.displayStudents(this.state.students)}
+									{this.displayStudents(
+										this.state.students,
+										this.state.courseStudents
+									)}
 								</tbody>
 							</table>
 
