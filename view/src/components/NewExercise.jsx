@@ -26,37 +26,90 @@ class NewExercise extends Component {
 	displayExampleCases = (exampleCases) => {
 		if (exampleCases.length === 0) {
 			return (
-				<th id="noCases" scope="row" colSpan="3">
+				<th id="noCases" scope="row" colSpan="4">
 					No example cases given
 				</th>
 			);
 		}
 
-		return exampleCases.map((example) => (
-			<tr>
-				<th scope="row">{example.number}</th>
-				<td>{example.input}</td>
-				<td>{example.output}</td>
-			</tr>
-		));
+		return exampleCases.map((example) => {
+			const exampleId = "example-id-" + example.number;
+			return (
+				<tr id={exampleId}>
+					<td>{example.input}</td>
+					<td>{example.output}</td>
+					<td>
+						{example.isState === "true" ? (
+							<i class="fa fa-solid fa-check"></i>
+						) : (
+							<i class="fa fa-solid fa-xmark"></i>
+						)}
+					</td>
+					<td>
+						<i
+							type="button"
+							onClick={() => this.deleteExampleCase(example)}
+							class="fa fa-solid fa-trash"
+						></i>
+					</td>
+				</tr>
+			);
+		});
 	};
 
 	displayTestCases = (testCases) => {
 		if (testCases.length === 0) {
 			return (
-				<th id="noCases" scope="row" colSpan="3">
+				<th id="noCases" scope="row" colSpan="4">
 					No test cases given
 				</th>
 			);
 		}
 
-		return testCases.map((test) => (
-			<tr>
-				<th scope="row">{test.number}</th>
-				<td>{test.input}</td>
-				<td>{test.output}</td>
-			</tr>
-		));
+		return testCases.map((test) => {
+			const testId = "test-id-" + test.number;
+			return (
+				<tr id={testId}>
+					<td>{test.input}</td>
+					<td>{test.output}</td>
+					<td>
+						{test.isState === "true" ? (
+							<i class="fa fa-solid fa-check"></i>
+						) : (
+							<i class="fa fa-solid fa-xmark"></i>
+						)}
+					</td>
+					<td>
+						<i
+							type="button"
+							onClick={() => this.deleteTestCase(test)}
+							class="fa fa-solid fa-trash"
+						></i>
+					</td>
+				</tr>
+			);
+		});
+	};
+
+	validateInputCase = (inputCase) => {
+		if (!inputCase.input || !inputCase.output) return false;
+		return true;
+	};
+
+	deleteExampleCase = (exampleCase) => {
+		const rem = [exampleCase];
+		this.state.exampleCases = this.state.exampleCases.filter(
+			(element) => rem.indexOf(element) === -1
+		);
+		this.forceUpdate();
+	};
+
+	deleteTestCase = (testCase) => {
+		const rem = [testCase];
+		this.state.testCases = this.state.testCases.filter(
+			(element) => rem.indexOf(element) === -1
+		);
+		this.forceUpdate();
 	};
 
 	addExample = (event) => {
@@ -64,23 +117,43 @@ class NewExercise extends Component {
 		swal.fire({
 			title: "Fill the Example information",
 			html:
-				'<input id="swal-input1" class="swal2-input" placeholder="Example Input">' +
-				'<input id="swal-input2" class="swal2-input" placeholder="Example Output">',
+				'<label for="swal-input1">Example Input</label>' +
+				'<input id="swal-input1" class="swal2-input" placeholder="Input">' +
+				'<label for="swal-input2">Example Output</label>' +
+				'<input id="swal-input2" class="swal2-input" placeholder="Output">' +
+				'<label for="swal-select">Is the Output a State?</label>' +
+				'<select id="swal-select" class="swal2-select">' +
+				"<option value disabled>Select an option</option>" +
+				"<option value=false>No</option>" +
+				"<option value=true>Yes</option>" +
+				"</select>",
 			background: "black",
 			color: "white",
 			confirmButtonText: "Add",
 			customClass: {
 				confirmButton: "btn btn-success",
 			},
-		}).then(() => {
-			const example = {
-				number: this.state.exampleCases.length + 1,
-				input: document.getElementById("swal-input1").value,
-				output: document.getElementById("swal-input2").value,
-			};
-
-			this.state.exampleCases.push(example);
-			this.forceUpdate();
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const example = {
+					number: this.state.exampleCases.length + 1,
+					input: document.getElementById("swal-input1").value,
+					output: document.getElementById("swal-input2").value,
+					isState: document.getElementById("swal-select").value,
+				};
+				if (this.validateInputCase(example)) {
+					this.state.exampleCases.push(example);
+					this.forceUpdate();
+				} else {
+					swal.fire({
+						icon: "error",
+						title: "Error!",
+						text: "Example Case needs to have Input and Output values.",
+						background: "black",
+						color: "white",
+					});
+				}
+			}
 		});
 	};
 
@@ -89,8 +162,16 @@ class NewExercise extends Component {
 		swal.fire({
 			title: "Fill the Test information",
 			html:
-				'<input id="swal-input1" class="swal2-input" placeholder="Test Input">' +
-				'<input id="swal-input2" class="swal2-input" placeholder="Test Output">',
+				'<label for="swal-input1">Test Input</label>' +
+				'<input id="swal-input1" class="swal2-input" placeholder="Input">' +
+				'<label for="swal-input2">Test Output</label>' +
+				'<input id="swal-input2" class="swal2-input" placeholder="Output">' +
+				'<label for="swal-select">Is the Output a State?</label>' +
+				'<select id="swal-select" class="swal2-select">' +
+				"<option value disabled>Select an option</option>" +
+				"<option value=false>No</option>" +
+				"<option value=true>Yes</option>" +
+				"</select>",
 			background: "black",
 			color: "white",
 			confirmButtonText: "Add",
@@ -98,14 +179,26 @@ class NewExercise extends Component {
 				confirmButton: "btn btn-success",
 			},
 		}).then((result) => {
-			const test = {
-				number: this.state.testCases.length + 1,
-				input: document.getElementById("swal-input1").value,
-				output: document.getElementById("swal-input2").value,
-			};
-
-			this.state.testCases.push(test);
-			this.forceUpdate();
+			if (result.isConfirmed) {
+				const test = {
+					number: this.state.testCases.length + 1,
+					input: document.getElementById("swal-input1").value,
+					output: document.getElementById("swal-input2").value,
+					isState: document.getElementById("swal-select").value,
+				};
+				if (this.validateInputCase(test)) {
+					this.state.testCases.push(test);
+					this.forceUpdate();
+				} else {
+					swal.fire({
+						icon: "error",
+						title: "Error!",
+						text: "Test Case needs to have Input and Output values.",
+						background: "black",
+						color: "white",
+					});
+				}
+			}
 		});
 	};
 
@@ -208,7 +301,7 @@ class NewExercise extends Component {
 									type="text"
 									className="form-control"
 									id="inputDescription"
-									//aria-label="Expected input description"
+									aria-label="Expected input description"
 									onChange={this.handleChange}
 									value={this.state.inputDescription}
 								/>
@@ -224,23 +317,24 @@ class NewExercise extends Component {
 									id="outputDescription"
 									aria-label="Expected output description"
 									onChange={this.handleChange}
-									//value={this.state.outputDescription}
+									value={this.state.outputDescription}
 								/>
 							</div>
 
-							<label for="exapleTable">exampleCases</label>
+							<label for="exampleTable">Example Cases</label>
 							<table
-								id="exapleTable"
+								id="exampleTable"
 								className="table table-secondary"
 							>
 								<thead>
 									<tr>
-										<th scope="col">#</th>
 										<th scope="col">Input</th>
 										<th scope="col">Output</th>
+										<th scope="col">Output is State?</th>
+										<th scope="col"></th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="example-case-tbody">
 									{this.displayExampleCases(
 										this.state.exampleCases
 									)}
@@ -256,19 +350,20 @@ class NewExercise extends Component {
 								</button>
 							</div>
 
-							<label for="exapleTable">Test Cases</label>
+							<label for="testTable">Test Cases</label>
 							<table
-								id="exapleTable"
+								id="testTable"
 								className="table table-secondary"
 							>
 								<thead>
 									<tr>
-										<th scope="col">#</th>
 										<th scope="col">Input</th>
 										<th scope="col">Output</th>
+										<th scope="col">Output is State?</th>
+										<th scope="col"></th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="test-case-tbody">
 									{this.displayTestCases(
 										this.state.testCases
 									)}
