@@ -263,13 +263,18 @@ module.exports = class ProfessorController {
 		foundExercise.description = exerciseChanges.description;
 		foundExercise.inputDescription = exerciseChanges.inputDescription;
 		foundExercise.outputDescription = exerciseChanges.outputDescription;
+		//Esto es para modificar los arrays? 
+		foundExercise.exampleCases = exerciseChanges.exampleCases;
+		foundExercise.testCases = exerciseChanges.testCases;
 
 		foundCourse.exercises[foundExerciseIndex] = foundExercise;
 
+		console.log(foundExercise);
 		return await this.daoCourse.update({ code: courseCode }, foundCourse);
 	}
 
 	//Esto cambia solamente los arrays.
+	//Deprecated. DO NOT USE
 	async saveArrayChanges(slugExercise, courseCode, exerciseChanges) {
 		let queryCourse = await this.daoCourse.find({ code: courseCode });
 
@@ -526,7 +531,14 @@ module.exports = class ProfessorController {
 		}
 
 		let solution = querySolution[0];
+		
 		const queryTM = await this.daoTMachine.find({ id: solution.tMachine.id });
+		
+		//No hay TM con ese id. Error
+		if (queryTM.length == 0) {
+			return -2;
+		}
+
 		let tMachine = queryTM[0];
 
 		//Preparo el controlador para el simulador
@@ -541,7 +553,7 @@ module.exports = class ProfessorController {
 			const input = testCases[i].input;
 			const expectedOutput = testCases[i].output;
 			const checkState = testCases[i].isState;
-			const blank = " ";
+			const blank = "";
 
 			let simulationResult = TMController.simulate(tMachine, input, blank);
 
