@@ -523,6 +523,34 @@
 	resize: none;
 }
 
+.ProfessorExercise .table {
+	margin: 0% 7.5% 0% 7.5%;
+	width: 85%;
+}
+
+.ProfessorExercise th {
+	font-size: 60%;
+}
+
+.ProfessorExercise td {
+	font-size: 60%;
+}
+
+.ProfessorExercise #noCases {
+	color: white;
+}
+
+.ProfessorExercise #add {
+	width: 20%;
+	font-size: 50%;
+}
+
+/* .ProfessorExercise #save {
+	width: 50%;
+	margin: 3% 25% 3% 25%;
+	font-size: 60%;
+} */
+
 /*-----------------CourseStudents----------------- */
 
 .CourseStudents {

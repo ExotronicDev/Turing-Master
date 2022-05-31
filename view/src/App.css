@@ -3,8 +3,12 @@ html {
 	background: #152028;
 }
 
+*::-webkit-scrollbar {
+	display: none;
+  }
+
 .App {	
-	width: 100%; /* 100vw */
+	width: 100%;
 	background: #152028 no-repeat center center fixed;
 }
 
@@ -115,19 +119,10 @@ html {
 	flex-direction: column;
 }
 
-/* #form-view #box {	
-    background: rgb(90, 101, 111);
-}
-
-#form-view #boxform {	
-    background: rgb(90, 101, 111);
-} */
-
 #form-view label {
 	color: white;
 	font-weight: 500;
 	font-size: 50%;
-    /* background: rgb(90, 101, 111); */
 }
 
 #form-view .input-group {
@@ -137,7 +132,6 @@ html {
 
 #form-view .input-group-text {
 	height: 100%;
-    /* background: rgb(90, 101, 111); */
 }
 
 #form-view #box {
@@ -154,4 +148,14 @@ html {
     z-index: 200;
 	width: 100%;
 	margin-top: 0.5%;
+}
+
+/*-----------------Swals with labels and options----------------- */
+
+#swal2-html-container > label {
+	margin: 1rem 3rem 0 1rem;
+}
+
+#swal-select > option {
+	background-color: #000000;
 }

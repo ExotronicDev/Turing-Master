@@ -8,10 +8,10 @@ class ProfessorExercise extends Component {
 	state = {
 		name: "",
 		description: "",
-		expectedInput: "",
-		expectedOutput: "",
-		examples: [],
-		tests: [],
+		inputDescription: "",
+		outputDescription: "",
+		exampleCases: [],
+		testCases: [],
 	};
 
 	componentDidMount = () => {
@@ -42,10 +42,10 @@ class ProfessorExercise extends Component {
 				this.setState({
 					name: res.data.data.name,
 					description: res.data.data.description,
-					expectedInput: res.data.data.inputDescription,
-					expectedOutput: res.data.data.outputDescription,
-					examples: res.data.data.exampleCases,
-					tests: res.data.data.testCases,
+					inputDescription: res.data.data.inputDescription,
+					outputDescription: res.data.data.outputDescription,
+					exampleCases: res.data.data.exampleCases,
+					testCases: res.data.data.testCases,
 				});
 			})
 			.catch((err) => {
@@ -85,7 +85,7 @@ class ProfessorExercise extends Component {
 					output: document.getElementById("swal-input2").value,
 				};
 
-				this.state.examples[example.number - 1] = example;
+				this.state.exampleCases[example.number - 1] = example;
 				this.forceUpdate();
 			}
 		});
@@ -115,44 +115,223 @@ class ProfessorExercise extends Component {
 					output: document.getElementById("swal-input2").value,
 				};
 
-				this.state.tests[test.number - 1] = test;
+				this.state.testCases[test.number - 1] = test;
 				this.forceUpdate();
 			}
 		});
 	};
 
-	displayExamples = (examples) => {
-		return examples.map((example) => (
-			<a
-				onClick={() => {
-					this.editExample(
-						example.number,
-						example.input,
-						example.output
-					);
-				}}
-				className="list-group-item list-group-item-action"
-				aria-current="true"
-			>
-				#{example.number} Input: {example.input} - Output:{" "}
-				{example.output}
-			</a>
-		));
+	displayExampleCases = (exampleCases) => {
+		if (exampleCases.length === 0) {
+			return (
+				<th id="noCases" scope="row" colSpan="4">
+					No example cases given
+				</th>
+			);
+		}
+
+		return exampleCases.map((example) => {
+			const exampleId = "example-id-" + example.number;
+			return (
+				<tr id={exampleId}>
+					<td>{example.input}</td>
+					<td>{example.output}</td>
+					<td>
+						{example.isState === "true" ? (
+							<i class="fa fa-solid fa-check"></i>
+						) : (
+							<i class="fa fa-solid fa-xmark"></i>
+						)}
+					</td>
+					<td>
+						<i
+							type="button"
+							onClick={() => this.deleteExampleCase(example)}
+							class="fa fa-solid fa-trash"
+						></i>
+					</td>
+				</tr>
+			);
+		});
 	};
 
-	displayTests = (tests) => {
-		return tests.map((test) => (
-			<a
-				onClick={() => {
-					this.editTest(test.number, test.input, test.output);
-				}}
-				className="list-group-item list-group-item-action"
-				aria-current="true"
-			>
-				#{test.number} Input: {test.input} - Output: {test.output}
-			</a>
-		));
+	displayTestCases = (testCases) => {
+		if (testCases.length === 0) {
+			return (
+				<th id="noCases" scope="row" colSpan="4">
+					No test cases given
+				</th>
+			);
+		}
+
+		return testCases.map((test) => {
+			const testId = "test-id-" + test.number;
+			return (
+				<tr id={testId}>
+					<td>{test.input}</td>
+					<td>{test.output}</td>
+					<td>
+						{test.isState === "true" ? (
+							<i class="fa fa-solid fa-check"></i>
+						) : (
+							<i class="fa fa-solid fa-xmark"></i>
+						)}
+					</td>
+					<td>
+						<i
+							type="button"
+							onClick={() => this.deleteTestCase(test)}
+							class="fa fa-solid fa-trash"
+						></i>
+					</td>
+				</tr>
+			);
+		});
 	};
+
+	validateInputCase = (inputCase) => {
+		if (!inputCase.input || !inputCase.output) return false;
+		return true;
+	};
+
+	deleteExampleCase = (exampleCase) => {
+		const rem = [exampleCase];
+		this.state.exampleCases = this.state.exampleCases.filter(
+			(element) => rem.indexOf(element) === -1
+		);
+		this.forceUpdate();
+	};
+
+	deleteTestCase = (testCase) => {
+		const rem = [testCase];
+		this.state.testCases = this.state.testCases.filter(
+			(element) => rem.indexOf(element) === -1
+		);
+		this.forceUpdate();
+	};
+
+	addExample = (event) => {
+		event.preventDefault();
+		swal.fire({
+			title: "Fill the Example information",
+			html:
+				'<label for="swal-input1">Example Input</label>' +
+				'<input id="swal-input1" class="swal2-input" placeholder="Input">' +
+				'<label for="swal-input2">Example Output</label>' +
+				'<input id="swal-input2" class="swal2-input" placeholder="Output">' +
+				'<label for="swal-select">Is the Output a State?</label>' +
+				'<select id="swal-select" class="swal2-select">' +
+				"<option value disabled>Select an option</option>" +
+				"<option value=false>No</option>" +
+				"<option value=true>Yes</option>" +
+				"</select>",
+			background: "black",
+			color: "white",
+			confirmButtonText: "Add",
+			customClass: {
+				confirmButton: "btn btn-success",
+			},
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const example = {
+					number: this.state.exampleCases.length + 1,
+					input: document.getElementById("swal-input1").value,
+					output: document.getElementById("swal-input2").value,
+					isState: document.getElementById("swal-select").value,
+				};
+				if (this.validateInputCase(example)) {
+					this.state.exampleCases.push(example);
+					this.forceUpdate();
+				} else {
+					swal.fire({
+						icon: "error",
+						title: "Error!",
+						text: "Example Case needs to have Input and Output values.",
+						background: "black",
+						color: "white",
+					});
+				}
+			}
+		});
+	};
+
+	addTest = (event) => {
+		event.preventDefault();
+		swal.fire({
+			title: "Fill the Test information",
+			html:
+				'<label for="swal-input1">Test Input</label>' +
+				'<input id="swal-input1" class="swal2-input" placeholder="Input">' +
+				'<label for="swal-input2">Test Output</label>' +
+				'<input id="swal-input2" class="swal2-input" placeholder="Output">' +
+				'<label for="swal-select">Is the Output a State?</label>' +
+				'<select id="swal-select" class="swal2-select">' +
+				"<option value disabled>Select an option</option>" +
+				"<option value=false>No</option>" +
+				"<option value=true>Yes</option>" +
+				"</select>",
+			background: "black",
+			color: "white",
+			confirmButtonText: "Add",
+			customClass: {
+				confirmButton: "btn btn-success",
+			},
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const test = {
+					number: this.state.testCases.length + 1,
+					input: document.getElementById("swal-input1").value,
+					output: document.getElementById("swal-input2").value,
+					isState: document.getElementById("swal-select").value,
+				};
+				if (this.validateInputCase(test)) {
+					this.state.testCases.push(test);
+					this.forceUpdate();
+				} else {
+					swal.fire({
+						icon: "error",
+						title: "Error!",
+						text: "Test Case needs to have Input and Output values.",
+						background: "black",
+						color: "white",
+					});
+				}
+			}
+		});
+	};
+
+	// displayExamples = (examples) => {
+	// 	return examples.map((example) => (
+	// 		<a
+	// 			onClick={() => {
+	// 				this.editExample(
+	// 					example.number,
+	// 					example.input,
+	// 					example.output
+	// 				);
+	// 			}}
+	// 			className="list-group-item list-group-item-action"
+	// 			aria-current="true"
+	// 		>
+	// 			#{example.number} Input: {example.input} - Output:{" "}
+	// 			{example.output}
+	// 		</a>
+	// 	));
+	// };
+
+	// displayTests = (tests) => {
+	// 	return tests.map((test) => (
+	// 		<a
+	// 			onClick={() => {
+	// 				this.editTest(test.number, test.input, test.output);
+	// 			}}
+	// 			className="list-group-item list-group-item-action"
+	// 			aria-current="true"
+	// 		>
+	// 			#{test.number} Input: {test.input} - Output: {test.output}
+	// 		</a>
+	// 	));
+	// };
 
 	change = () => {
 		if (document.getElementById("check0").checked) {
@@ -164,11 +343,11 @@ class ProfessorExercise extends Component {
 		}
 
 		if (document.getElementById("check2").checked) {
-			document.getElementById("expectedInput").disabled = "";
+			document.getElementById("inputDescription").disabled = "";
 		}
 
 		if (document.getElementById("check3").checked) {
-			document.getElementById("expectedOutput").disabled = "";
+			document.getElementById("outputDescription").disabled = "";
 		}
 
 		if (!document.getElementById("check0").checked) {
@@ -180,11 +359,11 @@ class ProfessorExercise extends Component {
 		}
 
 		if (!document.getElementById("check2").checked) {
-			document.getElementById("expectedInput").disabled = "disabled";
+			document.getElementById("inputDescription").disabled = "disabled";
 		}
 
 		if (!document.getElementById("check3").checked) {
-			document.getElementById("expectedOutput").disabled = "disabled";
+			document.getElementById("outputDescription").disabled = "disabled";
 		}
 	};
 
@@ -194,8 +373,8 @@ class ProfessorExercise extends Component {
 		if (
 			this.state.name === "" ||
 			this.state.description === "" ||
-			this.state.expectedInput === "" ||
-			this.state.expectedOutput === ""
+			this.state.inputDescription === "" ||
+			this.state.outputDescription === ""
 		) {
 			return swal.fire({
 				title: "Error!",
@@ -207,10 +386,15 @@ class ProfessorExercise extends Component {
 		}
 
 		const exercise = this.state;
+		console.log(exercise);
 
 		axios({
-			url: "/api/courses/" + this.props.match.params.code + "/exercises",
-			method: "POST",
+			url:
+				"/api/courses/" +
+				this.props.match.params.code +
+				"/exercises/" +
+				this.props.match.params.name,
+			method: "PUT",
 			data: exercise,
 		})
 			.then(() => {
@@ -297,16 +481,16 @@ class ProfessorExercise extends Component {
 						</div>
 
 						<div className="form-group row justify-content-end">
-							<label for="expectedInput">Expected input</label>
+							<label for="inputDescription">Expected input</label>
 							<div className="col-8">
 								<input
 									type="text"
 									className="form-control"
-									id="expectedInput"
+									id="inputDescription"
 									placeholder="Expected input"
-									name="expectedInput"
+									name="inputDescription"
 									onChange={this.handleChange}
-									value={this.state.expectedInput}
+									value={this.state.inputDescription}
 									disabled="disabled"
 								/>
 							</div>
@@ -323,16 +507,18 @@ class ProfessorExercise extends Component {
 						</div>
 
 						<div className="form-group row justify-content-end">
-							<label for="expectedOutput">Expected output</label>
+							<label for="outputDescription">
+								Expected output
+							</label>
 							<div className="col-8">
 								<input
 									type="text"
 									className="form-control"
-									id="expectedOutput"
+									id="outputDescription"
 									placeholder="Expected output"
-									name="expectedOutput"
+									name="outputDescription"
 									onChange={this.handleChange}
-									value={this.state.expectedOutput}
+									value={this.state.outputDescription}
 									disabled="disabled"
 								/>
 							</div>
@@ -348,7 +534,7 @@ class ProfessorExercise extends Component {
 							</div>
 						</div>
 
-						<div className="form-group row align-items-end justify-content-end">
+						{/* <div className="form-group row align-items-end justify-content-end">
 							<label for="examples-accordion">Examples</label>
 							<div className="accordion" id="examples-accordion">
 								<div className="accordion-item">
@@ -412,9 +598,61 @@ class ProfessorExercise extends Component {
 									</div>
 								</div>
 							</div>
+						</div> */}
+						<label for="exampleTable">Example Cases</label>
+						<table
+							id="exampleTable"
+							className="table table-secondary"
+						>
+							<thead>
+								<tr>
+									<th scope="col">Input</th>
+									<th scope="col">Output</th>
+									<th scope="col">Output is State?</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody id="example-case-tbody">
+								{this.displayExampleCases(
+									this.state.exampleCases
+								)}
+							</tbody>
+						</table>
+						<div className="form-group">
+							<button
+								id="add"
+								onClick={this.addExample}
+								className="btn btn-primary"
+							>
+								Add Example
+							</button>
+						</div>
+
+						<label for="testTable">Test Cases</label>
+						<table id="testTable" className="table table-secondary">
+							<thead>
+								<tr>
+									<th scope="col">Input</th>
+									<th scope="col">Output</th>
+									<th scope="col">Output is State?</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody id="test-case-tbody">
+								{this.displayTestCases(this.state.testCases)}
+							</tbody>
+						</table>
+						<div className="form-group">
+							<button
+								id="add"
+								onClick={this.addTest}
+								className="btn btn-primary"
+							>
+								Add Case
+							</button>
 						</div>
 						<button
-							id="solve"
+							id="save"
 							type="submit"
 							className="btn btn-primary"
 						>
