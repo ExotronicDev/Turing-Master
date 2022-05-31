@@ -1,3 +1,4 @@
+/* eslint-disable react/no-direct-mutation-state */
 import React, { Component } from "react";
 import { axios, swal } from "../dependencies";
 import NavBar from "./NavBar/NavBar";
@@ -62,7 +63,7 @@ class CourseStudents extends Component {
 	displayStudents = (students, courseStudents) => {
 		if (students.length === 0) {
 			return (
-				<th id="noStudents" scope="row" colspan="3">
+				<th id="noStudents" scope="row" colSpan="3">
 					No students registered
 				</th>
 			);
@@ -88,7 +89,7 @@ class CourseStudents extends Component {
 		));
 	};
 
-	save = (event) => {
+	submit = (event) => {
 		event.preventDefault();
 		axios({
 			url: "/api/courses/" + this.props.match.params.code + "/students",

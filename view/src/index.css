@@ -545,12 +545,6 @@
 	font-size: 50%;
 }
 
-/* .ProfessorExercise #save {
-	width: 50%;
-	margin: 3% 25% 3% 25%;
-	font-size: 60%;
-} */
-
 /*-----------------CourseStudents----------------- */
 
 .CourseStudents {
@@ -566,9 +560,22 @@
 	margin-top: 7.5%;
 }
 
+.CourseStudents .table {
+	margin: auto;
+	width: 60%;
+}
+
+.CourseStudents th {
+	font-size: 60%;
+}
+
+.CourseStudents td {
+	font-size: 60%;
+}
+
 .CourseStudents #save {
 	margin: 5%;
-	width: 30%;
+	width: 25%;
 }
 
 .CourseStudents #noStudents {

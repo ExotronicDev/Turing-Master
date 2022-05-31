@@ -95,7 +95,7 @@ class ProfessorCourse extends Component {
 				className="list-group-item list-group-item-action"
 				aria-current="true"
 			>
-				{student.name} - {student.lastName}
+				{student.id} - {student.firstName} {student.lastName}
 			</a>
 		));
 	};
@@ -125,7 +125,6 @@ class ProfessorCourse extends Component {
 			input: "text",
 			inputLabel:
 				"The Course name, professor and exercises will be copied. You will new a new Course code for the cloned Course.",
-			// inputValue: inputValue,
 			inputPlaceholder: "Enter the new Course code",
 			showCancelButton: true,
 			confirmButtonText: "Clone",
@@ -171,20 +170,6 @@ class ProfessorCourse extends Component {
 					color: "white",
 				});
 			});
-		// const example = {
-		// 	number: number,
-		// 	input: document.getElementById("swal-input1").value,
-		// 	output: document.getElementById("swal-input2").value,
-		// };
-
-		// 	this.state.examples[example.number - 1] = example;
-		// 	this.forceUpdate();
-		// }
-		// });
-		// axios({
-		// 	url: "/api/courses/" + this.props.match.params.code,
-		// 	method: "POST",
-		// });
 	};
 
 	render() {
