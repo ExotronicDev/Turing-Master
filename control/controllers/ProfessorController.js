@@ -259,14 +259,21 @@ module.exports = class ProfessorController {
 		if (foundExercise == -1) {
 			return -2;
 		}
+		
+		if (exerciseChanges.description !== undefined) {
+			foundExercise.description = exerciseChanges.description;
+		}
+		if (exerciseChanges.inputDescription !== undefined) {
+			foundExercise.inputDescription = exerciseChanges.inputDescription;
+		}
+		if (exerciseChanges.outputDescription !== undefined) {
+			foundExercise.outputDescription = exerciseChanges.outputDescription;
+		}
 
-		foundExercise.description = exerciseChanges.description;
-		foundExercise.inputDescription = exerciseChanges.inputDescription;
-		foundExercise.outputDescription = exerciseChanges.outputDescription;
 		//Esto es para modificar los arrays? 
 		foundExercise.exampleCases = exerciseChanges.exampleCases;
 		foundExercise.testCases = exerciseChanges.testCases;
-
+		
 		foundCourse.exercises[foundExerciseIndex] = foundExercise;
 
 		console.log(foundExercise);
