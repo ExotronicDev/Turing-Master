@@ -9,7 +9,8 @@ class ExerciseSolutions extends Component {
 				<NavBar />
 				<div id="container">
 					<h1 id="title">
-						{this.props.match.params.name}: Solutions
+						{this.props.match.params.name.split("-").join(" ")}:
+						Solutions
 					</h1>
 				</div>
 			</div>

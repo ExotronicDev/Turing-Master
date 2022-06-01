@@ -91,10 +91,16 @@ class CourseStudents extends Component {
 
 	submit = (event) => {
 		event.preventDefault();
+
+		const studentIdArray = [];
+		this.state.courseStudents.forEach((student) =>
+			studentIdArray.push(student.id)
+		);
+
 		axios({
 			url: "/api/courses/" + this.props.match.params.code + "/students",
 			method: "POST",
-			data: this.state.courseStudents,
+			data: { studentIdArray },
 		})
 			.then(() => {
 				swal.fire({

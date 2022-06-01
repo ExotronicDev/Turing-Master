@@ -124,7 +124,7 @@ class ProfessorCourse extends Component {
 			title: "Are you sure you want to clone the current Course?",
 			input: "text",
 			inputLabel:
-				"The Course name, professor and exercises will be copied. You will new a new Course code for the cloned Course.",
+				"The Course name, professor and exercises will be copied.\nYou will new a new Course code for the cloned Course.",
 			inputPlaceholder: "Enter the new Course code",
 			showCancelButton: true,
 			confirmButtonText: "Clone",
