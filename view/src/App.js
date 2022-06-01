@@ -25,6 +25,7 @@ import ProfessorCourse from "./components/ProfessorCourse";
 import CourseStudents from "./components/CourseStudents";
 import NewExercise from "./components/NewExercise";
 import ProfessorExercise from "./components/ProfessorExercise";
+import ExerciseSolutions from "./components/ExerciseSolutions";
 
 //---------------Params Student Routes---------------//
 const StudentCourseRoute = withParams(StudentCourse);
@@ -36,6 +37,7 @@ const ProfessorCourseRoute = withParams(ProfessorCourse);
 const CourseStudentsRoute = withParams(CourseStudents);
 const NewExerciseRoute = withParams(NewExercise);
 const ProfessorExerciseRoute = withParams(ProfessorExercise);
+const ExerciseSolutionsRoute = withParams(ExerciseSolutions);
 
 class App extends Component {
 	render() {
@@ -114,6 +116,11 @@ class App extends Component {
 								exact
 								path="/professors/course/:code/exercise/:name"
 								element={<ProfessorExerciseRoute />}
+							/>
+							<Route
+								exact
+								path="/professors/course/:code/exercise/:name/solutions"
+								element={<ExerciseSolutionsRoute />}
 							/>
 						</Route>
 					</Routes>

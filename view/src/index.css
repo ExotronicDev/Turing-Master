@@ -496,11 +496,6 @@
 	padding: 0;
 }
 
-.ProfessorExercise #save {
-	margin: 5%;
-	width: 30%;
-}
-
 .ProfessorExercise .row {
 	height: 100%;
 	margin-bottom: 1%;
@@ -542,7 +537,19 @@
 
 .ProfessorExercise #add {
 	width: 20%;
-	font-size: 50%;
+	font-size: 45%;
+}
+
+.ProfessorExercise .btn-options {
+	display: flex;
+	flex-direction: column;
+	margin: 1rem auto;
+}
+
+.ProfessorExercise .btn-options > * {
+	width: 40%;
+	font-size: 60%;
+	margin: 0.5rem auto;
 }
 
 /*-----------------CourseStudents----------------- */
@@ -580,6 +587,21 @@
 
 .CourseStudents #noStudents {
 	color: white;
+}
+
+/*------------------ExerciseSolutions-----------------------*/
+
+.ExerciseSolutions {
+    margin: auto;	
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.ExerciseSolutions #container {
+	margin-top: 7.5%;
 }
 
 /*------------------Simulator/SideBar-----------------------*/
