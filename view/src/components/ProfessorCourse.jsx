@@ -237,7 +237,7 @@ class ProfessorCourse extends Component {
 													this.state.code +
 													"/exercise"
 												}
-												className="list-group-item list-group-item-action"
+												className="list-group-item list-group-item-action first-item"
 												aria-current="true"
 											>
 												Create New Exercise
@@ -280,7 +280,7 @@ class ProfessorCourse extends Component {
 													this.state.code +
 													"/students"
 												}
-												className="list-group-item list-group-item-action"
+												className="list-group-item list-group-item-action first-item"
 												aria-current="true"
 											>
 												Manage Students
