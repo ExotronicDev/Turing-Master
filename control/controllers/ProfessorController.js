@@ -166,7 +166,7 @@ module.exports = class ProfessorController {
 
 	async enrollStudent(studentIdArray, courseCode) {
 		if (studentIdArray.length == 0) {
-			return -3;
+			return;
 		}
 
 		const queryCourse = await this.daoCourse.find({ code: courseCode });
@@ -174,6 +174,7 @@ module.exports = class ProfessorController {
 			return -2;
 		}
 		let foundCourse = queryCourse[0];
+		let newStudentArray = [];
 
 		for (let i = 0; i < studentIdArray.length; i++) {
 			const queryStudent = await this.daoStudent.find({ id: studentIdArray[i] });
@@ -182,7 +183,7 @@ module.exports = class ProfessorController {
 			}
 			let foundStudent = queryStudent[0];
 
-			foundCourse.students.push({
+			newStudentArray.push({
 				id: foundStudent.id,
 				firstName: foundStudent.firstName,
 				lastName: foundStudent.lastName,
@@ -196,6 +197,8 @@ module.exports = class ProfessorController {
 
 			await this.daoStudent.update({ id: foundStudent.id }, foundStudent);
 		}
+
+		foundCourse.students = newStudentArray;
 
 		return await this.daoCourse.update({ code: courseCode }, foundCourse);
 	}

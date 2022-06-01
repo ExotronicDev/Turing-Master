@@ -823,8 +823,6 @@ exports.enrollStudent = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse(`Student does not exist.`, 404));
 	} else if (enrollResponse == -2) {
 		return next(new ErrorResponse(`Course does not exist.`, 404));
-	} else if (enrollResponse == -3) {
-		return next(new ErrorResponse(`Can't enroll zero students`, 404));
 	}
 
 	res.json({ success: true, data: enrollResponse });
