@@ -1,5 +1,6 @@
 const Professor = require("../../model/professor");
 const Course = require("../../model/course");
+const Solution = require("../../model/solution");
 
 const ProfessorDao = require("../daos/ProfessorDao");
 const CourseDao = require("../daos/CourseDao");
@@ -526,28 +527,51 @@ module.exports = class ProfessorController {
 		return foundExercise.exampleCases;
 	}
 
-	async evaluateSolution(testCases, solutionId) {
-		//testCases es un array con objetos del siguiente formato:
-		// number, input, output, isState
-
-		const querySolution = await this.daoSolution.find({ _id: solutionId });
-		
-		//No hay una solution con ese id. Error
-		if (querySolution.length == 0) {
+	async createSolution(courseCode, slugExercise, solution) {
+		let queryCourse = await this.daoCourse.find({ code: courseCode });
+		if (queryCourse.length == 0) {
 			return -1;
 		}
+		let foundCourse = queryCourse[0];
+		let foundExercise = -1;
+		let foundExerciseIndex = -1;
 
-		let solution = querySolution[0];
-		
-		const queryTM = await this.daoTMachine.find({ id: solution.tMachine.id });
-		
-		//No hay TM con ese id. Error
-		if (queryTM.length == 0) {
+		for (let i = 0; i < foundCourse.exercises.length; i++) {
+			if (foundCourse.exercises[i].slugName === slugExercise) {
+				foundExercise = foundCourse.exercises[i];
+				foundExerciseIndex = i;
+			}
+		}
+
+		if (foundExercise == -1) {
 			return -2;
 		}
 
-		let tMachine = queryTM[0];
+		let submittedSolution = new Solution(solution);
+		await this.daoSolution.save(submittedSolution);
 
+		let queryTM = await this.daoTMachine.find({ id: submittedSolution.tMachine.id });
+		let foundTM = queryTM[0];
+		foundTM.solution.id = submittedSolution._id;
+		await this.daoTMachine.update({ id: submittedSolution.tMachine.id }, foundTM);
+
+		let queryStudent = await this.daoStudent.find({ id: submittedSolution.student.id });
+		let foundStudent = queryStudent[0];
+		foundStudent.solutions.push({ id: submittedSolution._id });
+		await this.daoStudent.update({ id: submittedSolution.student.id }, foundStudent);
+
+		foundCourse.exercises[foundExerciseIndex].solutions.push({ id: submittedSolution._id });
+		await this.daoCourse.update({ code: courseCode }, foundCourse);
+
+		const exerciseTestCases = foundExercise.testCases;
+
+		return await this.evaluateSolution(exerciseTestCases, submittedSolution, foundTM);
+	}
+
+	async evaluateSolution(testCases, solution, tMachine) {
+		//testCases es un array con objetos del siguiente formato:
+		//number, input, output, isState		
+		
 		//Preparo el controlador para el simulador
 		const TMController = new TMachineController();
 
@@ -591,7 +615,9 @@ module.exports = class ProfessorController {
 			}
 		}
 
-		const solutionScore = testSuccesses / totalTests;
-		return solutionScore;
+		const solutionScore = (testSuccesses / totalTests) * 100;
+		solution.grade = solutionScore;
+		
+		return await this.daoSolution.update({ _id: solution._id }, solution);
 	}
 };
