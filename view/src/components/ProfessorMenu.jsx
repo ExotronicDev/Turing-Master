@@ -99,7 +99,7 @@ class ProfessorMenu extends Component {
 										<div className="list-group">
 											<a
 												href="/professors/course/"
-												className="list-group-item list-group-item-action"
+												className="list-group-item list-group-item-action first-item"
 												aria-current="true"
 											>
 												Create New Course

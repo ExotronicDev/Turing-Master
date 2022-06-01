@@ -52,9 +52,10 @@ html {
 }
 
 .App .accordion-button {
-	background-color: #424242;
+	background-color: #08ADA2;
 	color: #fff;
-	border-color: #08ADA2;
+	text-decoration: underline;
+	/* border-color: #08ADA2; */
 	font-size: 1.5vw;
 }
 
@@ -62,6 +63,10 @@ html {
 	background-color: #08ADA2;
 	color: #fff;
 	text-decoration: underline;
+}
+
+.App .list-group .first-item {
+	font-style: italic;
 }
 
 .App .list-group-item {
