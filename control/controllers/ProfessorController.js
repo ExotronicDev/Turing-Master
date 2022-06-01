@@ -164,33 +164,39 @@ module.exports = class ProfessorController {
 		return foundCourse[0].students;
 	}
 
-	async enrollStudent(idStudent, courseCode) {
-		const queryStudent = await this.daoStudent.find({ id: idStudent });
-		const queryCourse = await this.daoCourse.find({ code: courseCode });
-		console.log(await this.daoStudent.getAll());
-
-		if (queryStudent.length == 0) {
-			return -1;
-		} else if (queryCourse.length == 0) {
-			return -2;
+	async enrollStudent(studentIdArray, courseCode) {
+		if (studentIdArray.length == 0) {
+			return -3;
 		}
 
-		let foundStudent = queryStudent[0];
+		const queryCourse = await this.daoCourse.find({ code: courseCode });
+		if (queryCourse.length == 0) {
+			return -2;
+		}
 		let foundCourse = queryCourse[0];
 
-		foundCourse.students.push({
-			id: foundStudent.id,
-			firstName: foundStudent.firstName,
-			lastName: foundStudent.lastName,
-			email: foundStudent.email,
-		});
+		for (let i = 0; i < studentIdArray.length; i++) {
+			const queryStudent = await this.daoStudent.find({ id: studentIdArray[i] });
+			if (queryStudent.length == 0) {
+				return -1;
+			}
+			let foundStudent = queryStudent[0];
 
-		foundStudent.courses.push({
-			code: foundCourse.code,
-			name: foundCourse.name,
-		});
+			foundCourse.students.push({
+				id: foundStudent.id,
+				firstName: foundStudent.firstName,
+				lastName: foundStudent.lastName,
+				email: foundStudent.email
+			});
 
-		await this.daoStudent.update({ id: idStudent }, foundStudent);
+			foundStudent.courses.push({
+				code: foundCourse.code,
+				name: foundCourse.name
+			});
+
+			await this.daoStudent.update({ id: foundStudent.id }, foundStudent);
+		}
+
 		return await this.daoCourse.update({ code: courseCode }, foundCourse);
 	}
 

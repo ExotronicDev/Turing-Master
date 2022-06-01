@@ -814,15 +814,17 @@ exports.enrollStudent = asyncHandler(async (req, res, next) => {
 	const control = new ProfessorController();
 
 	const courseCode = req.params.code;
-	const idStudent = req.body.idStudent;
+	const studentIdArray = req.body.studentIdArray;
 
-	const enrollResponse = await control.enrollStudent(idStudent, courseCode);
+	const enrollResponse = await control.enrollStudent(studentIdArray, courseCode);
 	console.log(enrollResponse);
 
 	if (enrollResponse == -1) {
 		return next(new ErrorResponse(`Student does not exist.`, 404));
 	} else if (enrollResponse == -2) {
 		return next(new ErrorResponse(`Course does not exist.`, 404));
+	} else if (enrollResponse == -3) {
+		return next(new ErrorResponse(`Can't enroll zero students`, 404));
 	}
 
 	res.json({ success: true, data: enrollResponse });
