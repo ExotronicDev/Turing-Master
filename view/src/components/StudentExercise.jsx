@@ -85,6 +85,27 @@ class StudentExercise extends Component {
 		));
 	};
 
+	submit = (event) => {
+		event.preventDefault();
+		axios({
+			url: "/api/tmachines/",
+			method: "POST",
+			data: { description: this.state.description },
+		})
+			.then((res) => {
+				window.location = "/students/simulator/" + res.data.data.id;
+			})
+			.catch((err) => {
+				swal.fire({
+					title: "Error!",
+					text: err.response.data.error || err.response.statusText,
+					icon: "warning",
+					background: "black",
+					color: "white",
+				});
+			});
+	};
+
 	render() {
 		return (
 			<div id="form-view" className="StudentExercise">

@@ -122,6 +122,11 @@ class App extends Component {
 								path="/professors/course/:code/exercise/:name/solutions"
 								element={<ExerciseSolutionsRoute />}
 							/>
+							<Route
+								exact
+								path="/professors/simulator/:id"
+								element={<SimulatorRoute />}
+							/>
 						</Route>
 					</Routes>
 				</Router>
