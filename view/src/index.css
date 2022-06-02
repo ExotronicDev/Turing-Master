@@ -602,6 +602,15 @@
 
 .ExerciseSolutions #container {
 	margin-top: 7.5%;
+	width: 60%;
+}
+
+.ExerciseSolutions .student-accordion {
+	margin: 0.5rem 0;
+}
+
+.ExerciseSolutions .accordion-button {
+	text-decoration: none;
 }
 
 /*------------------Simulator/SideBar-----------------------*/
