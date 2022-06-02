@@ -343,6 +343,7 @@ module.exports = class ProfessorController {
 		return foundExercise;
 	}
 
+
 	async getExercises(courseCode) {
 		let queryCourse = await this.daoCourse.find({ code: courseCode });
 
@@ -629,4 +630,57 @@ module.exports = class ProfessorController {
 		
 		return await this.daoSolution.update({ _id: solution._id }, solution);
 	}
+
+	async getSolution(courseCode, slugExercise, idSolution) {
+		let queryCourse = await this.daoCourse.find({ code: courseCode });
+
+		if (queryCourse.length == 0) {
+			return -1;
+		}
+
+		let foundCourse = queryCourse[0];
+		let foundExercise = -1;
+		for (let i = 0; i < foundCourse.exercises.length; i++) {
+			if (foundCourse.exercises[i].slugName === slugExercise) {
+				foundExercise = foundCourse.exercises[i];
+			}
+		}
+
+		if (foundExercise == -1) {
+			return -2;
+		}
+
+		return await this.daoSolution.find({
+			_id:idSolution
+		});;
+	}
+
+	async getStudentSolutions(courseCode, slugExercise, idStudent) {
+		let queryCourse = await this.daoCourse.find({ code: courseCode });
+
+		if (queryCourse.length == 0) {
+			return -1;
+		}
+
+		let foundCourse = queryCourse[0];
+		let foundExercise = -1;
+		for (let i = 0; i < foundCourse.exercises.length; i++) {
+			if (foundCourse.exercises[i].slugName === slugExercise) {
+				foundExercise = foundCourse.exercises[i];
+			}
+		}
+
+		if (foundExercise == -1) {
+			return -2;
+		}
+
+		return await this.daoSolution.find({
+			student: {
+				id: idStudent
+			}
+		});;
+	}
 };
+
+
+
