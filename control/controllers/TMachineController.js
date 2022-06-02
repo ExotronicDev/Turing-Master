@@ -357,14 +357,14 @@ module.exports = class TMachineController {
 		let tape = new TapeSymbol(input.charAt(0));
 		let current = tape;
 		for (let i = 1; i < input.length; i++) {
-			let newSymbol = new TapeSymbol(input.charAt(i));
+			let newSymbol = new TapeSymbol(String(input.charAt(i)));
 			current.setNext(newSymbol);
 			newSymbol.setPrevious(current);
 
 			current = newSymbol;
 		}
 		//Esto es para agregar un blank al final.
-		let blankSymbol = new TapeSymbol(blank);
+		let blankSymbol = new TapeSymbol(String(blank));
 		current.setNext(blankSymbol);
 		blankSymbol.setPrevious(current);
 
@@ -403,12 +403,12 @@ module.exports = class TMachineController {
 			let moveDirection = transition.moveValue;
 			let nextStateName = transition.targetState.name;
 
-			current.setValue(outputChar);
+			current.setValue(String(outputChar));
 			if (moveDirection == 1) {
 				//Derecha
 				if (current.getNext() == -1) {
 					//Tengo que hacer un espacio a la derecha.
-					let newSymbol = new TapeSymbol(blank);
+					let newSymbol = new TapeSymbol(String(blank));
 					newSymbol.setPrevious(current);
 					current.setNext(newSymbol);
 				}
@@ -418,7 +418,7 @@ module.exports = class TMachineController {
 				//Izquierda
 				if (current.getPrevious() == -1) {
 					//Tengo que hacer un espacio a la izquierda.
-					let newSymbol = new TapeSymbol(blank);
+					let newSymbol = new TapeSymbol(String(blank));
 					current.setPrevious(newSymbol);
 					newSymbol.setNext(current);
 					if (current === outputTape) {

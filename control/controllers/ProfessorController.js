@@ -594,9 +594,9 @@ module.exports = class ProfessorController {
 			const input = testCases[i].input;
 			const expectedOutput = testCases[i].output;
 			const checkState = testCases[i].isState;
-			const blank = "";
+			const blank = " ";
 
-			let simulationResult = TMController.simulate(tMachine, input, blank);
+			let simulationResult = await TMController.simulate(tMachine, input, blank);
 
 			// Casos fallidos.
 			if (simulationResult == -1 || simulationResult == -2) {

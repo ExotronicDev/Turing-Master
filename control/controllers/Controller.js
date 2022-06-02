@@ -1194,3 +1194,34 @@ exports.deleteExampleCase = (req, res, next) => {
 
 	res.json({ success: true, testCases: modifiedExampleCases });
 };
+
+//------------------------Solution-----------------------//
+// @desc		Create Solution and Evaluate
+// @route		POST /api/courses/:code/exercises/:slug/solutions
+// @access		Private
+exports.createSolution = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const courseCode = req.params.code;
+	const slugExercise = req.params.slug;
+
+	const solution = req.body.solution;
+
+	const createdSolution = await control.createSolution(courseCode, slugExercise, solution);
+	if (createdSolution == -1) {
+		return next(
+			new ErrorResponse(
+				`Course does not exist.`,
+				404
+			)
+		);
+	} else if (createdSolution == -2) {
+		return next(
+			new ErrorResponse(
+				`Exercise does not exist.`,
+				404
+			)
+		);
+	}
+
+	res.json({ success: true, data: createdSolution });
+});
