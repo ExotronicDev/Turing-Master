@@ -34,6 +34,11 @@ const TMachineSchema = new Schema({
 	solution: {
 		id: { type:  mongoose.Schema.Types.ObjectId, default: null },
 	},
+	blankSymbol: {
+		type: String,
+		maxlength: [1, "The blank symbol can only be 1 character long."],
+		default: " "
+	},
 	states: [StateSchema]
 });
 

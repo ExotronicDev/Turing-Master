@@ -594,9 +594,8 @@ module.exports = class ProfessorController {
 			const input = testCases[i].input;
 			const expectedOutput = testCases[i].output;
 			const checkState = testCases[i].isState;
-			const blank = " ";
 
-			let simulationResult = await TMController.simulate(tMachine, input, blank);
+			let simulationResult = await TMController.simulate(tMachine, input);
 
 			// Casos fallidos.
 			if (simulationResult == -1 || simulationResult == -2) {
@@ -650,12 +649,30 @@ module.exports = class ProfessorController {
 			return -2;
 		}
 
-		return await this.daoSolution.find({
-			_id:idSolution
-		});;
+		//Retornar solution con la Turing Machine.
+		const solutionQuery = await this.daoSolution.find({ _id: idSolution });
+		let storedSolution = solutionQuery[0];
+
+		const TMQuery = await this.daoTMachine.find({ id: storedSolution.tMachine.id });
+		let storedTM = TMQuery[0];
+
+		const detailedSolution = {
+			solutionId: storedSolution._id,
+			grade: storedSolution.grade,
+			student: {
+				id: storedSolution.student.id,
+				firstName: storedSolution.student.firstName,
+				lastName: storedSolution.student.lastName
+			},
+			exercise: {
+				name: foundExercise.name
+			},
+			tMachine: storedTM
+		};
+		return detailedSolution;
 	}
 
-	async getStudentSolutions(courseCode, slugExercise, idStudent) {
+	async getStudentSolutions(courseCode, slugExercise) {
 		let queryCourse = await this.daoCourse.find({ code: courseCode });
 
 		if (queryCourse.length == 0) {
@@ -674,11 +691,52 @@ module.exports = class ProfessorController {
 			return -2;
 		}
 
-		return await this.daoSolution.find({
-			student: {
-				id: idStudent
+		//Falta ordenar cosas.
+		const foundSolutions = await this.daoSolution.getAll();
+		return this.prettifyQuery(foundSolutions, foundCourse);
+	}
+
+	prettifyQuery(queryArray, course) {
+		if (course.students.length == 0) {
+			return -3;
+		}
+
+		let prettifiedQuery = [];
+		const studentAmount = course.students.length;
+		for (let i = 0; i < studentAmount; i++) {
+			prettifiedQuery.push({
+				id: course.students[i].id,
+				firstName: course.students[i].firstName,
+				lastName: course.students[i].lastName,
+				solutions: []
+			});
+		}
+
+		//Esto hace un sort por (firstName + lastName). Don't fucking ask.
+		prettifiedQuery.sort( (name1, name2) => ((name1.firstName + name1.lastName) > (name2.firstName + name2.lastName)) ? 1 : 
+		(((name2.firstName + name2.lastName) > (name1.firstName + name1.lastName)) ? -1 : 0));
+
+		//Ahora a meter las soluciones de cada estudiante.
+		for (let i = 0; i < queryArray.length; i++) {
+			let currentSolution = queryArray[i];
+			for (let j = 0; j < prettifiedQuery.length; j++) {
+				if (currentSolution.student.id == prettifiedQuery[j].id) {
+					prettifiedQuery[j].solutions.push({
+						grade: currentSolution.grade,
+						tMachine: currentSolution.tMachine
+					});
+					break;
+				}
 			}
-		});;
+		}
+
+		//Y ahora hay que ordenar las soluciones por la nota.
+		for (let i = 0; i < prettifiedQuery.length; i++) {
+			prettifiedQuery[i].solutions.sort( (solution1, solution2) => (solution1.grade > solution2.grade) ? -1 : 
+			((solution2.grade > solution1.grade) ? 1 : 0) );
+		}
+
+		return prettifiedQuery;
 	}
 };
 

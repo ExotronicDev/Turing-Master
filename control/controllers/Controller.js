@@ -701,9 +701,9 @@ exports.deleteTransition = (req, res, next) => {
 // @route		POST /api/tmachines/simulate
 // @access		Public
 exports.simulateTMachine = (req, res, next) => {
-	const { tMachine, input, blank } = req.body;
+	const { tMachine, input } = req.body;
 	const control = new TMachineController();
-	const output = control.simulate(tMachine, input, blank);
+	const output = control.simulate(tMachine, input);
 	if (output == -2) {
 		return next(
 			new ErrorResponse(`TMachine has no states to simulate`, 412)
@@ -1224,4 +1224,70 @@ exports.createSolution = asyncHandler(async (req, res, next) => {
 	}
 
 	res.json({ success: true, data: createdSolution });
+});
+
+// @desc		Get Solution
+// @route		GET /api/courses/:code/exercises/:slug/solutions/:id
+// @access		Private
+exports.getSolution = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const courseCode = req.params.code;
+	const slugExercise = req.params.slug;
+	const idSolution = req.params.id;
+
+	const solution = await control.getSolution(courseCode, slugExercise, idSolution);
+
+	if (solution == -1) {
+		return next(
+			new ErrorResponse(
+				`Course does not exist.`,
+				404
+			)
+		);
+	} else if (solution == -2) {
+		return next(
+			new ErrorResponse(
+				`Exercise does not exist.`,
+				404
+			)
+		);
+	}
+
+	res.json({ success: true, data: solution });
+});
+
+// @desc		Get Student Solutions
+// @route		GET /api/courses/:code/exercises/:slug/solutions/
+// @access		Private
+exports.getSolutions = asyncHandler(async (req, res, next) => {
+	const control = new ProfessorController();
+	const courseCode = req.params.code;
+	const slugExercise = req.params.slug;
+
+	const solutionArray = await control.getStudentSolutions(courseCode, slugExercise);
+
+	if (solutionArray == -1) {
+		return next(
+			new ErrorResponse(
+				`Course does not exist.`,
+				404
+			)
+		);
+	} else if (solutionArray == -2) {
+		return next(
+			new ErrorResponse(
+				`Exercise does not exist.`,
+				404
+			)
+		);
+	} else if (solutionArray == -3) {
+		return next(
+			new ErrorResponse(
+				`No students in course. Can't return solutions.`,
+				404
+			)
+		);
+	}
+
+	res.json({ success: true, length: solutionArray.length, data: solutionArray });
 });

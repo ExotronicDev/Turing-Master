@@ -327,7 +327,8 @@ module.exports = class TMachineController {
 	//-2: No hay estados que simular.
 	//-1: No hay estado inicial.
 	//output: {status: "failed"/"finished", finalState: state, output: cinta}
-	simulate(tMachine, input, blank) {
+	simulate(tMachine, input) {
+		const blank = tMachine.blankSymbol;
 		//Este array me servirá para poner el orden de los estados por el cual pasó la simulación.
 		//700 IQ move.
 		let simulationOrder = [];

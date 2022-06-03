@@ -22,6 +22,8 @@ const {
 	updateExampleCase,
 	deleteExampleCase,
 	createSolution,
+	getSolutions,
+	getSolution,
 } = require("../control/controllers/Controller");
 
 // Create router
@@ -72,6 +74,12 @@ courseRouter
 // Exercise Solutions
 courseRouter
 	.route("/:code/exercises/:slug/solutions")
-	.post(protect, createSolution);
+	.post(protect, createSolution)
+	.get(protect, getSolutions);
+
+// Solution specific
+courseRouter
+	.route("/:code/exercises/:slug/solutions/:id")
+	.get(protect, getSolution);
 
 module.exports = courseRouter;

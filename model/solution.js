@@ -8,7 +8,9 @@ const SolutionSchema = new Schema({
         description: { type: String, required: [true, "Please add a TMachine description."] }
     },
     student: {
-        id: { type: Number, required: [true, "Please add a Student ID."] }
+        id: { type: Number, required: [true, "Please add a Student ID."] },
+        firstName: { type: String, required: [true, "Please add a first name."] },
+        lastName: { type: String, required: [true, "Please add a last name."] }
     },
     exercise: {
         slugName: { type: String, required: [true, "Please add an Exercise Name."] }
