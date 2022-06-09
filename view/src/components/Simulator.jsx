@@ -1,4 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from 'react';
+import {useParams } from "react-router-dom";
+import { axios, swal } from "../dependencies";
 import ReactFlow, {
 	ReactFlowProvider,
 	useNodesState,
@@ -9,25 +11,83 @@ import ReactFlow, {
 
 import "../index.css";
 import NavBar from "./NavBar/NavBar";
+import { clippingParents } from '@popperjs/core';
+
+
 
 const flowKey = "example-flow";
+
 
 const getNodeId = () => `${id++}`;
 let id = 0;
 
-const initialNodes = [
-	{ id: "1", data: { label: "q0" }, position: { x: 100, y: 100 } },
-];
-
+const initialNodes = [];
 const initialEdges = [];
 
-const SaveRestore = () => {
+const SaveRestore = (props) => {
 	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 	const [rfInstance, setRfInstance] = useState(null);
 	const { setViewport } = useReactFlow();
+	const params = useParams();
 
-	const onConnect = useCallback(
+	useEffect(() => {
+		console.log(params)
+        axios({
+			url: "/api/tmachines/" + params.id,
+			method: "GET",
+		})
+		.then((res) => {
+			const len = res.data.data.states.length;
+			for (var i = 0; i < len; i++){
+				if (res.data.data.states[i].initialState){
+					const newNode = {
+						id: res.data.data.states[i].name,
+						data: { label: res.data.data.states[i].name },
+						position: {
+							x: 0,
+							y: 0,
+						},
+						style: {background: "#08ADA2"}
+					};
+					setNodes((nds) => nds.concat(newNode))
+					console.log(newNode);
+				} else {
+					const newNode = {
+						id: res.data.data.states[i].name,
+						data: { label: res.data.data.states[i].name },
+						position: {
+							x: 0,
+							y: 0,
+						},
+					};
+					console.log(newNode);
+					setNodes((nds) => nds.concat(newNode))
+				}
+			}
+
+			for (var i = 0; i < len; i++){
+				const transLen = res.data.data.states[i].exitTransitions.length;
+				for (var j = 0; j < transLen; j++ ){
+					console.log(res.data.data.states[i].name, "---", res.data.data.states[i].exitTransitions[j].targetState.name)
+					const newEdge = {
+						id: j,
+						source: res.data.data.states[i].name,
+						target: res.data.data.states[i].exitTransitions[j].targetState.name,
+						label: res.data.data.states[i].exitTransitions[j].readValue,
+						animated: true,
+						style: { stroke: "#fff" },
+					}
+					setEdges((nds) => nds.concat(newEdge))
+					console.log(newEdge);
+				}
+			}
+		})
+		.catch((err) => {
+			});
+    }, []);
+
+	const onConnect = 
 		(params) =>
 			setEdges((eds) =>
 				addEdge(
@@ -39,8 +99,6 @@ const SaveRestore = () => {
 					},
 					eds
 				)
-			),
-		[setEdges]
 	);
 	const onSave = useCallback(() => {
 		if (rfInstance) {
@@ -93,7 +151,7 @@ const SaveRestore = () => {
 			onConnect={onConnect}
 			onInit={setRfInstance}
 			connectionLineStyle={connectionLineStyle}
-			style={{ height: 800 }}
+			style={{ height: 3000 }}
 		>
 			<div className="save__controls">
 				<button onClick={onSave}>save</button>
@@ -109,7 +167,7 @@ export default () => (
 	<>
 		<NavBar /> {/* Added, needs style yet */}
 		<ReactFlowProvider>
-			<SaveRestore />
+			<SaveRestore id={1} />
 		</ReactFlowProvider>
 	</>
-);
+); 
