@@ -32,7 +32,6 @@ const SaveRestore = (props) => {
 	const params = useParams();
 
 	useEffect(() => {
-		console.log(params)
         axios({
 			url: "/api/tmachines/" + params.id,
 			method: "GET",
@@ -51,7 +50,6 @@ const SaveRestore = (props) => {
 						style: {background: "#08ADA2"}
 					};
 					setNodes((nds) => nds.concat(newNode))
-					console.log(newNode);
 				} else {
 					const newNode = {
 						id: res.data.data.states[i].name,
@@ -61,7 +59,6 @@ const SaveRestore = (props) => {
 							y: 0,
 						},
 					};
-					console.log(newNode);
 					setNodes((nds) => nds.concat(newNode))
 				}
 			}
@@ -69,7 +66,6 @@ const SaveRestore = (props) => {
 			for (var i = 0; i < len; i++){
 				const transLen = res.data.data.states[i].exitTransitions.length;
 				for (var j = 0; j < transLen; j++ ){
-					console.log(res.data.data.states[i].name, "---", res.data.data.states[i].exitTransitions[j].targetState.name)
 					const newEdge = {
 						id: j,
 						source: res.data.data.states[i].name,
@@ -79,7 +75,6 @@ const SaveRestore = (props) => {
 						style: { stroke: "#fff" },
 					}
 					setEdges((nds) => nds.concat(newEdge))
-					console.log(newEdge);
 				}
 			}
 		})
