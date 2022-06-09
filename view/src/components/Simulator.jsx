@@ -167,7 +167,7 @@ export default () => (
 	<>
 		<NavBar /> {/* Added, needs style yet */}
 		<ReactFlowProvider>
-			<SaveRestore id={1} />
+			<SaveRestore />
 		</ReactFlowProvider>
 	</>
 ); 
