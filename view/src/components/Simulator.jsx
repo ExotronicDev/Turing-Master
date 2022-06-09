@@ -30,6 +30,7 @@ const SaveRestore = (props) => {
 	const [rfInstance, setRfInstance] = useState(null);
 	const { setViewport } = useReactFlow();
 	const params = useParams();
+	const [state, setState] = useState({tMachine: {}});
 
 	useEffect(() => {
         axios({
@@ -37,6 +38,10 @@ const SaveRestore = (props) => {
 			method: "GET",
 		})
 		.then((res) => {
+			setState({
+				tMachine: res.data.data
+			});
+			
 			const len = res.data.data.states.length;
 			for (var i = 0; i < len; i++){
 				if (res.data.data.states[i].initialState){
@@ -78,6 +83,7 @@ const SaveRestore = (props) => {
 				}
 			}
 		})
+
 		.catch((err) => {
 			});
     }, []);
@@ -135,6 +141,32 @@ const SaveRestore = (props) => {
 		id = 1;
 	});
 
+	const simulate = useCallback(() => {
+		swal.fire({
+			title: "Please insert a tape to simulate",
+			input: "text",
+			background: "black",
+			color: "white",
+		}).then((result) => {
+			console.log(result);
+			axios({
+				url: "/api/tmachines/simulate",
+				method: "POST",
+				data: {
+					tMachine: state.tMachine,
+					input: result.value
+				}
+			})
+			.then((res) => {
+				swal.fire({
+					title: "The result is: " + res.data.data.output,
+					background: "black",
+					color: "white",
+				})
+			})
+		})
+	})
+
 	const connectionLineStyle = { label: "asdad" };
 
 	return (
@@ -149,10 +181,7 @@ const SaveRestore = (props) => {
 			style={{ height: 3000 }}
 		>
 			<div className="save__controls">
-				<button onClick={onSave}>save</button>
-				<button onClick={onRestore}>restore</button>
-				<button onClick={onAdd}>add node</button>
-				<button onClick={onDelete}>delete</button>
+				<button onClick={simulate}>Simulate</button>
 			</div>
 		</ReactFlow>
 	);
